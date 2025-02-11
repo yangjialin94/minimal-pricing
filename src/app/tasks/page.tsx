@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { useTasks, useTasksDispatch } from "@/context/TasksContext";
 // import Material from "@/components/Material";
 // import Labor from "@/components/Labor";
 import clsx from "clsx";
+import { useState } from "react";
+
+import { useTasks, useTasksDispatch } from "@/context/TasksContext";
 
 function AddTask() {
   const [taskName, setTaskName] = useState<string>("");
@@ -38,7 +39,7 @@ function AddTask() {
     <div className="flex items-center gap-4">
       <input
         className={clsx(
-          "border-2 text-xl border-slate-300 px-4 py-2 rounded-full focus:placeholder-transparent",
+          "rounded-full border-2 border-slate-300 px-4 py-2 text-xl focus:placeholder-transparent",
           {
             "border-red-500 placeholder-red-500": hasError,
           }
@@ -48,7 +49,7 @@ function AddTask() {
         onChange={handleNameChange}
       />
       <button
-        className="border px-4 py-2 text-xl rounded-full bg-blue-500 text-white hover:bg-blue-400"
+        className="rounded-full border bg-blue-500 px-4 py-2 text-xl text-white hover:bg-blue-400"
         onClick={handleAddTask}
       >
         Add a Task
@@ -148,7 +149,7 @@ function TaskList() {
 export default function Project() {
   return (
     <div className="flex flex-col">
-      <h1 className="text-2xl font-bold text-center mb-12">Pricing Calculator</h1>
+      <h1 className="mb-12 text-center text-2xl font-bold">Pricing Calculator</h1>
       <TaskList />
       <AddTask />
     </div>

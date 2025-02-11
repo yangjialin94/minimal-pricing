@@ -12,6 +12,8 @@
   "quoteProps": "as-needed",
   "proseWrap": "preserve",
   "embeddedLanguageFormatting": "auto",
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindConfig": "./tailwind.config.ts",
   "overrides": [
     {
       "files": "*.json",

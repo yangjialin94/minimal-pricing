@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
 import "../styles/globals.css";
+
+import type { Metadata } from "next";
 
 import { TasksProvider } from "@/context/TasksContext";
 
@@ -15,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="flex items-center justify-center h-screen w-screen">
+      <body className="flex h-screen w-screen items-center justify-center">
         <TasksProvider>{children}</TasksProvider>
       </body>
     </html>

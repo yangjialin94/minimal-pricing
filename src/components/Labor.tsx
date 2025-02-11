@@ -6,25 +6,25 @@ interface LaborProps {
 
 export default function Labor({ taskId, laborId, onChange }: LaborProps) {
   return (
-    <div key={labor.id} className="border p-2 mb-2">
+    <div key={labor.id} className="mb-2 border p-2">
       <input
         type="number"
         placeholder="People"
-        className="border p-2 w-1/4"
+        className="w-1/4 border p-2"
         value={labor.peopleCount}
         onChange={(e) => onChange(taskId, laborId, "peopleCount", +e.target.value)}
       />
       <input
         type="number"
         placeholder="Days"
-        className="border p-2 w-1/4"
+        className="w-1/4 border p-2"
         value={labor.daysCount}
         onChange={(e) => onChange(taskId, laborId, "daysCount", +e.target.value)}
       />
       <input
         type="number"
         placeholder="Price/Day"
-        className="border p-2 w-1/4"
+        className="w-1/4 border p-2"
         value={labor.pricePerDay}
         onChange={(e) => onChange(taskId, laborId, "pricePerDay", +e.target.value)}
       />
