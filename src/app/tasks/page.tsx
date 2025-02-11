@@ -1,20 +1,35 @@
 "use client";
 
 import { useState } from "react";
-import TaskManager from "@/components/TaskManager";
 import { useTasks, useTasksDispatch } from "@/context/TasksContext";
-import Material from "@/components/Material";
-import Labor from "@/components/Labor";
+// import Material from "@/components/Material";
+// import Labor from "@/components/Labor";
+import clsx from "clsx";
 
 function AddTask() {
   const [taskName, setTaskName] = useState<string>("");
+  const [hasError, setHasError] = useState<boolean>(false);
   const dispatch = useTasksDispatch();
 
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (hasError) {
+      setHasError(false);
+    }
+    setTaskName(e.target.value);
+  };
+
   const handleAddTask = () => {
+    if (!taskName.trim()) {
+      setTaskName("");
+      setHasError(true);
+      return;
+    }
+
+    setTaskName("");
     dispatch({
       type: "added_task",
       payload: {
-        name: taskName,
+        name: taskName.trim(),
       },
     });
   };
@@ -22,10 +37,15 @@ function AddTask() {
   return (
     <div className="flex items-center gap-4">
       <input
-        className="border-2 text-xl border-slate-300 px-4 py-2 rounded-full"
+        className={clsx(
+          "border-2 text-xl border-slate-300 px-4 py-2 rounded-full focus:placeholder-transparent",
+          {
+            "border-red-500 placeholder-red-500": hasError,
+          }
+        )}
         placeholder="Task name"
         value={taskName}
-        onChange={(e) => setTaskName(e.target.value)}
+        onChange={handleNameChange}
       />
       <button
         className="border px-4 py-2 text-xl rounded-full bg-blue-500 text-white hover:bg-blue-400"
@@ -37,42 +57,78 @@ function AddTask() {
   );
 }
 
-function Task() {
-  return (
-    <div key={task.id} className="border p-4 mb-4 rounded-lg">
-      <input
-        type="text"
-        placeholder="Task Name"
-        className="border p-2 w-full mb-2"
-        value={task.name}
-        onChange={(e) => updateTaskName(task.id, e.target.value)}
-      />
+// function Task() {
+//   const handleOnChangeLabor = (
+//     taskId: number,
+//     laborId: number,
+//     field: string,
+//     value: string | number
+//   ) => {
+//     setTasks(
+//       tasks.map((task) =>
+//         task.id === taskId
+//           ? {
+//               ...task,
+//               labors: task.labors.map((lab) =>
+//                 lab.id === laborId ? { ...lab, [field]: value } : lab
+//               ),
+//             }
+//           : task
+//       )
+//     );
+//   };
 
-      <h3 className="font-bold">Materials</h3>
-      <button
-        onClick={() => addMaterial(task.id)}
-        className="bg-green-500 text-white px-2 py-1 mb-2"
-      >
-        + Add Material
-      </button>
-      {task.materials.map((material) => (
-        <Material
-          key={material.id}
-          taskId={material.id}
-          materialId={material.id}
-          onChange={handleOnChangeMaterial}
-        />
-      ))}
-      <h3 className="font-bold">Labors</h3>
-      <button onClick={() => addLabor(task.id)} className="bg-red-500 text-white px-2 py-1 mb-2">
-        + Add Labor
-      </button>
-      {task.labors.map((labor) => (
-        <Labor taskId={material.id} laborId={material.id} onChange={handleOnChangeLabor} />
-      ))}
-    </div>
-  );
-}
+//   const addLabor = (taskId: number) => {
+//     setTasks(
+//       tasks.map((task) =>
+//         task.id === taskId
+//           ? {
+//               ...task,
+//               labors: [
+//                 ...task.labors,
+//                 { id: Date.now(), peopleCount: 1, daysCount: 1, pricePerDay: 0 },
+//               ],
+//             }
+//           : task
+//       )
+//     );
+//   };
+
+//   return (
+//     <div key={task.id} className="border p-4 mb-4 rounded-lg">
+//       <input
+//         type="text"
+//         placeholder="Task Name"
+//         className="border p-2 w-full mb-2"
+//         value={task.name}
+//         onChange={(e) => updateTaskName(task.id, e.target.value)}
+//       />
+
+//       <h3 className="font-bold">Materials</h3>
+//       <button
+//         onClick={() => addMaterial(task.id)}
+//         className="bg-green-500 text-white px-2 py-1 mb-2"
+//       >
+//         + Add Material
+//       </button>
+//       {task.materials.map((material) => (
+//         <Material
+//           key={material.id}
+//           taskId={material.id}
+//           materialId={material.id}
+//           onChange={handleOnChangeMaterial}
+//         />
+//       ))}
+//       <h3 className="font-bold">Labors</h3>
+//       <button onClick={() => addLabor(task.id)} className="bg-red-500 text-white px-2 py-1 mb-2">
+//         + Add Labor
+//       </button>
+//       {task.labors.map((labor) => (
+//         <Labor taskId={material.id} laborId={material.id} onChange={handleOnChangeLabor} />
+//       ))}
+//     </div>
+//   );
+// }
 
 function TaskList() {
   const tasks = useTasks();

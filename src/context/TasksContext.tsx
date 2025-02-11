@@ -1,28 +1,7 @@
 "use client";
 
-import { createContext, useContext, useReducer, ReactNode } from "react";
-import { Material, Labor, Task, Project } from "@/types";
-
-export const TasksContext = createContext<Task[] | null>(null);
-export const TasksDispatchContext = createContext<React.Dispatch<any> | null>(null);
-
-export function TasksProvider({ children }: { children: ReactNode }) {
-  const [tasks, dispatch] = useReducer(tasksReducer, []);
-
-  return (
-    <TasksContext.Provider value={tasks}>
-      <TasksDispatchContext.Provider value={dispatch}>{children}</TasksDispatchContext.Provider>
-    </TasksContext.Provider>
-  );
-}
-
-export function useTasks() {
-  return useContext(TasksContext);
-}
-
-export function useTasksDispatch() {
-  return useContext(TasksDispatchContext);
-}
+import { createContext, useContext, useReducer, ReactNode, useEffect } from "react";
+import { Task } from "@/types";
 
 type TaskAction =
   | { type: "added_task"; payload: { name: string } }
@@ -48,10 +27,45 @@ type TaskAction =
         laborId: number;
         peopleCount: number;
         daysCount: number;
-        pricePerPersonPerDay: number;
+        dailyRatePerWorker: number;
       };
     }
   | { type: "removed_labor"; payload: { taskId: number; laborId: number } };
+
+// Create Contexts
+export const TasksContext = createContext<Task[] | null>(null);
+export const TasksDispatchContext = createContext<React.Dispatch<TaskAction> | null>(null);
+
+// Create Provider
+export function TasksProvider({ children }: { children: ReactNode }) {
+  // Load from sessionStorage
+  const getSessionTasks = () => {
+    if (typeof window !== "undefined") {
+      const storedTasks = sessionStorage.getItem("tasks");
+      return storedTasks ? JSON.parse(storedTasks) : [];
+    }
+  };
+
+  const [tasks, dispatch] = useReducer(tasksReducer, [], getSessionTasks);
+
+  useEffect(() => {
+    sessionStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  return (
+    <TasksContext.Provider value={tasks}>
+      <TasksDispatchContext.Provider value={dispatch}>{children}</TasksDispatchContext.Provider>
+    </TasksContext.Provider>
+  );
+}
+
+export function useTasks() {
+  return useContext(TasksContext);
+}
+
+export function useTasksDispatch() {
+  return useContext(TasksDispatchContext);
+}
 
 function tasksReducer(tasks: Task[], action: TaskAction) {
   switch (action.type) {
@@ -128,7 +142,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                   id: Date.now(),
                   peopleCount: 1,
                   daysCount: 1,
-                  pricePerPersonPerDay: 0,
+                  dailyRatePerWorker: 0,
                   totalPrice: 0,
                 },
               ],
@@ -147,11 +161,11 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                       ...labor,
                       peopleCount: action.payload.peopleCount,
                       daysCount: action.payload.daysCount,
-                      pricePerPersonPerDay: action.payload.pricePerPersonPerDay,
+                      dailyRatePerWorker: action.payload.dailyRatePerWorker,
                       totalPrice:
                         action.payload.peopleCount *
                         action.payload.daysCount *
-                        action.payload.pricePerPersonPerDay,
+                        action.payload.dailyRatePerWorker,
                     }
                   : labor
               ),

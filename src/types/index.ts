@@ -10,7 +10,7 @@ export interface Labor {
   id: number;
   peopleCount: number;
   daysCount: number;
-  pricePerPersonPerDay: number;
+  dailyRatePerWorker: number;
   totalPrice: number;
 }
 
@@ -22,8 +22,8 @@ export interface Task {
   totalPrice: number;
 }
 
-export interface Project {
-  id: number:
-  tasks: Task[];
-  totalPrice: number;
-}
+// export interface Project {
+//   id: number:
+//   tasks: Task[];
+//   totalPrice: number;
+// }
