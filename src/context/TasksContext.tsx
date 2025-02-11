@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, ReactNode, useContext, useEffect, useReducer } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 import { Task } from "@/types";
 
@@ -71,7 +72,7 @@ export function useTasksDispatch() {
 function tasksReducer(tasks: Task[], action: TaskAction) {
   switch (action.type) {
     case "added_task":
-      return [...tasks, { id: Date.now(), name: action.payload.name, materials: [], labors: [] }];
+      return [...tasks, { id: uuidv4(), name: action.payload.name, materials: [], labors: [] }];
 
     case "updated_task":
       return tasks.map((task) =>
@@ -89,7 +90,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
               materials: [
                 ...task.materials,
                 {
-                  id: Date.now(),
+                  id: uuidv4(),
                   name: "",
                   unitCount: 1,
                   pricePerUnit: 0,
@@ -140,7 +141,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
               labors: [
                 ...task.labors,
                 {
-                  id: Date.now(),
+                  id: uuidv4(),
                   peopleCount: 1,
                   daysCount: 1,
                   dailyRatePerWorker: 0,
