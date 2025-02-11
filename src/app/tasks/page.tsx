@@ -3,9 +3,10 @@
 // import Material from "@/components/Material";
 // import Labor from "@/components/Labor";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useTasks, useTasksDispatch } from "@/context/TasksContext";
+import { Task } from "@/styles";
 
 function AddTask() {
   const [taskName, setTaskName] = useState<string>("");
@@ -132,7 +133,16 @@ function AddTask() {
 // }
 
 function TaskList() {
-  const tasks = useTasks();
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const loadedTasks = useTasks();
+
+  useEffect(() => {
+    if (loadedTasks) {
+      setTasks(loadedTasks);
+    }
+  }, [loadedTasks]);
+
+  console.log(tasks === undefined);
 
   return (
     <ul>
