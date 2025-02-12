@@ -18,15 +18,8 @@ export default function Material({ taskId, materialId, onChange }: MaterialProps
         type="number"
         placeholder="Units"
         className="w-1/4 border p-2"
-        value={material.unitCount}
-        onChange={(e) => onChange(taskId, materialId, "unitCount", +e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Price/Unit"
-        className="w-1/4 border p-2"
-        value={material.pricePerUnit}
-        onChange={(e) => onChange(taskId, materialId, "pricePerUnit", +e.target.value)}
+        value={material.price}
+        // onChange={(e) => }
       />
     </div>
   );

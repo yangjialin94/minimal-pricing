@@ -1,17 +1,12 @@
 export interface Material {
   id: number;
   name: string;
-  unitCount: number;
-  pricePerUnit: number;
-  totalPrice: number;
+  price: number;
 }
 
 export interface Labor {
   id: number;
-  peopleCount: number;
-  daysCount: number;
-  dailyRatePerWorker: number;
-  totalPrice: number;
+  cost: number;
 }
 
 export interface Task {

@@ -6,30 +6,34 @@ import { v4 as uuidv4 } from "uuid";
 import { Task } from "@/types";
 
 type TaskAction =
-  | { type: "added_task"; payload: { name: string } }
-  | { type: "updated_task"; payload: { name: string } }
-  | { type: "removed_task"; payload: { id: number } }
-  | { type: "added_material"; payload: { taskId: number } }
+  | { type: "added_task"; payload: { taskName: string } }
+  | { type: "updated_task"; payload: { taskId: number; taskName: string } }
+  | { type: "removed_task"; payload: { taskId: number } }
+  | {
+      type: "added_material";
+      payload: {
+        taskId: number;
+        materialName: string;
+        materialPrice: number;
+      };
+    }
   | {
       type: "updated_material";
       payload: {
         taskId: number;
         materialId: number;
-        name: string;
-        unitCount: number;
-        pricePerUnit: number;
+        materialName: string;
+        materialPrice: number;
       };
     }
   | { type: "removed_material"; payload: { taskId: number; materialId: number } }
-  | { type: "added_labor"; payload: { taskId: string } }
+  | { type: "added_labor"; payload: { taskId: string; laborCost: number } }
   | {
       type: "updated_labor";
       payload: {
         taskId: number;
         laborId: number;
-        peopleCount: number;
-        daysCount: number;
-        dailyRatePerWorker: number;
+        laborCost: number;
       };
     }
   | { type: "removed_labor"; payload: { taskId: number; laborId: number } };
@@ -72,15 +76,15 @@ export function useTasksDispatch() {
 function tasksReducer(tasks: Task[], action: TaskAction) {
   switch (action.type) {
     case "added_task":
-      return [...tasks, { id: uuidv4(), name: action.payload.name, materials: [], labors: [] }];
+      return [...tasks, { id: uuidv4(), name: action.payload.taskName, materials: [], labors: [] }];
 
     case "updated_task":
       return tasks.map((task) =>
-        task.id === action.payload.id ? { ...task, name: action.payload.name } : task
+        task.id === action.payload.taskId ? { ...task, name: action.payload.taskName } : task
       );
 
     case "removed_task":
-      return tasks.filter((task) => task.id !== action.payload.id);
+      return tasks.filter((task) => task.id !== action.payload.taskId);
 
     case "added_material":
       return tasks.map((task) =>
@@ -91,10 +95,8 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 ...task.materials,
                 {
                   id: uuidv4(),
-                  name: "",
-                  unitCount: 1,
-                  pricePerUnit: 0,
-                  totalPrice: 0,
+                  name: action.payload.materialName,
+                  price: action.payload.materialPrice,
                 },
               ],
             }
@@ -110,10 +112,8 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 material.id === action.payload.materialId
                   ? {
                       ...material,
-                      name: action.payload.name,
-                      unitCount: action.payload.unitCount,
-                      pricePerUnit: action.payload.pricePerUnit,
-                      totalPrice: action.payload.unitCount * action.payload.pricePerUnit,
+                      name: action.payload.materialName,
+                      price: action.payload.materialPrice,
                     }
                   : material
               ),
@@ -142,10 +142,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 ...task.labors,
                 {
                   id: uuidv4(),
-                  peopleCount: 1,
-                  daysCount: 1,
-                  dailyRatePerWorker: 0,
-                  totalPrice: 0,
+                  cost: action.payload.laborCost,
                 },
               ],
             }
@@ -161,13 +158,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 labor.id === action.payload.laborId
                   ? {
                       ...labor,
-                      peopleCount: action.payload.peopleCount,
-                      daysCount: action.payload.daysCount,
-                      dailyRatePerWorker: action.payload.dailyRatePerWorker,
-                      totalPrice:
-                        action.payload.peopleCount *
-                        action.payload.daysCount *
-                        action.payload.dailyRatePerWorker,
+                      cost: action.payload.laborCost,
                     }
                   : labor
               ),
