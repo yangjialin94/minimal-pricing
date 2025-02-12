@@ -13,8 +13,6 @@ type TaskAction =
       type: "added_material";
       payload: {
         taskId: number;
-        materialName: string;
-        materialPrice: number;
       };
     }
   | {
@@ -95,8 +93,8 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 ...task.materials,
                 {
                   id: uuidv4(),
-                  name: action.payload.materialName,
-                  price: action.payload.materialPrice,
+                  name: "",
+                  price: 0,
                 },
               ],
             }
@@ -122,6 +120,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
       );
 
     case "removed_material":
+      console.log(`Task ID: ${action.payload.taskId}\nMaterial ID: ${action.payload.materialId}`);
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {

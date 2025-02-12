@@ -3,11 +3,12 @@
 // import Material from "@/components/Material";
 // import Labor from "@/components/Labor";
 import clsx from "clsx";
-import { DollarSign, Package, Trash2 } from "lucide-react";
+import { ClipboardList, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
+import Materials from "@/components/Materials";
 import { useTasks, useTasksDispatch } from "@/context/TasksContext";
-import { Task } from "@/styles";
+import { Task } from "@/types";
 
 function AddTask() {
   const [taskName, setTaskName] = useState<string>("");
@@ -21,6 +22,7 @@ function AddTask() {
     setTaskName(e.target.value);
   };
 
+  // Add task
   const handleAddTask = () => {
     if (!taskName.trim()) {
       setTaskName("");
@@ -49,10 +51,11 @@ function AddTask() {
         onChange={handleNameChange}
       />
       <button
-        className="rounded-full border-2 border-blue-500 bg-blue-500 px-4 py-2 text-xl text-white hover:bg-blue-400"
+        className="flex items-center gap-2 rounded-full border-2 border-blue-500 bg-blue-500 px-4 py-2 text-xl text-white hover:bg-blue-400"
         onClick={handleAddTask}
       >
-        Add a Task
+        <Plus />
+        Task
       </button>
     </div>
   );
@@ -110,10 +113,10 @@ function TaskComponent({ task }: { task: Task }) {
 
   return (
     <div key={task.id} className="mb-4 rounded-lg border p-4">
-      {/* Task Header */}
+      {/* Task */}
       <div className="flex w-full items-center gap-4">
         <label className="flex flex-1 items-center gap-4 text-xl">
-          Task:
+          <ClipboardList />
           <input
             className="w-full rounded-lg border p-2"
             type="text"
@@ -132,70 +135,11 @@ function TaskComponent({ task }: { task: Task }) {
 
       <hr className="my-4" />
 
-      {/* Material Section */}
-      <div className="flex w-full items-center gap-4">
-        {/* Material Name Input */}
-        <div className="flex flex-1 items-center gap-2">
-          <Package />
-          <input
-            className="w-full rounded-lg border p-2"
-            type="text"
-            placeholder="Material"
-            // value={material.name}
-            value="Toilet"
-            // onChange={(e) =>
-            //   handleUpdateMaterial(task.id, material.id, e.target.value, material.price)
-            // }
-            onChange={() => {
-              return null;
-            }}
-          />
-        </div>
+      {/* Materials */}
+      <Materials taskId={task.id} materials={task.materials} />
 
-        {/* Material Price Input */}
-        <div className="flex flex-1 items-center gap-1">
-          <DollarSign />
-          <input
-            className="w-full rounded-lg border p-2"
-            type="number"
-            min="0.01"
-            placeholder="Material"
-            // value={material.price}
-            value="259.99"
-            // onChange={(e) =>
-            //   handleUpdateMaterial(task.id, material.id, material.name, e.target.value)
-            // }
-            onChange={() => {
-              return null;
-            }}
-          />
-        </div>
-
-        {/* Delete Button */}
-        <button
-          className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
-          onClick={() => handleRemoveMaterial(material.id)}
-        >
-          <Trash2 />
-        </button>
-      </div>
-
-      {/* <h3 className="font-bold">Materials</h3>
-      <button
-        onClick={() => addMaterial(task.id)}
-        className="mb-2 bg-green-500 px-2 py-1 text-white"
-      >
-        + Add Material
-      </button>
-      {task.materials.map((material) => (
-        <Material
-          key={material.id}
-          taskId={material.id}
-          materialId={material.id}
-          onChange={handleOnChangeMaterial}
-        />
-      ))}
-      <h3 className="font-bold">Labors</h3>
+      {/* Labors */}
+      {/* <h3 className="font-bold">Labors</h3>
       <button onClick={() => addLabor(task.id)} className="mb-2 bg-red-500 px-2 py-1 text-white">
         + Add Labor
       </button>
@@ -210,6 +154,7 @@ function TaskList() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const loadedTasks = useTasks();
 
+  // Load tasks
   useEffect(() => {
     if (loadedTasks) {
       setTasks(loadedTasks);
