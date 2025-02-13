@@ -85,11 +85,21 @@ function Overview() {
         );
       })}
 
-      {/* Overall Total */}
       {tasks.length > 0 && (
-        <div className="mt-6 flex justify-between border-gray-300 pt-4 text-xl font-bold text-gray-900">
-          <span>Overall Total Price:</span>
-          <span>${projectTotalPrice.toLocaleString()}</span>
+        <div className="mt-6 flex flex-col">
+          {/* Overall Total */}
+          <div className="flex justify-between border-gray-300 pt-4 text-xl font-bold text-gray-900">
+            <span>Overall Total Price:</span>
+            <span>${projectTotalPrice.toLocaleString()}</span>
+          </div>
+
+          {/* Profit Margin */}
+          <div className="flex justify-between border-gray-300 pt-4 text-xl font-bold text-gray-900">
+            <span>Profit Margin:</span>
+            <div>
+              <span>${projectTotalPrice.toLocaleString()}</span>
+            </div>
+          </div>
         </div>
       )}
     </div>

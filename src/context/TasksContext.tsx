@@ -3,103 +3,9 @@
 import { createContext, ReactNode, useContext, useEffect, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Task } from "@/types";
+import { Task, TaskAction } from "@/types";
 
-const TESTING_TASKS = [
-  {
-    id: uuidv4(),
-    name: "Flooring",
-    materials: [
-      { id: uuidv4(), name: "Hardwood Planks", price: 3200 },
-      { id: uuidv4(), name: "Adhesive", price: 150 },
-      { id: uuidv4(), name: "Underlayment", price: 250 },
-    ],
-    labors: [
-      { id: uuidv4(), name: "Installation (3 days)", price: 1200 },
-      { id: uuidv4(), name: "Finishing & Cleanup", price: 350 },
-    ],
-    additional: [
-      { id: uuidv4(), name: "Permit Fee", price: 100 },
-      { id: uuidv4(), name: "Inspection", price: 75 },
-    ],
-  },
-  {
-    id: uuidv4(),
-    name: "Painting",
-    materials: [
-      { id: uuidv4(), name: "Interior Paint (5 gallons)", price: 250 },
-      { id: uuidv4(), name: "Paint Rollers & Brushes", price: 40 },
-      { id: uuidv4(), name: "Painter's Tape", price: 25 },
-    ],
-    labors: [
-      { id: uuidv4(), name: "Wall Prep & Priming (1 day)", price: 500 },
-      { id: uuidv4(), name: "Painting (2 days)", price: 750 },
-    ],
-    additional: [{ id: uuidv4(), name: "Permit Fee", price: 60 }],
-  },
-  {
-    id: uuidv4(),
-    name: "Tile Installation",
-    materials: [
-      { id: uuidv4(), name: "Ceramic Tiles (200 sq ft)", price: 1800 },
-      { id: uuidv4(), name: "Tile Adhesive & Grout", price: 300 },
-      { id: uuidv4(), name: "Spacers & Tools", price: 100 },
-    ],
-    labors: [
-      { id: uuidv4(), name: "Tile Cutting & Layout (1 day)", price: 400 },
-      { id: uuidv4(), name: "Installation & Grouting (2 days)", price: 1000 },
-    ],
-    additional: [],
-  },
-];
-
-type TaskAction =
-  | { type: "added_task"; payload: { taskName: string } }
-  | { type: "updated_task"; payload: { taskId: number; taskName: string } }
-  | { type: "removed_task"; payload: { taskId: number } }
-  | {
-      type: "added_material";
-      payload: {
-        taskId: number;
-      };
-    }
-  | {
-      type: "updated_material";
-      payload: {
-        taskId: number;
-        materialId: number;
-        materialName: string;
-        materialPrice: number;
-      };
-    }
-  | { type: "removed_material"; payload: { taskId: number; materialId: number } }
-  | { type: "added_labor"; payload: { taskId: string } }
-  | {
-      type: "updated_labor";
-      payload: {
-        taskId: number;
-        laborId: number;
-        laborDuration: string;
-        laborPrice: number;
-      };
-    }
-  | { type: "removed_labor"; payload: { taskId: number; laborId: number } }
-  | {
-      type: "added_additional";
-      payload: {
-        taskId: number;
-      };
-    }
-  | {
-      type: "updated_additional";
-      payload: {
-        taskId: number;
-        additionalId: number;
-        additionalName: string;
-        additionalPrice: number;
-      };
-    }
-  | { type: "removed_additional"; payload: { taskId: number; additionalId: number } };
+import { useProject, useProjectDispatch } from "./ProjectContext";
 
 // Create Contexts
 export const TasksContext = createContext<Task[] | null>(null);
@@ -107,20 +13,15 @@ export const TasksDispatchContext = createContext<React.Dispatch<TaskAction> | n
 
 // Create Provider
 export function TasksProvider({ children }: { children: ReactNode }) {
-  // Load from sessionStorage
-  const getSessionTasks = () => {
-    if (typeof window !== "undefined") {
-      const storedTasks = sessionStorage.getItem("tasks");
-      // return storedTasks ? JSON.parse(storedTasks) : [];
-      return storedTasks ? JSON.parse(storedTasks) : TESTING_TASKS; // TESTING ONLY: REMOVE IN PRODUCTION !!!
-    }
-  };
+  // Load from project context
+  const project = useProject();
+  const projectDispatch = useProjectDispatch();
 
-  const [tasks, dispatch] = useReducer(tasksReducer, [], getSessionTasks);
+  const [tasks, dispatch] = useReducer(tasksReducer, project.tasks);
 
   useEffect(() => {
-    sessionStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
+    projectDispatch({ type: "updated_tasks", payload: { tasks } });
+  }, [projectDispatch, tasks]);
 
   return (
     <TasksContext.Provider value={tasks}>
@@ -129,14 +30,17 @@ export function TasksProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// Custom Hook - Read tasks
 export function useTasks() {
   return useContext(TasksContext);
 }
 
+// Custom Hook - Dispatch tasks
 export function useTasksDispatch() {
   return useContext(TasksDispatchContext);
 }
 
+// Reducer function
 function tasksReducer(tasks: Task[], action: TaskAction) {
   switch (action.type) {
     case "added_task":
