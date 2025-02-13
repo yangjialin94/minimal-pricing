@@ -8,13 +8,13 @@ export interface Material {
 export interface Labor {
   id: number;
   duration: string;
-  cost: number;
+  price: number;
 }
 
 export interface Additional {
   id: number;
   name: string;
-  cost: number;
+  price: number;
 }
 
 export interface Task {

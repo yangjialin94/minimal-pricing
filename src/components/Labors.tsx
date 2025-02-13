@@ -50,14 +50,14 @@ function LaborComponent({ taskId, labor }: { taskId: number; labor: Labor }) {
 
   // Update labor
   const handleUpdateLabor = useCallback(
-    (updates: { duration?: string; cost?: number }) => {
+    (updates: { duration?: string; price?: number }) => {
       dispatch({
         type: "updated_labor",
         payload: {
           taskId: taskId,
           laborId: labor.id,
           laborDuration: updates.duration ?? labor.duration,
-          laborCost: updates.cost ?? labor.cost,
+          laborPrice: updates.price ?? labor.price,
         },
       });
     },
@@ -84,21 +84,21 @@ function LaborComponent({ taskId, labor }: { taskId: number; labor: Labor }) {
           className="w-full rounded-lg border p-2"
           type="text"
           placeholder="Duration"
-          value={labor.duration}
+          value={labor.duration ?? ""}
           onChange={(e) => handleUpdateLabor({ duration: e.target.value })}
         />
       </div>
 
-      {/* Labor Cost Input */}
+      {/* Labor Price Input */}
       <div className="flex flex-1 items-center gap-1">
         <DollarSign />
         <input
           className="w-full rounded-lg border p-2"
           type="number"
           min="0"
-          placeholder="Cost"
-          value={labor.cost}
-          onChange={(e) => handleUpdateLabor({ cost: e.target.value })}
+          placeholder="Price"
+          value={labor.price ?? 0}
+          onChange={(e) => handleUpdateLabor({ price: e.target.value })}
         />
       </div>
 

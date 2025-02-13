@@ -1,9 +1,8 @@
 "use client";
 
-// import Material from "@/components/Material";
-// import Labor from "@/components/Labor";
 import clsx from "clsx";
-import { ClipboardList, Plus, Trash2 } from "lucide-react";
+import { ArrowBigRightDash, ClipboardList, Plus, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import Additional from "@/components/Additional";
@@ -91,7 +90,7 @@ function TaskComponent({ task }: { task: Task }) {
   }, [dispatch, task.id]);
 
   return (
-    <div key={task.id} className="mb-4 rounded-lg border p-4">
+    <div key={task.id} className="mb-6 rounded-lg border bg-white p-4 shadow-md">
       {/* Task */}
       <div className="flex w-full items-center gap-4">
         <label className="flex flex-1 items-center gap-4 text-xl">
@@ -154,12 +153,16 @@ function TaskList() {
   );
 }
 
-export default function Project() {
+export default function Tasks() {
   return (
-    <div className="mx-auto flex w-full max-w-2xl flex-col items-center">
+    <div className="mx-auto flex max-w-2xl flex-col items-center">
       <h1 className="mb-12 text-center text-2xl font-bold">Pricing Calculator</h1>
       <TaskList />
       <AddTask />
+      {/* Next Page Button */}
+      <Link className="mt-12 flex-shrink-0 rounded-full p-2 hover:bg-slate-200" href="/margin">
+        <ArrowBigRightDash size={30} />
+      </Link>
     </div>
   );
 }

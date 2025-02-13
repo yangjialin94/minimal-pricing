@@ -84,7 +84,7 @@ function MaterialComponent({ taskId, material }: { taskId: number; material: Mat
           className="w-full rounded-lg border p-2"
           type="text"
           placeholder="Name"
-          value={material.name}
+          value={material.name ?? ""}
           onChange={(e) => handleUpdateMaterial({ name: e.target.value })}
         />
       </div>
@@ -97,7 +97,7 @@ function MaterialComponent({ taskId, material }: { taskId: number; material: Mat
           type="number"
           min="0"
           placeholder="Price"
-          value={material.price}
+          value={material.price ?? 0}
           onChange={(e) => handleUpdateMaterial({ price: e.target.value })}
         />
       </div>
