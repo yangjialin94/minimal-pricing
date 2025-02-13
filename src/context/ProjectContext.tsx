@@ -5,8 +5,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import { Project, ProjectAction } from "@/types";
 
-// TEST DATA - REMOVE IT IN PRODUCTION
-const INITIAL_PROJECT: Project = {
+// TEST DATA - REMOVE IT IN PRODUCTION - CHANGE TO INITIAL_PROJECT
+const TEST_PROJECT: Project = {
   id: uuidv4(),
   name: "",
   tasks: [
@@ -59,12 +59,12 @@ const INITIAL_PROJECT: Project = {
   profitPercentage: 0,
 };
 
-// const INITIAL_PROJECT: Project = {
-//   id: uuidv4(),
-//   name: "",
-//   tasks: [],
-//   profitPercentage: 0,
-// };
+export const INITIAL_PROJECT: Project = {
+  id: uuidv4(),
+  name: "",
+  tasks: [],
+  profitPercentage: 0,
+};
 
 // Create Contexts
 export const ProjectContext = createContext<Project[] | null>(null);
@@ -76,12 +76,12 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
   const getSessionData = () => {
     if (typeof window !== "undefined") {
       const storedTasks = sessionStorage.getItem("project");
-      return storedTasks ? JSON.parse(storedTasks) : INITIAL_PROJECT;
+      return storedTasks ? JSON.parse(storedTasks) : TEST_PROJECT;
     }
-    return INITIAL_PROJECT;
+    return TEST_PROJECT;
   };
 
-  const [project, dispatch] = useReducer(projectReducer, INITIAL_PROJECT, getSessionData);
+  const [project, dispatch] = useReducer(projectReducer, TEST_PROJECT, getSessionData);
 
   useEffect(() => {
     sessionStorage.setItem("project", JSON.stringify(project));
@@ -116,10 +116,11 @@ export function useProjectDispatch() {
 function projectReducer(project: Project, action: ProjectAction) {
   switch (action.type) {
     case "updated_project_name":
+      console.log("updated_project_name");
       return { ...project, name: action.payload.projectName };
 
     case "updated_profit":
-      return { ...project, name: action.payload.profitPercentage };
+      return { ...project, profitPercentage: action.payload.profitPercentage };
 
     case "updated_tasks":
       return { ...project, tasks: action.payload.tasks };

@@ -5,47 +5,53 @@ import { useCallback } from "react";
 import { useTasksDispatch } from "@/context/TasksContext";
 import { Material } from "@/types";
 
-function AddMaterial({ taskId, hasMaterial }: { taskId: number; hasMaterial: boolean }) {
-  const dispatch = useTasksDispatch();
+interface MaterialsProps {
+  taskId: number;
+  materials: Material[];
+}
 
-  // Add material
-  const handleAddMaterial = () => {
-    dispatch({
-      type: "added_material",
-      payload: {
-        taskId: taskId,
-      },
-    });
-  };
+interface MaterialListProps {
+  taskId: number;
+  materials: Material[];
+}
+
+interface AddMaterialProps {
+  taskId: number;
+  hasMaterial: boolean;
+}
+
+interface MaterialComponentProps {
+  taskId: number;
+  material: Material;
+}
+
+export default function Materials({ taskId, materials }: MaterialsProps) {
+  const hasMaterial = materials.length > 0;
 
   return (
-    <div
-      className={clsx("flex justify-center gap-4", {
-        "mt-4": hasMaterial,
-        "mt-0": !hasMaterial,
-      })}
-    >
-      {hasMaterial ? (
-        <button
-          className="rounded-full border-2 border-yellow-500 bg-yellow-500 p-2 text-xl text-white hover:bg-yellow-400"
-          onClick={handleAddMaterial}
-        >
-          <Plus />
-        </button>
-      ) : (
-        <button
-          className="flex items-center gap-2 rounded-full border-2 border-yellow-500 bg-yellow-500 px-4 py-2 text-xl text-white hover:bg-yellow-400"
-          onClick={handleAddMaterial}
-        >
-          <Plus />
-          Material
-        </button>
-      )}
+    <div>
+      {hasMaterial && <h2 className="mb-4 text-center text-xl font-bold">Materials</h2>}
+      <MaterialList taskId={taskId} materials={materials} />
+      <AddMaterial taskId={taskId} hasMaterial={hasMaterial} />
     </div>
   );
 }
 
-function MaterialComponent({ taskId, material }: { taskId: number; material: Material }) {
+function MaterialList({ taskId, materials }: MaterialListProps) {
+  return (
+    <div className="flex w-full items-center gap-4">
+      <ul className="flex w-full flex-col gap-4">
+        {materials.map((material) => (
+          <li key={material.id}>
+            <MaterialComponent taskId={taskId} material={material} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function MaterialComponent({ taskId, material }: MaterialComponentProps) {
   const dispatch = useTasksDispatch();
 
   // Update material
@@ -113,34 +119,42 @@ function MaterialComponent({ taskId, material }: { taskId: number; material: Mat
   );
 }
 
-function MaterialList({ taskId, materials }: { taskId: number; materials: Material[] }) {
-  return (
-    <div className="flex w-full items-center gap-4">
-      <ul className="flex w-full flex-col gap-4">
-        {materials.map((material) => (
-          <li key={material.id}>
-            <MaterialComponent taskId={taskId} material={material} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+function AddMaterial({ taskId, hasMaterial }: AddMaterialProps) {
+  const dispatch = useTasksDispatch();
 
-export default function Materials({
-  taskId,
-  materials,
-}: {
-  taskId: number;
-  materials: Material[];
-}) {
-  const hasMaterial = materials.length > 0;
+  // Add material
+  const handleAddMaterial = () => {
+    dispatch({
+      type: "added_material",
+      payload: {
+        taskId: taskId,
+      },
+    });
+  };
 
   return (
-    <div>
-      {hasMaterial && <h2 className="mb-4 text-center text-xl font-bold">Materials</h2>}
-      <MaterialList taskId={taskId} materials={materials} />
-      <AddMaterial taskId={taskId} hasMaterial={hasMaterial} />
+    <div
+      className={clsx("flex justify-center gap-4", {
+        "mt-4": hasMaterial,
+        "mt-0": !hasMaterial,
+      })}
+    >
+      {hasMaterial ? (
+        <button
+          className="rounded-full border-2 border-yellow-500 bg-yellow-500 p-2 text-xl text-white hover:bg-yellow-400"
+          onClick={handleAddMaterial}
+        >
+          <Plus />
+        </button>
+      ) : (
+        <button
+          className="flex items-center gap-2 rounded-full border-2 border-yellow-500 bg-yellow-500 px-4 py-2 text-xl text-white hover:bg-yellow-400"
+          onClick={handleAddMaterial}
+        >
+          <Plus />
+          Material
+        </button>
+      )}
     </div>
   );
 }

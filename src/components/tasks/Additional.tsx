@@ -5,53 +5,53 @@ import { useCallback } from "react";
 import { useTasksDispatch } from "@/context/TasksContext";
 import { Additional as AdditionalType } from "@/types";
 
-function AddAdditional({ taskId, hasAdditional }: { taskId: number; hasAdditional: boolean }) {
-  const dispatch = useTasksDispatch();
+interface AdditionalProps {
+  taskId: number;
+  additional: AdditionalType[];
+}
 
-  // Add additional
-  const handleAddAdditional = () => {
-    dispatch({
-      type: "added_additional",
-      payload: {
-        taskId: taskId,
-      },
-    });
-  };
+interface AdditionalListProps {
+  taskId: number;
+  additional: AdditionalType[];
+}
+
+interface AdditionalComponentProps {
+  taskId: number;
+  additional: AdditionalType;
+}
+
+interface AddAdditionalProps {
+  taskId: number;
+  hasAdditional: boolean;
+}
+
+export default function Additional({ taskId, additional }: AdditionalProps) {
+  const hasAdditional = additional.length > 0;
 
   return (
-    <div
-      className={clsx("flex justify-center gap-4", {
-        "mt-4": hasAdditional,
-        "mt-0": !hasAdditional,
-      })}
-    >
-      {hasAdditional ? (
-        <button
-          className="rounded-full border-2 border-slate-500 bg-slate-500 p-2 text-xl text-white hover:bg-slate-400"
-          onClick={handleAddAdditional}
-        >
-          <Plus />
-        </button>
-      ) : (
-        <button
-          className="flex items-center gap-2 rounded-full border-2 border-slate-500 bg-slate-500 px-4 py-2 text-xl text-white hover:bg-slate-400"
-          onClick={handleAddAdditional}
-        >
-          <Plus />
-          Additional
-        </button>
-      )}
+    <div>
+      {hasAdditional && <h2 className="mb-4 text-center text-xl font-bold">Additional</h2>}
+      <AdditionalList taskId={taskId} additional={additional} />
+      <AddAdditional taskId={taskId} hasAdditional={hasAdditional} />
     </div>
   );
 }
 
-function AdditionalComponent({
-  taskId,
-  additional,
-}: {
-  taskId: number;
-  additional: AdditionalType;
-}) {
+function AdditionalList({ taskId, additional }: AdditionalListProps) {
+  return (
+    <div className="flex w-full items-center gap-4">
+      <ul className="flex w-full flex-col gap-4">
+        {additional.map((add) => (
+          <li key={add.id}>
+            <AdditionalComponent taskId={taskId} additional={add} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
   const dispatch = useTasksDispatch();
 
   // Update additional
@@ -119,34 +119,42 @@ function AdditionalComponent({
   );
 }
 
-function AdditionalList({ taskId, additional }: { taskId: number; additional: AdditionalType[] }) {
-  return (
-    <div className="flex w-full items-center gap-4">
-      <ul className="flex w-full flex-col gap-4">
-        {additional.map((add) => (
-          <li key={add.id}>
-            <AdditionalComponent taskId={taskId} additional={add} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+function AddAdditional({ taskId, hasAdditional }: AddAdditionalProps) {
+  const dispatch = useTasksDispatch();
 
-export default function Additional({
-  taskId,
-  additional,
-}: {
-  taskId: number;
-  additional: AdditionalType[];
-}) {
-  const hasAdditional = additional.length > 0;
+  // Add additional
+  const handleAddAdditional = () => {
+    dispatch({
+      type: "added_additional",
+      payload: {
+        taskId: taskId,
+      },
+    });
+  };
 
   return (
-    <div>
-      {hasAdditional && <h2 className="mb-4 text-center text-xl font-bold">Additional</h2>}
-      <AdditionalList taskId={taskId} additional={additional} />
-      <AddAdditional taskId={taskId} hasAdditional={hasAdditional} />
+    <div
+      className={clsx("flex justify-center gap-4", {
+        "mt-4": hasAdditional,
+        "mt-0": !hasAdditional,
+      })}
+    >
+      {hasAdditional ? (
+        <button
+          className="rounded-full border-2 border-slate-500 bg-slate-500 p-2 text-xl text-white hover:bg-slate-400"
+          onClick={handleAddAdditional}
+        >
+          <Plus />
+        </button>
+      ) : (
+        <button
+          className="flex items-center gap-2 rounded-full border-2 border-slate-500 bg-slate-500 px-4 py-2 text-xl text-white hover:bg-slate-400"
+          onClick={handleAddAdditional}
+        >
+          <Plus />
+          Additional
+        </button>
+      )}
     </div>
   );
 }

@@ -5,47 +5,53 @@ import { useCallback } from "react";
 import { useTasksDispatch } from "@/context/TasksContext";
 import { Labor } from "@/types";
 
-function AddLabor({ taskId, hasLabor }: { taskId: number; hasLabor: boolean }) {
-  const dispatch = useTasksDispatch();
+interface LaborsProps {
+  taskId: number;
+  labors: Labor[];
+}
 
-  // Add labor
-  const handleAddLabor = () => {
-    dispatch({
-      type: "added_labor",
-      payload: {
-        taskId: taskId,
-      },
-    });
-  };
+interface LaborListProps {
+  taskId: number;
+  labors: Labor[];
+}
+
+interface LaborComponentProps {
+  taskId: number;
+  labor: Labor;
+}
+
+interface AddLaborProps {
+  taskId: number;
+  hasLabor: boolean;
+}
+
+export default function Labors({ taskId, labors }: LaborsProps) {
+  const hasLabor = labors.length > 0;
 
   return (
-    <div
-      className={clsx("flex justify-center gap-4", {
-        "mt-4": hasLabor,
-        "mt-0": !hasLabor,
-      })}
-    >
-      {hasLabor ? (
-        <button
-          className="rounded-full border-2 border-green-500 bg-green-500 p-2 text-xl text-white hover:bg-green-400"
-          onClick={handleAddLabor}
-        >
-          <Plus />
-        </button>
-      ) : (
-        <button
-          className="flex items-center gap-2 rounded-full border-2 border-green-500 bg-green-500 px-4 py-2 text-xl text-white hover:bg-green-400"
-          onClick={handleAddLabor}
-        >
-          <Plus />
-          Labor
-        </button>
-      )}
+    <div>
+      {hasLabor && <h2 className="mb-4 text-center text-xl font-bold">Labors</h2>}
+      <LaborList taskId={taskId} labors={labors} />
+      <AddLabor taskId={taskId} hasLabor={hasLabor} />
     </div>
   );
 }
 
-function LaborComponent({ taskId, labor }: { taskId: number; labor: Labor }) {
+function LaborList({ taskId, labors }: LaborListProps) {
+  return (
+    <div className="flex w-full items-center gap-4">
+      <ul className="flex w-full flex-col gap-4">
+        {labors.map((labor) => (
+          <li key={labor.id}>
+            <LaborComponent taskId={taskId} labor={labor} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function LaborComponent({ taskId, labor }: LaborComponentProps) {
   const dispatch = useTasksDispatch();
 
   // Update labor
@@ -113,28 +119,42 @@ function LaborComponent({ taskId, labor }: { taskId: number; labor: Labor }) {
   );
 }
 
-function LaborList({ taskId, labors }: { taskId: number; labors: Labor[] }) {
-  return (
-    <div className="flex w-full items-center gap-4">
-      <ul className="flex w-full flex-col gap-4">
-        {labors.map((labor) => (
-          <li key={labor.id}>
-            <LaborComponent taskId={taskId} labor={labor} />
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
+function AddLabor({ taskId, hasLabor }: AddLaborProps) {
+  const dispatch = useTasksDispatch();
 
-export default function Labors({ taskId, labors }: { taskId: number; labors: Labor[] }) {
-  const hasLabor = labors.length > 0;
+  // Add labor
+  const handleAddLabor = () => {
+    dispatch({
+      type: "added_labor",
+      payload: {
+        taskId: taskId,
+      },
+    });
+  };
 
   return (
-    <div>
-      {hasLabor && <h2 className="mb-4 text-center text-xl font-bold">Labors</h2>}
-      <LaborList taskId={taskId} labors={labors} />
-      <AddLabor taskId={taskId} hasLabor={hasLabor} />
+    <div
+      className={clsx("flex justify-center gap-4", {
+        "mt-4": hasLabor,
+        "mt-0": !hasLabor,
+      })}
+    >
+      {hasLabor ? (
+        <button
+          className="rounded-full border-2 border-green-500 bg-green-500 p-2 text-xl text-white hover:bg-green-400"
+          onClick={handleAddLabor}
+        >
+          <Plus />
+        </button>
+      ) : (
+        <button
+          className="flex items-center gap-2 rounded-full border-2 border-green-500 bg-green-500 px-4 py-2 text-xl text-white hover:bg-green-400"
+          onClick={handleAddLabor}
+        >
+          <Plus />
+          Labor
+        </button>
+      )}
     </div>
   );
 }
