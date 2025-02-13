@@ -1,3 +1,4 @@
+import { Additional } from "./index";
 export interface Material {
   id: number;
   name: string;
@@ -10,11 +11,18 @@ export interface Labor {
   cost: number;
 }
 
+export interface Additional {
+  id: number;
+  name: string;
+  cost: number;
+}
+
 export interface Task {
   id: number;
   name: string;
   materials: Material[];
   labors: Labor[];
+  additional: Additional[];
   totalPrice: number;
 }
 

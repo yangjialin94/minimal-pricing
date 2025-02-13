@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { ClipboardList, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
+import Additional from "@/components/Additional";
 import Labors from "@/components/Labors";
 import Materials from "@/components/Materials";
 import { useTasks, useTasksDispatch } from "@/context/TasksContext";
@@ -120,6 +121,11 @@ function TaskComponent({ task }: { task: Task }) {
 
       {/* Labors */}
       <Labors taskId={task.id} labors={task.labors} />
+
+      <hr className="my-4" />
+
+      {/* Additional */}
+      <Additional taskId={task.id} additional={task.additional} />
     </div>
   );
 }

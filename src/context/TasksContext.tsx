@@ -35,7 +35,23 @@ type TaskAction =
         laborCost: number;
       };
     }
-  | { type: "removed_labor"; payload: { taskId: number; laborId: number } };
+  | { type: "removed_labor"; payload: { taskId: number; laborId: number } }
+  | {
+      type: "added_additional";
+      payload: {
+        taskId: number;
+      };
+    }
+  | {
+      type: "updated_additional";
+      payload: {
+        taskId: number;
+        additionalId: number;
+        additionalName: string;
+        additionalCost: number;
+      };
+    }
+  | { type: "removed_additional"; payload: { taskId: number; additionalId: number } };
 
 // Create Contexts
 export const TasksContext = createContext<Task[] | null>(null);
@@ -75,7 +91,10 @@ export function useTasksDispatch() {
 function tasksReducer(tasks: Task[], action: TaskAction) {
   switch (action.type) {
     case "added_task":
-      return [...tasks, { id: uuidv4(), name: action.payload.taskName, materials: [], labors: [] }];
+      return [
+        ...tasks,
+        { id: uuidv4(), name: action.payload.taskName, materials: [], labors: [], additional: [] },
+      ];
 
     case "updated_task":
       return tasks.map((task) =>
@@ -173,6 +192,51 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
           ? {
               ...task,
               labors: task.labors.filter((labor) => labor.id !== action.payload.laborId),
+            }
+          : task
+      );
+
+    case "added_additional":
+      return tasks.map((task) =>
+        task.id === action.payload.taskId
+          ? {
+              ...task,
+              additional: [
+                ...task.additional,
+                {
+                  id: uuidv4(),
+                  name: "",
+                  price: 0,
+                },
+              ],
+            }
+          : task
+      );
+
+    case "updated_additional":
+      return tasks.map((task) =>
+        task.id === action.payload.taskId
+          ? {
+              ...task,
+              additional: task.additional.map((add) =>
+                add.id === action.payload.additionalId
+                  ? {
+                      ...add,
+                      name: action.payload.additionalName,
+                      cost: action.payload.additionalCost,
+                    }
+                  : add
+              ),
+            }
+          : task
+      );
+
+    case "removed_additional":
+      return tasks.map((task) =>
+        task.id === action.payload.taskId
+          ? {
+              ...task,
+              additional: task.additional.filter((add) => add.id !== action.payload.additionalId),
             }
           : task
       );
