@@ -65,18 +65,15 @@ function MaterialComponent({ taskId, material }: { taskId: number; material: Mat
   );
 
   // Remove material
-  const handleRemoveMaterial = useCallback(
-    (materialId: number) => {
-      dispatch({
-        type: "removed_material",
-        payload: {
-          taskId: taskId,
-          materialId: materialId,
-        },
-      });
-    },
-    [dispatch, taskId]
-  );
+  const handleRemoveMaterial = useCallback(() => {
+    dispatch({
+      type: "removed_material",
+      payload: {
+        taskId: taskId,
+        materialId: material.id,
+      },
+    });
+  }, [dispatch, material.id, taskId]);
 
   return (
     <div className="flex w-full items-center gap-4">
@@ -108,7 +105,7 @@ function MaterialComponent({ taskId, material }: { taskId: number; material: Mat
       {/* Delete Button */}
       <button
         className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
-        onClick={() => handleRemoveMaterial(material.id)}
+        onClick={handleRemoveMaterial}
       >
         <Trash2 />
       </button>
@@ -117,8 +114,6 @@ function MaterialComponent({ taskId, material }: { taskId: number; material: Mat
 }
 
 function MaterialList({ taskId, materials }: { taskId: number; materials: Material[] }) {
-  console.log(`${taskId}`);
-
   return (
     <div className="flex w-full items-center gap-4">
       <ul className="flex w-full flex-col gap-4">

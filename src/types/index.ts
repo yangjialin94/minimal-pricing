@@ -6,6 +6,7 @@ export interface Material {
 
 export interface Labor {
   id: number;
+  duration: string;
   cost: number;
 }
 

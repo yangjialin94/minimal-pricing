@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { ClipboardList, Plus, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 
+import Labors from "@/components/Labors";
 import Materials from "@/components/Materials";
 import { useTasks, useTasksDispatch } from "@/context/TasksContext";
 import { Task } from "@/types";
@@ -79,37 +80,14 @@ function TaskComponent({ task }: { task: Task }) {
   );
 
   // Remove task
-  const handleRemoveTask = useCallback(
-    (id: number) => {
-      dispatch({
-        type: "removed_task",
-        payload: {
-          taskId: id,
-        },
-      });
-    },
-    [dispatch]
-  );
-
-  // TODO: Add material
-
-  // Update material
-  // const handleUpdateMaterial = useCallback(
-  //   (taskId: number, materialId: number, materialName: string, materialPrice: number) => {
-  //     dispatch({
-  //       type: "updated_material",
-  //       payload: {
-  //         taskId: taskId,
-  //         materialId: materialId,
-  //         materialName: materialName,
-  //         materialPrice: materialPrice,
-  //       },
-  //     });
-  //   },
-  //   [dispatch]
-  // );
-
-  // TODO: Remove material
+  const handleRemoveTask = useCallback(() => {
+    dispatch({
+      type: "removed_task",
+      payload: {
+        taskId: task.id,
+      },
+    });
+  }, [dispatch, task.id]);
 
   return (
     <div key={task.id} className="mb-4 rounded-lg border p-4">
@@ -127,7 +105,7 @@ function TaskComponent({ task }: { task: Task }) {
         </label>
         <button
           className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
-          onClick={() => handleRemoveTask(task.id)}
+          onClick={handleRemoveTask}
         >
           <Trash2 />
         </button>
@@ -138,14 +116,10 @@ function TaskComponent({ task }: { task: Task }) {
       {/* Materials */}
       <Materials taskId={task.id} materials={task.materials} />
 
+      <hr className="my-4" />
+
       {/* Labors */}
-      {/* <h3 className="font-bold">Labors</h3>
-      <button onClick={() => addLabor(task.id)} className="mb-2 bg-red-500 px-2 py-1 text-white">
-        + Add Labor
-      </button>
-      {task.labors.map((labor) => (
-        <Labor taskId={material.id} laborId={material.id} onChange={handleOnChangeLabor} />
-      ))} */}
+      <Labors taskId={task.id} labors={task.labors} />
     </div>
   );
 }

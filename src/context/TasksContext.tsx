@@ -25,12 +25,13 @@ type TaskAction =
       };
     }
   | { type: "removed_material"; payload: { taskId: number; materialId: number } }
-  | { type: "added_labor"; payload: { taskId: string; laborCost: number } }
+  | { type: "added_labor"; payload: { taskId: string } }
   | {
       type: "updated_labor";
       payload: {
         taskId: number;
         laborId: number;
+        laborDuration: string;
         laborCost: number;
       };
     }
@@ -120,7 +121,6 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
       );
 
     case "removed_material":
-      console.log(`Task ID: ${action.payload.taskId}\nMaterial ID: ${action.payload.materialId}`);
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
@@ -141,7 +141,8 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 ...task.labors,
                 {
                   id: uuidv4(),
-                  cost: action.payload.laborCost,
+                  duration: "",
+                  cost: 0,
                 },
               ],
             }
@@ -157,6 +158,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 labor.id === action.payload.laborId
                   ? {
                       ...labor,
+                      duration: action.payload.laborDuration,
                       cost: action.payload.laborCost,
                     }
                   : labor
