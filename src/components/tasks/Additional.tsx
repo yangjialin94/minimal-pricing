@@ -56,14 +56,14 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
 
   // Update additional
   const handleUpdateAdditional = useCallback(
-    (updates: { name?: string; price?: number }) => {
+    (updates: { name?: string; cost?: number }) => {
       dispatch({
         type: "updated_additional",
         payload: {
           taskId: taskId,
           additionalId: additional.id,
           additionalName: updates.name ?? additional.name,
-          additionalPrice: updates.price ?? additional.price,
+          additionalCost: updates.cost ?? additional.cost,
         },
       });
     },
@@ -95,16 +95,16 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
         />
       </div>
 
-      {/* Additional Price Input */}
+      {/* Additional Cost Input */}
       <div className="flex flex-1 items-center gap-1">
         <DollarSign />
         <input
           className="w-full rounded-lg border p-2"
           type="number"
           min="0"
-          placeholder="Price"
-          value={additional.price ?? 0}
-          onChange={(e) => handleUpdateAdditional({ price: e.target.value })}
+          placeholder="Cost"
+          value={additional.cost ?? 0}
+          onChange={(e) => handleUpdateAdditional({ cost: e.target.value })}
         />
       </div>
 

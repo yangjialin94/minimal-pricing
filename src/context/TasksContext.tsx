@@ -67,7 +67,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 {
                   id: uuidv4(),
                   name: "",
-                  price: 0,
+                  cost: 0,
                 },
               ],
             }
@@ -84,7 +84,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                   ? {
                       ...material,
                       name: action.payload.materialName,
-                      price: Number(action.payload.materialPrice),
+                      cost: Number(action.payload.materialCost),
                     }
                   : material
               ),
@@ -114,7 +114,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 {
                   id: uuidv4(),
                   duration: "",
-                  price: 0,
+                  cost: 0,
                 },
               ],
             }
@@ -131,7 +131,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                   ? {
                       ...labor,
                       duration: action.payload.laborDuration,
-                      price: Number(action.payload.laborPrice),
+                      cost: Number(action.payload.laborCost),
                     }
                   : labor
               ),
@@ -159,7 +159,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 {
                   id: uuidv4(),
                   name: "",
-                  price: 0,
+                  cost: 0,
                 },
               ],
             }
@@ -176,7 +176,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                   ? {
                       ...add,
                       name: action.payload.additionalName,
-                      price: Number(action.payload.additionalPrice),
+                      cost: Number(action.payload.additionalCost),
                     }
                   : add
               ),

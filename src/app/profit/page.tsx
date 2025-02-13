@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 import { INITIAL_PROJECT, useProject, useProjectDispatch } from "@/context/ProjectContext";
-import { formatToDecimalPrice } from "@/lib/format";
+import { formatToDecimalCost } from "@/lib/format";
 import { Additional, Labor, Material, Task } from "@/types";
 
 interface TaskSummaryProps {
@@ -66,9 +66,9 @@ function TasksList() {
   const projectTotalCost = tasks.reduce(
     (total, task) =>
       total +
-      task.materials.reduce((sum, item) => sum + item.price, 0) +
-      task.labors.reduce((sum, item) => sum + item.price, 0) +
-      task.additional.reduce((sum, item) => sum + item.price, 0),
+      task.materials.reduce((sum, item) => sum + item.cost, 0) +
+      task.labors.reduce((sum, item) => sum + item.cost, 0) +
+      task.additional.reduce((sum, item) => sum + item.cost, 0),
     0
   );
   const costPercentage = 1 - project.profitPercentage / 100;
@@ -90,7 +90,7 @@ function TasksList() {
         {/* Profit Margin */}
         <ProfitMargin
           profitPercentage={project.profitPercentage}
-          projectTotalProfit={formatToDecimalPrice(projectTotalProfit, 2)}
+          projectTotalProfit={formatToDecimalCost(projectTotalProfit, 2)}
         />
       </div>
     </div>
@@ -98,11 +98,11 @@ function TasksList() {
 }
 
 function TaskSummary({ task, costPercentage }: TaskSummaryProps) {
-  // Calculate Task Total Price
-  const totalTaskPrice =
-    task.materials.reduce((sum, item) => sum + item.price, 0) +
-    task.labors.reduce((sum, item) => sum + item.price, 0) +
-    task.additional.reduce((sum, item) => sum + item.price, 0);
+  // Calculate Task Total Cost
+  const totalTaskCost =
+    task.materials.reduce((sum, item) => sum + item.cost, 0) +
+    task.labors.reduce((sum, item) => sum + item.cost, 0) +
+    task.additional.reduce((sum, item) => sum + item.cost, 0);
 
   return (
     <div key={task.id} className="mb-6 rounded-lg border bg-white p-4 shadow-md">
@@ -116,13 +116,13 @@ function TaskSummary({ task, costPercentage }: TaskSummaryProps) {
       <TaskSection title="Labors" items={task.labors} icon="⚒️" costPercentage={costPercentage} />
       <TaskSection title="Additional" items={task.additional} icon="🏡" />
 
-      {/* Total Price */}
+      {/* Total Cost */}
       <div className="mt-4 flex justify-between border-t pt-2 text-lg font-bold text-gray-900">
-        <p>Total Price:</p>
+        <p>Total Cost:</p>
         <div className="flex items-center gap-2">
-          <p>${formatToDecimalPrice(totalTaskPrice, 2)}</p>
+          <p>${formatToDecimalCost(totalTaskCost, 2)}</p>
           <p className="text-red-500">
-            (${formatToDecimalPrice(totalTaskPrice / costPercentage, 2)})
+            (${formatToDecimalCost(totalTaskCost / costPercentage, 2)})
           </p>
         </div>
       </div>
@@ -142,10 +142,10 @@ function TaskSection({ title, items, icon, costPercentage = 1 }: TaskSectionProp
                 {icon} {item.name}
               </p>
               <div className="flex items-center gap-2 font-medium">
-                <p>${formatToDecimalPrice(item.price, 2)}</p>
+                <p>${formatToDecimalCost(item.cost, 2)}</p>
                 {costPercentage !== 1 && (
                   <p className="text-red-500">
-                    (${formatToDecimalPrice(item.price / costPercentage, 2)})
+                    (${formatToDecimalCost(item.cost / costPercentage, 2)})
                   </p>
                 )}
               </div>
@@ -160,10 +160,10 @@ function TaskSection({ title, items, icon, costPercentage = 1 }: TaskSectionProp
 function OverallTotal({ projectTotalCost, projectTotalAsked }: OverallTotalProps) {
   return (
     <div className="flex justify-between border-gray-300 pt-4 text-xl font-bold text-gray-900">
-      <p>Total Price:</p>
+      <p>Total Cost:</p>
       <div className="flex items-center gap-2">
-        <p>${formatToDecimalPrice(projectTotalCost, 2)}</p>
-        <p className="text-red-500">(${formatToDecimalPrice(projectTotalAsked, 2)})</p>
+        <p>${formatToDecimalCost(projectTotalCost, 2)}</p>
+        <p className="text-red-500">(${formatToDecimalCost(projectTotalAsked, 2)})</p>
       </div>
     </div>
   );

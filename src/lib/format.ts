@@ -8,7 +8,7 @@ export function formatToDecimal(num: number | string, decimal: number = 2): numb
   return Number(parsedNum.toFixed(decimal));
 }
 
-export function formatToDecimalPrice(num: number | string, decimal: number = 2): string {
+export function formatToDecimalCost(num: number | string, decimal: number = 2): string {
   return formatToDecimal(num, decimal).toLocaleString(undefined, {
     minimumFractionDigits: decimal,
     maximumFractionDigits: decimal,

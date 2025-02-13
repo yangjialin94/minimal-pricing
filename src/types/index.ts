@@ -1,19 +1,19 @@
 export type Material = {
   id: number;
   name: string;
-  price: number;
+  cost: number;
 };
 
 export type Labor = {
   id: number;
   duration: string;
-  price: number;
+  cost: number;
 };
 
 export type Additional = {
   id: number;
   name: string;
-  price: number;
+  cost: number;
 };
 
 export type Task = {
@@ -22,7 +22,7 @@ export type Task = {
   materials: Material[];
   labors: Labor[];
   additional: Additional[];
-  totalPrice: number;
+  totalCost: number;
 };
 
 export type Project = {
@@ -48,7 +48,7 @@ export type TaskAction =
         taskId: number;
         materialId: number;
         materialName: string;
-        materialPrice: number;
+        materialCost: number;
       };
     }
   | { type: "removed_material"; payload: { taskId: number; materialId: number } }
@@ -59,7 +59,7 @@ export type TaskAction =
         taskId: number;
         laborId: number;
         laborDuration: string;
-        laborPrice: number;
+        laborCost: number;
       };
     }
   | { type: "removed_labor"; payload: { taskId: number; laborId: number } }
@@ -75,7 +75,7 @@ export type TaskAction =
         taskId: number;
         additionalId: number;
         additionalName: string;
-        additionalPrice: number;
+        additionalCost: number;
       };
     }
   | { type: "removed_additional"; payload: { taskId: number; additionalId: number } };

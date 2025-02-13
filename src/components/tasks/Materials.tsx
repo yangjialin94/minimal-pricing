@@ -56,14 +56,14 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
 
   // Update material
   const handleUpdateMaterial = useCallback(
-    (updates: { name?: string; price?: number }) => {
+    (updates: { name?: string; cost?: number }) => {
       dispatch({
         type: "updated_material",
         payload: {
           taskId: taskId,
           materialId: material.id,
           materialName: updates.name ?? material.name,
-          materialPrice: updates.price ?? material.price,
+          materialCost: updates.cost ?? material.cost,
         },
       });
     },
@@ -95,16 +95,16 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
         />
       </div>
 
-      {/* Material Price Input */}
+      {/* Material Cost Input */}
       <div className="flex flex-1 items-center gap-1">
         <DollarSign />
         <input
           className="w-full rounded-lg border p-2"
           type="number"
           min="0"
-          placeholder="Price"
-          value={material.price ?? 0}
-          onChange={(e) => handleUpdateMaterial({ price: e.target.value })}
+          placeholder="Cost"
+          value={material.cost ?? 0}
+          onChange={(e) => handleUpdateMaterial({ cost: e.target.value })}
         />
       </div>
 
