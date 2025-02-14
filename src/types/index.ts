@@ -1,35 +1,60 @@
 export type Material = {
-  id: number;
+  id: string;
   name: string;
-  cost: number;
+  // unit: string;
+  // quantity: number;
+  // unitCost: number;
+  cost: number; // quantity * unitCost
 };
 
 export type Labor = {
-  id: number;
-  duration: string;
-  cost: number;
+  id: string;
+  // role: string;
+  duration: string; // => unit
+  // quantity: number;
+  // unitCost: number;
+  cost: number; // quantity * unitCost
 };
 
 export type Additional = {
-  id: number;
-  name: string;
+  id: string;
+  name: string; // => type
   cost: number;
 };
 
 export type Task = {
-  id: number;
+  id: string;
   name: string;
   materials: Material[];
   labors: Labor[];
   additional: Additional[];
   totalCost: number;
+  // profitMargin: numbers; // decimals
+  // totalPrice: numbers; // totalCost / (1 - profitMargin)
 };
 
+// export type User = {
+//   id: string;
+//   name: string;
+//   phone: string;
+//   email: string;
+// };
+
+// export type Customer = {
+//   id: string;
+//   name: string;
+//   address: string;
+//   phone: string;
+//   email: string;
+// };
+
 export type Project = {
-  id: number;
+  id: string;
   name: string;
   tasks: Task[];
-  marginPercentage: number;
+  // totalCost: numbers;
+  marginPercentage: number; // => profitMargin: decimals
+  // totalPrice: number; // totalCost / (1 - profitMargin)
 };
 
 export type TaskAction =
