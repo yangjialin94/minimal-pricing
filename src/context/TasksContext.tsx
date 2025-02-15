@@ -19,6 +19,7 @@ export function TasksProvider({ children }: { children: ReactNode }) {
 
   const [tasks, dispatch] = useReducer(tasksReducer, project.tasks);
 
+  // Update project level when detect tasks level changes
   useEffect(() => {
     projectDispatch({ type: "updated_tasks", payload: { tasks } });
   }, [projectDispatch, tasks]);
@@ -43,21 +44,33 @@ export function useTasksDispatch() {
 // Reducer function
 function tasksReducer(tasks: Task[], action: TaskAction) {
   switch (action.type) {
-    case "added_task":
+    case "added_task": {
       return [
         ...tasks,
-        { id: uuidv4(), name: action.payload.taskName, materials: [], labors: [], additional: [] },
+        {
+          id: uuidv4(),
+          name: action.payload.taskName,
+          materials: [],
+          labors: [],
+          additional: [],
+          totalCost: 0,
+          profitMargin: 0.0,
+          totalPrice: 0,
+        },
       ];
+    }
 
-    case "updated_task":
+    case "updated_task": {
       return tasks.map((task) =>
         task.id === action.payload.taskId ? { ...task, name: action.payload.taskName } : task
       );
+    }
 
-    case "removed_task":
+    case "removed_task": {
       return tasks.filter((task) => task.id !== action.payload.taskId);
+    }
 
-    case "added_material":
+    case "added_material": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
@@ -67,14 +80,18 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 {
                   id: uuidv4(),
                   name: "",
+                  unit: "",
+                  quantity: 1,
+                  materialUnitCost: 0,
                   cost: 0,
                 },
               ],
             }
           : task
       );
+    }
 
-    case "updated_material":
+    case "updated_material": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
@@ -84,15 +101,26 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                   ? {
                       ...material,
                       name: action.payload.materialName,
-                      cost: Number(action.payload.materialCost),
+                      unit: action.payload.materialUnit,
+                      quantity: Number(action.payload.materialQuantity),
+                      unitCost: Number(action.payload.materialUnitCost),
+                      cost:
+                        Number(action.payload.materialQuantity) *
+                        Number(action.payload.materialUnitCost),
                     }
                   : material
               ),
+              totalCost:
+                task.totalCost -
+                (task.materials.find((material) => material.id === action.payload.materialId)
+                  ?.cost || 0) +
+                Number(action.payload.materialQuantity) * Number(action.payload.materialUnitCost),
             }
           : task
       );
+    }
 
-    case "removed_material":
+    case "removed_material": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
@@ -100,11 +128,16 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
               materials: task.materials.filter(
                 (material) => material.id !== action.payload.materialId
               ),
+              totalCost:
+                task.totalCost -
+                (task.materials.find((material) => material.id === action.payload.materialId)
+                  ?.cost || 0),
             }
           : task
       );
+    }
 
-    case "added_labor":
+    case "added_labor": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
@@ -113,15 +146,19 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 ...task.labors,
                 {
                   id: uuidv4(),
-                  duration: "",
+                  role: "",
+                  unit: "",
+                  quantity: 1,
+                  unitCost: "",
                   cost: 0,
                 },
               ],
             }
           : task
       );
+    }
 
-    case "updated_labor":
+    case "updated_labor": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
@@ -130,26 +167,39 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 labor.id === action.payload.laborId
                   ? {
                       ...labor,
-                      duration: action.payload.laborDuration,
-                      cost: Number(action.payload.laborCost),
+                      role: action.payload.laborRole,
+                      unit: action.payload.laborUnit,
+                      quantity: Number(action.payload.laborQuantity),
+                      unitCost: Number(action.payload.laborUnitCost),
+                      cost:
+                        Number(action.payload.laborQuantity) * Number(action.payload.laborUnitCost),
                     }
                   : labor
               ),
+              totalCost:
+                task.totalCost -
+                (task.labors.find((labor) => labor.id === action.payload.laborId)?.cost || 0) +
+                Number(action.payload.laborQuantity) * Number(action.payload.laborUnitCost),
             }
           : task
       );
+    }
 
-    case "removed_labor":
+    case "removed_labor": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
               ...task,
               labors: task.labors.filter((labor) => labor.id !== action.payload.laborId),
+              totalCost:
+                task.totalCost -
+                (task.labors.find((labor) => labor.id === action.payload.laborId)?.cost || 0),
             }
           : task
       );
+    }
 
-    case "added_additional":
+    case "added_additional": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
@@ -158,41 +208,54 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                 ...task.additional,
                 {
                   id: uuidv4(),
-                  name: "",
+                  type: "",
                   cost: 0,
                 },
               ],
             }
           : task
       );
+    }
 
-    case "updated_additional":
+    case "updated_additional": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
-          ? {
-              ...task,
-              additional: task.additional.map((add) =>
-                add.id === action.payload.additionalId
-                  ? {
-                      ...add,
-                      name: action.payload.additionalName,
-                      cost: Number(action.payload.additionalCost),
-                    }
-                  : add
-              ),
-            }
+          ? (() => {
+              return {
+                ...task,
+                additional: task.additional.map((add) =>
+                  add.id === action.payload.additionalId
+                    ? {
+                        ...add,
+                        type: action.payload.additionalType,
+                        cost: Number(action.payload.additionalCost),
+                      }
+                    : add
+                ),
+                totalCost:
+                  task.totalCost -
+                  (task.additional.find((add) => add.id === action.payload.additionalId)?.cost ||
+                    0) +
+                  Number(action.payload.additionalCost),
+              };
+            })()
           : task
       );
+    }
 
-    case "removed_additional":
+    case "removed_additional": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
           ? {
               ...task,
               additional: task.additional.filter((add) => add.id !== action.payload.additionalId),
+              totalCost:
+                task.totalCost -
+                (task.additional.find((add) => add.id === action.payload.additionalId)?.cost || 0),
             }
           : task
       );
+    }
 
     default:
       return tasks;

@@ -4,8 +4,9 @@ import { ArrowBigLeftDash, ArrowBigRightDash } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-import { INITIAL_PROJECT, useProject, useProjectDispatch } from "@/context/ProjectContext";
+import { useProject, useProjectDispatch } from "@/context/ProjectContext";
 import { formatToDecimalCost } from "@/lib/format";
+import { INITIAL_PROJECT } from "@/tests/test";
 import { Additional, Labor, Material, Task } from "@/types";
 
 interface TaskSummaryProps {
@@ -71,7 +72,7 @@ function TasksList() {
       task.additional.reduce((sum, item) => sum + item.cost, 0),
     0
   );
-  const costPercentage = 1 - project.profitPercentage / 100;
+  const costPercentage = 1 - project.profitMargin;
   const projectTotalAsked = projectTotalCost / costPercentage;
   const projectTotalProfit = projectTotalAsked - projectTotalCost;
 

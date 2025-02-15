@@ -9,12 +9,13 @@ import Additional from "@/components/tasks/Additional";
 import Labors from "@/components/tasks/Labors";
 import Materials from "@/components/tasks/Materials";
 import { useTasks, useTasksDispatch } from "@/context/TasksContext";
+import { formatToDecimalCost } from "@/lib/format";
 import { Task } from "@/types";
 
 export default function Tasks() {
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center">
-      <h1 className="mb-12 text-center text-2xl font-bold">Pricing Calculator</h1>
+    <div className="mx-auto flex max-w-4xl flex-col items-center">
+      <h1 className="mb-12 text-center text-2xl font-bold">Cost Overview</h1>
       <TaskList />
       <AddTask />
       {/* Next Page Button */}
@@ -81,7 +82,7 @@ function TaskComponent({ task }: { task: Task }) {
       {/* Task */}
       <div className="flex w-full items-center gap-4">
         <label className="flex flex-1 items-center gap-4 text-xl">
-          <ClipboardList />
+          <ClipboardList className="h-6 w-6" size={24} />
           <input
             className="w-full rounded-lg border p-2"
             type="text"
@@ -94,7 +95,7 @@ function TaskComponent({ task }: { task: Task }) {
           className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
           onClick={handleRemoveTask}
         >
-          <Trash2 />
+          <Trash2 className="h-6 w-6" size={24} color="red" />
         </button>
       </div>
 
@@ -112,6 +113,14 @@ function TaskComponent({ task }: { task: Task }) {
 
       {/* Additional */}
       <Additional taskId={task.id} additional={task.additional} />
+
+      <hr className="my-4" />
+
+      {/* Task Cost */}
+      <div className="flex w-full justify-end gap-2 text-lg font-bold">
+        <p className="">Total:</p>
+        <p>${formatToDecimalCost(task.totalCost, 2)}</p>
+      </div>
     </div>
   );
 }
@@ -160,7 +169,7 @@ function AddTask() {
         className="flex items-center gap-2 rounded-full border-2 border-blue-500 bg-blue-500 px-4 py-2 text-xl text-white hover:bg-blue-400"
         onClick={handleAddTask}
       >
-        <Plus />
+        <Plus className="h-5 w-5" size={24} />
         Task
       </button>
     </div>

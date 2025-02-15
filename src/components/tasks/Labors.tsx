@@ -1,8 +1,9 @@
 import clsx from "clsx";
-import { DollarSign, Pickaxe, Plus, Trash2 } from "lucide-react";
+import { DollarSign, Hash, Pickaxe, Plus, Ruler, Trash2 } from "lucide-react";
 import { useCallback } from "react";
 
 import { useTasksDispatch } from "@/context/TasksContext";
+import { formatToDecimalCost } from "@/lib/format";
 import { Labor } from "@/types";
 
 interface LaborsProps {
@@ -56,14 +57,16 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
 
   // Update labor
   const handleUpdateLabor = useCallback(
-    (updates: { duration?: string; cost?: number }) => {
+    (updates: { role?: string; unit?: string; quantity?: number; unitCost?: number }) => {
       dispatch({
         type: "updated_labor",
         payload: {
           taskId: taskId,
           laborId: labor.id,
-          laborDuration: updates.duration ?? labor.duration,
-          laborCost: updates.cost ?? labor.cost,
+          laborRole: updates.role ?? labor.role,
+          laborUnit: updates.unit ?? labor.unit,
+          laborQuantity: updates.quantity ?? labor.quantity,
+          laborUnitCost: updates.unitCost ?? labor.unitCost,
         },
       });
     },
@@ -85,35 +88,67 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
     <div className="flex w-full items-center gap-4">
       {/* Labor Duration Input */}
       <div className="flex flex-1 items-center gap-2">
-        <Pickaxe />
+        <Pickaxe className="h-5 w-5" size={24} />
         <input
           className="w-full rounded-lg border p-2"
           type="text"
-          placeholder="Duration"
-          value={labor.duration ?? ""}
-          onChange={(e) => handleUpdateLabor({ duration: e.target.value })}
+          placeholder="Role"
+          value={labor.role ?? ""}
+          onChange={(e) => handleUpdateLabor({ role: e.target.value })}
         />
       </div>
 
-      {/* Labor Cost Input */}
-      <div className="flex flex-1 items-center gap-1">
-        <DollarSign />
+      {/* Labor Unit Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <Ruler className="h-5 w-5" size={24} />
+        <input
+          className="w-full rounded-lg border p-2"
+          type="text"
+          placeholder="Unit"
+          value={labor.unit ?? ""}
+          onChange={(e) => handleUpdateLabor({ unit: e.target.value })}
+        />
+      </div>
+
+      {/* Labor Quantity Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <Hash className="h-5 w-5" size={24} />
         <input
           className="w-full rounded-lg border p-2"
           type="number"
           min="0"
-          placeholder="Cost"
-          value={labor.cost ?? 0}
-          onChange={(e) => handleUpdateLabor({ cost: e.target.value })}
+          placeholder="Quantity"
+          value={labor.quantity ?? ""}
+          onChange={(e) => handleUpdateLabor({ quantity: e.target.value })}
         />
       </div>
+
+      <p>x</p>
+
+      {/* Labor Unit Cost Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <DollarSign className="h-5 w-5" size={24} />
+        <input
+          className="w-full rounded-lg border p-2"
+          type="number"
+          min="0"
+          placeholder="Unit Cost"
+          value={labor.unitCost ?? 0}
+          onChange={(e) => handleUpdateLabor({ unitCost: e.target.value })}
+        />
+      </div>
+
+      <p>=</p>
+
+      {/* Labor Cost */}
+      <p className="font-semibold text-blue-600">${formatToDecimalCost(labor.cost, 2)}</p>
 
       {/* Delete Button */}
       <button
         className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
         onClick={handleRemoveLabor}
       >
-        <Trash2 />
+        <Trash2 className="h-5 w-5" size={24} color="red" />
       </button>
     </div>
   );
@@ -144,14 +179,14 @@ function AddLabor({ taskId, hasLabor }: AddLaborProps) {
           className="rounded-full border-2 border-green-500 bg-green-500 p-2 text-xl text-white hover:bg-green-400"
           onClick={handleAddLabor}
         >
-          <Plus />
+          <Plus className="h-5 w-5" size={24} />
         </button>
       ) : (
         <button
           className="flex items-center gap-2 rounded-full border-2 border-green-500 bg-green-500 px-4 py-2 text-xl text-white hover:bg-green-400"
           onClick={handleAddLabor}
         >
-          <Plus />
+          <Plus className="h-5 w-5" size={24} />
           Labor
         </button>
       )}

@@ -1,24 +1,24 @@
 export type Material = {
   id: string;
   name: string;
-  // unit: string;
-  // quantity: number;
-  // unitCost: number;
+  unit: string;
+  quantity: number;
+  unitCost: number;
   cost: number; // quantity * unitCost
 };
 
 export type Labor = {
   id: string;
-  // role: string;
-  duration: string; // => unit
-  // quantity: number;
-  // unitCost: number;
+  role: string;
+  unit: string;
+  quantity: number;
+  unitCost: number;
   cost: number; // quantity * unitCost
 };
 
 export type Additional = {
   id: string;
-  name: string; // => type
+  type: string;
   cost: number;
 };
 
@@ -29,32 +29,34 @@ export type Task = {
   labors: Labor[];
   additional: Additional[];
   totalCost: number;
-  // profitMargin: numbers; // decimals
-  // totalPrice: numbers; // totalCost / (1 - profitMargin)
+  profitMargin: numbers;
+  totalPrice: numbers; // totalCost / (1 - profitMargin)
 };
 
-// export type User = {
-//   id: string;
-//   name: string;
-//   phone: string;
-//   email: string;
-// };
+export type User = {
+  id: string;
+  name: string;
+  phone: string;
+  email: string;
+};
 
-// export type Customer = {
-//   id: string;
-//   name: string;
-//   address: string;
-//   phone: string;
-//   email: string;
-// };
+export type Customer = {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+};
 
 export type Project = {
   id: string;
   name: string;
   tasks: Task[];
-  // totalCost: numbers;
-  marginPercentage: number; // => profitMargin: decimals
-  // totalPrice: number; // totalCost / (1 - profitMargin)
+  totalCost: numbers;
+  profitMargin: number; // decimals
+  totalPrice: number; // totalCost / (1 - profitMargin)
+  user: User;
+  customer: Customer;
 };
 
 export type TaskAction =
@@ -73,7 +75,9 @@ export type TaskAction =
         taskId: number;
         materialId: number;
         materialName: string;
-        materialCost: number;
+        materialUnit: string;
+        materialQuantity: number;
+        materialUnitCost: number;
       };
     }
   | { type: "removed_material"; payload: { taskId: number; materialId: number } }
@@ -83,8 +87,10 @@ export type TaskAction =
       payload: {
         taskId: number;
         laborId: number;
-        laborDuration: string;
-        laborCost: number;
+        laborType: string;
+        laborUnit: string;
+        laborQuantity: number;
+        laborUnitCost: number;
       };
     }
   | { type: "removed_labor"; payload: { taskId: number; laborId: number } }
@@ -99,7 +105,7 @@ export type TaskAction =
       payload: {
         taskId: number;
         additionalId: number;
-        additionalName: string;
+        additionalType: string;
         additionalCost: number;
       };
     }

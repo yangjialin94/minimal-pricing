@@ -5,6 +5,7 @@
 - [ ] Add input validations for all numbers ($, %, etc.).
 - [ ] Figure out a good UI for all screen sizes.
 - [ ] Create a home/intro screen for the product.
+- [ ] Add custom Icon component.
 
 ## Updated data structure for the future
 

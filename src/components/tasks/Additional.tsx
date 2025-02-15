@@ -3,6 +3,7 @@ import { DollarSign, HousePlus, Plus, Trash2 } from "lucide-react";
 import { useCallback } from "react";
 
 import { useTasksDispatch } from "@/context/TasksContext";
+import { formatToDecimalCost } from "@/lib/format";
 import { Additional as AdditionalType } from "@/types";
 
 interface AdditionalProps {
@@ -56,13 +57,13 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
 
   // Update additional
   const handleUpdateAdditional = useCallback(
-    (updates: { name?: string; cost?: number }) => {
+    (updates: { type?: string; cost?: number }) => {
       dispatch({
         type: "updated_additional",
         payload: {
           taskId: taskId,
           additionalId: additional.id,
-          additionalName: updates.name ?? additional.name,
+          additionalType: updates.type ?? additional.type,
           additionalCost: updates.cost ?? additional.cost,
         },
       });
@@ -83,21 +84,21 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
 
   return (
     <div className="flex w-full items-center gap-4">
-      {/* Additional Name Input */}
+      {/* Additional Type Input */}
       <div className="flex flex-1 items-center gap-2">
-        <HousePlus />
+        <HousePlus className="h-5 w-5" size={24} />
         <input
           className="w-full rounded-lg border p-2"
           type="text"
-          placeholder="Name"
-          value={additional.name ?? ""}
-          onChange={(e) => handleUpdateAdditional({ name: e.target.value })}
+          placeholder="Type"
+          value={additional.type ?? ""}
+          onChange={(e) => handleUpdateAdditional({ type: e.target.value })}
         />
       </div>
 
       {/* Additional Cost Input */}
       <div className="flex flex-1 items-center gap-1">
-        <DollarSign />
+        <DollarSign className="h-5 w-5" size={24} />
         <input
           className="w-full rounded-lg border p-2"
           type="number"
@@ -108,12 +109,17 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
         />
       </div>
 
+      <p>=</p>
+
+      {/* Additional Cost */}
+      <p className="font-semibold text-blue-600">${formatToDecimalCost(additional.cost, 2)}</p>
+
       {/* Delete Button */}
       <button
         className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
         onClick={handleRemoveAdditional}
       >
-        <Trash2 />
+        <Trash2 className="h-5 w-5" size={24} color="red" />
       </button>
     </div>
   );
@@ -144,14 +150,14 @@ function AddAdditional({ taskId, hasAdditional }: AddAdditionalProps) {
           className="rounded-full border-2 border-slate-500 bg-slate-500 p-2 text-xl text-white hover:bg-slate-400"
           onClick={handleAddAdditional}
         >
-          <Plus />
+          <Plus className="h-5 w-5" size={24} />
         </button>
       ) : (
         <button
           className="flex items-center gap-2 rounded-full border-2 border-slate-500 bg-slate-500 px-4 py-2 text-xl text-white hover:bg-slate-400"
           onClick={handleAddAdditional}
         >
-          <Plus />
+          <Plus className="h-5 w-5" size={24} />
           Additional
         </button>
       )}

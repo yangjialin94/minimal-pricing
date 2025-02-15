@@ -1,8 +1,9 @@
 import clsx from "clsx";
-import { DollarSign, Package, Plus, Trash2 } from "lucide-react";
+import { DollarSign, Hash, Package, Plus, Ruler, Trash2 } from "lucide-react";
 import { useCallback } from "react";
 
 import { useTasksDispatch } from "@/context/TasksContext";
+import { formatToDecimalCost } from "@/lib/format";
 import { Material } from "@/types";
 
 interface MaterialsProps {
@@ -56,14 +57,16 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
 
   // Update material
   const handleUpdateMaterial = useCallback(
-    (updates: { name?: string; cost?: number }) => {
+    (updates: { name?: string; unit?: string; quantity?: number; unitCost?: number }) => {
       dispatch({
         type: "updated_material",
         payload: {
           taskId: taskId,
           materialId: material.id,
           materialName: updates.name ?? material.name,
-          materialCost: updates.cost ?? material.cost,
+          materialUnit: updates.unit ?? material.unit,
+          materialQuantity: updates.quantity ?? material.quantity,
+          materialUnitCost: updates.unitCost ?? material.unitCost,
         },
       });
     },
@@ -85,7 +88,7 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
     <div className="flex w-full items-center gap-4">
       {/* Material Name Input */}
       <div className="flex flex-1 items-center gap-2">
-        <Package />
+        <Package className="h-5 w-5" size={24} />
         <input
           className="w-full rounded-lg border p-2"
           type="text"
@@ -95,25 +98,57 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
         />
       </div>
 
-      {/* Material Cost Input */}
-      <div className="flex flex-1 items-center gap-1">
-        <DollarSign />
+      {/* Material Unit Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <Ruler className="h-5 w-5" size={24} />
+        <input
+          className="w-full rounded-lg border p-2"
+          type="text"
+          placeholder="Unit"
+          value={material.unit ?? ""}
+          onChange={(e) => handleUpdateMaterial({ unit: e.target.value })}
+        />
+      </div>
+
+      {/* Material Quantity Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <Hash className="h-5 w-5" size={24} />
         <input
           className="w-full rounded-lg border p-2"
           type="number"
           min="0"
-          placeholder="Cost"
-          value={material.cost ?? 0}
-          onChange={(e) => handleUpdateMaterial({ cost: e.target.value })}
+          placeholder="Quantity"
+          value={material.quantity ?? ""}
+          onChange={(e) => handleUpdateMaterial({ quantity: e.target.value })}
         />
       </div>
+
+      <p>x</p>
+
+      {/* Material Unit Cost Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <DollarSign className="h-5 w-5" size={24} />
+        <input
+          className="w-full rounded-lg border p-2"
+          type="number"
+          min="0"
+          placeholder="Unit Cost"
+          value={material.unitCost ?? 0}
+          onChange={(e) => handleUpdateMaterial({ unitCost: e.target.value })}
+        />
+      </div>
+
+      <p>=</p>
+
+      {/* Material Cost */}
+      <p className="font-semibold text-blue-600">${formatToDecimalCost(material.cost, 2)}</p>
 
       {/* Delete Button */}
       <button
         className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
         onClick={handleRemoveMaterial}
       >
-        <Trash2 />
+        <Trash2 className="h-5 w-5" size={24} color="red" />
       </button>
     </div>
   );
@@ -144,14 +179,14 @@ function AddMaterial({ taskId, hasMaterial }: AddMaterialProps) {
           className="rounded-full border-2 border-yellow-500 bg-yellow-500 p-2 text-xl text-white hover:bg-yellow-400"
           onClick={handleAddMaterial}
         >
-          <Plus />
+          <Plus className="h-5 w-5" size={24} />
         </button>
       ) : (
         <button
           className="flex items-center gap-2 rounded-full border-2 border-yellow-500 bg-yellow-500 px-4 py-2 text-xl text-white hover:bg-yellow-400"
           onClick={handleAddMaterial}
         >
-          <Plus />
+          <Plus className="h-5 w-5" size={24} />
           Material
         </button>
       )}
