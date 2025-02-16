@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
+import { useDebounce } from "@/hooks/useDebouce";
 import { useProjectDispatch } from "@/hooks/useProjectDispatch";
 
 interface ProfitCalculatorProps {
@@ -10,31 +11,28 @@ interface ProfitCalculatorProps {
 
 export default function ProfitCalculator({ profitMargin, totalProfit }: ProfitCalculatorProps) {
   const dispatch = useProjectDispatch();
-
-  // Use local state so that the input value is independent of the prop.
   const [localTotalProfit, setLocalTotalProfit] = useState(totalProfit.toString());
 
-  // Sync local state when the prop changes.
+  // Sync local state
   useEffect(() => {
     setLocalTotalProfit(totalProfit.toString());
   }, [totalProfit]);
 
-  // Automatically dispatch update 500ms after the user stops typing.
+  // Update data changes on delay
+  const debouncedTotalProfit = useDebounce(localTotalProfit, 500);
+
   useEffect(() => {
-    const timer = setTimeout(() => {
-      const profit = parseFloat(localTotalProfit);
-      if (!isNaN(profit)) {
-        dispatch({
-          type: "updated_total_profit",
-          payload: { totalProfit: parseFloat(profit.toFixed(2)) },
-        });
-      }
-    }, 500);
+    const profit = parseFloat(debouncedTotalProfit);
 
-    return () => clearTimeout(timer);
-  }, [localTotalProfit, dispatch]);
+    if (!isNaN(profit)) {
+      dispatch({
+        type: "updated_total_profit",
+        payload: { totalProfit: parseFloat(profit.toFixed(2)) },
+      });
+    }
+  }, [debouncedTotalProfit, dispatch]);
 
-  // Update local state as the user types.
+  // Immediately update local state
   const handleValueChange = (values: { value: string }) => {
     setLocalTotalProfit(values.value);
   };
@@ -43,7 +41,7 @@ export default function ProfitCalculator({ profitMargin, totalProfit }: ProfitCa
     <div className="flex items-center gap-4">
       {/* Dollar Amount Input */}
       <NumericFormat
-        className="w-40 rounded-full border-2 border-slate-300 px-4 text-lg placeholder:text-lg placeholder:font-normal focus:placeholder-transparent"
+        className="w-40 rounded-lg border border-slate-300 px-4 text-lg placeholder:text-lg placeholder:font-normal focus:placeholder-transparent"
         placeholder="Total profit in $"
         value={localTotalProfit}
         decimalScale={2}
