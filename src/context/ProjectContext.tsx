@@ -57,20 +57,29 @@ function projectReducer(project: Project, action: ProjectAction) {
     }
 
     case "updated_total_profit": {
-      const totalPrice = Number(project.totalCost) + Number(action.payload.totalProfit);
-      const profitMargin = (1 - Number(project.totalCost) / totalPrice) * 100;
+      const newTotalPrice = project.totalCost + action.payload.totalProfit;
+      const newProfitMargin = ((newTotalPrice - project.totalCost) / newTotalPrice) * 100;
 
       return {
         ...project,
-        profitMargin: profitMargin,
-        totalPrice: totalPrice,
+        profitMargin: newProfitMargin,
+        totalPrice: newTotalPrice,
         totalProfit: action.payload.totalProfit,
       };
     }
 
     case "updated_tasks": {
       const newTotalCost = calculateTotalCost(action.payload.tasks);
-      return { ...project, tasks: action.payload.tasks, totalCost: newTotalCost };
+      const newTotalPrice = newTotalCost + project.totalProfit;
+      const newProfitMargin = ((newTotalPrice - newTotalCost) / newTotalPrice) * 100;
+
+      return {
+        ...project,
+        tasks: action.payload.tasks,
+        totalCost: newTotalCost,
+        totalPrice: newTotalPrice,
+        profitMargin: newProfitMargin,
+      };
     }
 
     default: {
