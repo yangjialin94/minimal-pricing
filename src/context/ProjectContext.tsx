@@ -1,54 +1,50 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useEffect, useReducer } from "react";
+import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
 
-import { INITIAL_PROJECT } from "@/tests/test";
 import { Project, ProjectAction } from "@/types";
+
+interface ProjectProviderProps {
+  initialProjectData: Project;
+  children: ReactNode;
+}
 
 // Create Contexts
 export const ProjectContext = createContext<Project[] | null>(null);
 export const ProjectDispatchContext = createContext<React.Dispatch<TaskAction> | null>(null);
 
 // Create Provider
-export function ProjectProvider({ children }: { children: ReactNode }) {
-  // Load from sessionStorage
-  const getSessionData = () => {
-    if (typeof window !== "undefined") {
-      const storedTasks = sessionStorage.getItem("project");
-      return storedTasks ? JSON.parse(storedTasks) : INITIAL_PROJECT;
-    }
-    return INITIAL_PROJECT;
-  };
-
-  const [project, dispatch] = useReducer(projectReducer, INITIAL_PROJECT, getSessionData);
+export function ProjectProvider({ initialProjectData, children }: ProjectProviderProps) {
+  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    sessionStorage.setItem("project", JSON.stringify(project));
-  }, [project]);
+    setIsClient(true);
+  }, []);
+
+  // Get initial project data
+  const getInitialData = () => {
+    if (typeof window !== "undefined") {
+      const storedProject = sessionStorage.getItem("project");
+      return storedProject ? JSON.parse(storedProject) : initialProjectData;
+    }
+    return initialProjectData;
+  };
+
+  const [project, dispatch] = useReducer(projectReducer, initialProjectData, getInitialData);
+
+  useEffect(() => {
+    if (isClient) {
+      sessionStorage.setItem("project", JSON.stringify(project));
+    }
+  }, [project, isClient]);
+
+  if (!isClient) return null; // Avoid hydration mismatch
 
   return (
     <ProjectContext.Provider value={project}>
       <ProjectDispatchContext.Provider value={dispatch}>{children}</ProjectDispatchContext.Provider>
     </ProjectContext.Provider>
   );
-}
-
-// Custom Hook - Read project
-export function useProject() {
-  const context = useContext(ProjectContext);
-  if (!context) {
-    throw new Error("useProject must be used within a ProjectProvider");
-  }
-  return context;
-}
-
-// Custom Hook - Dispatch project
-export function useProjectDispatch() {
-  const context = useContext(ProjectDispatchContext);
-  if (!context) {
-    throw new Error("useProjectDispatch must be used within a ProjectProvider");
-  }
-  return context;
 }
 
 // Reducer function
@@ -58,8 +54,17 @@ function projectReducer(project: Project, action: ProjectAction) {
       console.log("updated_project_name");
       return { ...project, name: action.payload.projectName };
 
-    case "updated_profit":
-      return { ...project, profitPercentage: action.payload.profitPercentage };
+    case "updated_total_profit": {
+      const totalPrice = Number(project.totalCost) + Number(action.payload.totalProfit);
+      const profitMargin = (1 - Number(project.totalCost) / totalPrice) * 100;
+
+      return {
+        ...project,
+        profitMargin: profitMargin,
+        totalPrice: totalPrice,
+        totalProfit: action.payload.totalProfit,
+      };
+    }
 
     case "updated_tasks":
       return { ...project, tasks: action.payload.tasks };

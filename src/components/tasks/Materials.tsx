@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { DollarSign, Hash, Package, Plus, Ruler, Trash2 } from "lucide-react";
+import { DollarSign, Package, Plus, Trash2 } from "lucide-react";
 import { useCallback } from "react";
 
-import { useTasksDispatch } from "@/context/TasksContext";
+import { useTasksDispatch } from "@/hooks/useTasksDispatch";
 import { formatToDecimalCost } from "@/lib/format";
 import { Material } from "@/types";
 
@@ -98,33 +98,6 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
         />
       </div>
 
-      {/* Material Unit Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <Ruler className="h-5 w-5" size={24} />
-        <input
-          className="w-full rounded-lg border p-2"
-          type="text"
-          placeholder="Unit"
-          value={material.unit ?? ""}
-          onChange={(e) => handleUpdateMaterial({ unit: e.target.value })}
-        />
-      </div>
-
-      {/* Material Quantity Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <Hash className="h-5 w-5" size={24} />
-        <input
-          className="w-full rounded-lg border p-2"
-          type="number"
-          min="0"
-          placeholder="Quantity"
-          value={material.quantity ?? ""}
-          onChange={(e) => handleUpdateMaterial({ quantity: e.target.value })}
-        />
-      </div>
-
-      <p>x</p>
-
       {/* Material Unit Cost Input */}
       <div className="flex flex-1 items-center gap-2">
         <DollarSign className="h-5 w-5" size={24} />
@@ -135,6 +108,33 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
           placeholder="Unit Cost"
           value={material.unitCost ?? 0}
           onChange={(e) => handleUpdateMaterial({ unitCost: e.target.value })}
+        />
+      </div>
+
+      <p>/</p>
+
+      {/* Material Unit Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <input
+          className="w-full rounded-lg border p-2"
+          type="text"
+          placeholder="Unit"
+          value={material.unit ?? ""}
+          onChange={(e) => handleUpdateMaterial({ unit: e.target.value })}
+        />
+      </div>
+
+      <p>x</p>
+
+      {/* Material Quantity Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <input
+          className="w-full rounded-lg border p-2"
+          type="number"
+          min="0"
+          placeholder="Quantity"
+          value={material.quantity ?? ""}
+          onChange={(e) => handleUpdateMaterial({ quantity: e.target.value })}
         />
       </div>
 

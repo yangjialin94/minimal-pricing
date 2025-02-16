@@ -52,9 +52,10 @@ export type Project = {
   id: string;
   name: string;
   tasks: Task[];
-  totalCost: numbers;
-  profitMargin: number; // decimals
-  totalPrice: number; // totalCost / (1 - profitMargin)
+  totalCost: number; // Base cost of materials, labor, etc.
+  profitMargin: number; // Stored as a whole number (10% -> 0.1)
+  totalPrice: number; // Final selling price (totalCost / (1 - profitMargin / 100))
+  totalProfit: number; // Absolute profit earned (totalPrice - totalCost)
   user: User;
   customer: Customer;
 };
@@ -113,5 +114,5 @@ export type TaskAction =
 
 export type ProjectAction =
   | { type: "updated_project_name"; payload: { projectName: string } }
-  | { type: "updated_profit"; payload: { profitPercentage: number } }
+  | { type: "updated_total_profit"; payload: { totalProfit: number } }
   | { type: "updated_tasks"; payload: { tasks: Task[] } };

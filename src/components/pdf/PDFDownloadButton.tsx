@@ -4,7 +4,7 @@ import { pdf } from "@react-pdf/renderer";
 import React, { useState } from "react";
 
 import PDFDocument from "@/components/pdf/PDFDocument";
-import { useProject } from "@/context/ProjectContext";
+import { useProject } from "@/hooks/useProject";
 
 export default function PDFDownloadButton() {
   const [loading, setLoading] = useState(false);

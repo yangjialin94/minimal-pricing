@@ -1,8 +1,8 @@
 import clsx from "clsx";
-import { DollarSign, Hash, Pickaxe, Plus, Ruler, Trash2 } from "lucide-react";
+import { DollarSign, Pickaxe, Plus, Trash2 } from "lucide-react";
 import { useCallback } from "react";
 
-import { useTasksDispatch } from "@/context/TasksContext";
+import { useTasksDispatch } from "@/hooks/useTasksDispatch";
 import { formatToDecimalCost } from "@/lib/format";
 import { Labor } from "@/types";
 
@@ -86,7 +86,7 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
 
   return (
     <div className="flex w-full items-center gap-4">
-      {/* Labor Duration Input */}
+      {/* Labor Role Input */}
       <div className="flex flex-1 items-center gap-2">
         <Pickaxe className="h-5 w-5" size={24} />
         <input
@@ -98,33 +98,6 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
         />
       </div>
 
-      {/* Labor Unit Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <Ruler className="h-5 w-5" size={24} />
-        <input
-          className="w-full rounded-lg border p-2"
-          type="text"
-          placeholder="Unit"
-          value={labor.unit ?? ""}
-          onChange={(e) => handleUpdateLabor({ unit: e.target.value })}
-        />
-      </div>
-
-      {/* Labor Quantity Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <Hash className="h-5 w-5" size={24} />
-        <input
-          className="w-full rounded-lg border p-2"
-          type="number"
-          min="0"
-          placeholder="Quantity"
-          value={labor.quantity ?? ""}
-          onChange={(e) => handleUpdateLabor({ quantity: e.target.value })}
-        />
-      </div>
-
-      <p>x</p>
-
       {/* Labor Unit Cost Input */}
       <div className="flex flex-1 items-center gap-2">
         <DollarSign className="h-5 w-5" size={24} />
@@ -135,6 +108,33 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
           placeholder="Unit Cost"
           value={labor.unitCost ?? 0}
           onChange={(e) => handleUpdateLabor({ unitCost: e.target.value })}
+        />
+      </div>
+
+      <p>/</p>
+
+      {/* Labor Unit Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <input
+          className="w-full rounded-lg border p-2"
+          type="text"
+          placeholder="Unit"
+          value={labor.unit ?? ""}
+          onChange={(e) => handleUpdateLabor({ unit: e.target.value })}
+        />
+      </div>
+
+      <p>x</p>
+
+      {/* Labor Quantity Input */}
+      <div className="flex flex-1 items-center gap-2">
+        <input
+          className="w-full rounded-lg border p-2"
+          type="number"
+          min="0"
+          placeholder="Quantity"
+          value={labor.quantity ?? ""}
+          onChange={(e) => handleUpdateLabor({ quantity: e.target.value })}
         />
       </div>
 

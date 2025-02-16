@@ -2,7 +2,7 @@ import clsx from "clsx";
 import { DollarSign, HousePlus, Plus, Trash2 } from "lucide-react";
 import { useCallback } from "react";
 
-import { useTasksDispatch } from "@/context/TasksContext";
+import { useTasksDispatch } from "@/hooks/useTasksDispatch";
 import { formatToDecimalCost } from "@/lib/format";
 import { Additional as AdditionalType } from "@/types";
 

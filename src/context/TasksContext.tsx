@@ -1,11 +1,11 @@
 "use client";
 
-import { createContext, ReactNode, useContext, useEffect, useReducer } from "react";
+import { createContext, ReactNode, useEffect, useReducer } from "react";
 import { v4 as uuidv4 } from "uuid";
 
+import { useProject } from "@/hooks/useProject";
+import { useProjectDispatch } from "@/hooks/useProjectDispatch";
 import { Task, TaskAction } from "@/types";
-
-import { useProject, useProjectDispatch } from "./ProjectContext";
 
 // Create Contexts
 export const TasksContext = createContext<Task[] | null>(null);
@@ -29,16 +29,6 @@ export function TasksProvider({ children }: { children: ReactNode }) {
       <TasksDispatchContext.Provider value={dispatch}>{children}</TasksDispatchContext.Provider>
     </TasksContext.Provider>
   );
-}
-
-// Custom Hook - Read tasks
-export function useTasks() {
-  return useContext(TasksContext);
-}
-
-// Custom Hook - Dispatch tasks
-export function useTasksDispatch() {
-  return useContext(TasksDispatchContext);
 }
 
 // Reducer function
@@ -257,7 +247,8 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
       );
     }
 
-    default:
+    default: {
       return tasks;
+    }
   }
 }

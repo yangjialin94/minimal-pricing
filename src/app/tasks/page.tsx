@@ -3,12 +3,13 @@
 import clsx from "clsx";
 import { ArrowBigRightDash, ClipboardList, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 
 import Additional from "@/components/tasks/Additional";
 import Labors from "@/components/tasks/Labors";
 import Materials from "@/components/tasks/Materials";
-import { useTasks, useTasksDispatch } from "@/context/TasksContext";
+import { useTasks } from "@/hooks/useTasks";
+import { useTasksDispatch } from "@/hooks/useTasksDispatch";
 import { formatToDecimalCost } from "@/lib/format";
 import { Task } from "@/types";
 
@@ -27,15 +28,7 @@ export default function Tasks() {
 }
 
 function TaskList() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const loadedTasks = useTasks();
-
-  // Load tasks
-  useEffect(() => {
-    if (loadedTasks) {
-      setTasks(loadedTasks);
-    }
-  }, [loadedTasks]);
+  const tasks = useTasks();
 
   return (
     <div className="w-full px-8">

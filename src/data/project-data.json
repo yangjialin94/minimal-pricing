@@ -1,0 +1,188 @@
+{
+  "id": 1,
+  "name": "",
+  "tasks": [
+    {
+      "id": 1,
+      "name": "Flooring",
+      "materials": [
+        {
+          "id": 1,
+          "name": "Hardwood Planks",
+          "unit": "sq ft",
+          "quantity": 200,
+          "unitCost": 16,
+          "cost": 3200
+        },
+        {
+          "id": 2,
+          "name": "Adhesive",
+          "unit": "gallons",
+          "quantity": 3,
+          "unitCost": 50,
+          "cost": 150
+        },
+        {
+          "id": 3,
+          "name": "Underlayer",
+          "unit": "sq ft",
+          "quantity": 250,
+          "unitCost": 1,
+          "cost": 250
+        }
+      ],
+      "labors": [
+        {
+          "id": 1,
+          "role": "Installer",
+          "unit": "day",
+          "quantity": 3,
+          "unitCost": 400,
+          "cost": 1200
+        },
+        {
+          "id": 2,
+          "role": "Finisher",
+          "unit": "day",
+          "quantity": 1,
+          "unitCost": 350,
+          "cost": 350
+        }
+      ],
+      "additional": [
+        { "id": 1, "type": "Permit Fee", "cost": 100 },
+        { "id": 2, "type": "Inspection", "cost": 75 }
+      ],
+      "totalCost": 5075,
+      "profitMargin": 0,
+      "totalPrice": 5075
+    },
+    {
+      "id": 2,
+      "name": "Painting",
+      "materials": [
+        {
+          "id": 4,
+          "name": "Interior Paint",
+          "unit": "gallons",
+          "quantity": 5,
+          "unitCost": 50,
+          "cost": 250
+        },
+        {
+          "id": 5,
+          "name": "Paint Rollers & Brushes",
+          "unit": "set",
+          "quantity": 1,
+          "unitCost": 40,
+          "cost": 40
+        },
+        {
+          "id": 6,
+          "name": "Painter's Tape",
+          "unit": "rolls",
+          "quantity": 5,
+          "unitCost": 5,
+          "cost": 25
+        }
+      ],
+      "labors": [
+        {
+          "id": 3,
+          "role": "Painter",
+          "unit": "day",
+          "quantity": 1,
+          "unitCost": 500,
+          "cost": 500
+        },
+        {
+          "id": 4,
+          "role": "Painter",
+          "unit": "day",
+          "quantity": 2,
+          "unitCost": 375,
+          "cost": 750
+        }
+      ],
+      "additional": [
+        {
+          "id": 3,
+          "type": "Permit Fee",
+          "cost": 60
+        }
+      ],
+      "totalCost": 1625,
+      "profitMargin": 0,
+      "totalPrice": 1625
+    },
+    {
+      "id": 3,
+      "name": "Tile Installation",
+      "materials": [
+        {
+          "id": 7,
+          "name": "Ceramic Tiles",
+          "unit": "sq ft",
+          "quantity": 200,
+          "unitCost": 9,
+          "cost": 1800
+        },
+        {
+          "id": 8,
+          "name": "Tile Adhesive & Grout",
+          "unit": "bags",
+          "quantity": 6,
+          "unitCost": 50,
+          "cost": 300
+        },
+        {
+          "id": 9,
+          "name": "Spacers & Tools",
+          "unit": "set",
+          "quantity": 1,
+          "unitCost": 100,
+          "cost": 100
+        }
+      ],
+      "labors": [
+        {
+          "id": 5,
+          "role": "Tile Cutter",
+          "unit": "day",
+          "quantity": 1,
+          "unitCost": 400,
+          "cost": 400
+        },
+        {
+          "id": 6,
+          "role": "Installer",
+          "unit": "day",
+          "quantity": 2,
+          "unitCost": 500,
+          "cost": 1000
+        }
+      ],
+      "additional": [],
+      "totalCost": 3600,
+      "profitMargin": 0,
+      "totalPrice": 3600
+    }
+  ],
+  "totalCost": 10300,
+  "profitMargin": 0.0,
+  "totalPrice": 10300,
+  "totalProfit": 0,
+  "user": {
+    "id": 1,
+    "name": "John Doe",
+    "phone": "123-456-7890",
+    "email": "johndoe@example.com"
+  },
+  "customer": {
+    "id": 1,
+    "name": "Jane Smith",
+    "address": "123 Main St, Springfield",
+    "phone": "987-654-3210",
+    "email": "janesmith@example.com"
+  }
+}
