@@ -1,7 +1,8 @@
-import clsx from "clsx";
-import { DollarSign, HousePlus, Plus, Trash2 } from "lucide-react";
-import { useCallback } from "react";
+import { HousePlus, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { NumericFormat } from "react-number-format";
 
+import { useDebounce } from "@/hooks/useDebounce";
 import { useTasksDispatch } from "@/hooks/useTasksDispatch";
 import { formatToDecimalCost } from "@/lib/format";
 import { Additional as AdditionalType } from "@/types";
@@ -11,36 +12,15 @@ interface AdditionalProps {
   additional: AdditionalType[];
 }
 
-interface AdditionalListProps {
-  taskId: number;
-  additional: AdditionalType[];
-}
-
 interface AdditionalComponentProps {
   taskId: number;
   additional: AdditionalType;
 }
 
-interface AddAdditionalProps {
-  taskId: number;
-  hasAdditional: boolean;
-}
-
 export default function Additional({ taskId, additional }: AdditionalProps) {
-  const hasAdditional = additional.length > 0;
-
   return (
-    <div>
-      {hasAdditional && <h2 className="mb-4 text-center text-xl font-bold">Additional</h2>}
-      <AdditionalList taskId={taskId} additional={additional} />
-      <AddAdditional taskId={taskId} hasAdditional={hasAdditional} />
-    </div>
-  );
-}
-
-function AdditionalList({ taskId, additional }: AdditionalListProps) {
-  return (
-    <div className="flex w-full items-center gap-4">
+    <div className="flex w-full flex-col items-center gap-4">
+      <h3 className="text-lg font-semibold text-gray-700">Additional</h3>
       <ul className="flex w-full flex-col gap-4">
         {additional.map((add) => (
           <li key={add.id}>
@@ -55,21 +35,26 @@ function AdditionalList({ taskId, additional }: AdditionalListProps) {
 function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
   const dispatch = useTasksDispatch();
 
+  // Local states for debouncing inputs
+  const [type, setType] = useState(additional.type ?? "");
+  const [cost, setCost] = useState(additional.cost ?? 0);
+
+  // Debounced values
+  const debouncedType = useDebounce(type, 500);
+  const debouncedCost = useDebounce(cost, 500);
+
   // Update additional
-  const handleUpdateAdditional = useCallback(
-    (updates: { type?: string; cost?: number }) => {
-      dispatch({
-        type: "updated_additional",
-        payload: {
-          taskId: taskId,
-          additionalId: additional.id,
-          additionalType: updates.type ?? additional.type,
-          additionalCost: updates.cost ?? additional.cost,
-        },
-      });
-    },
-    [dispatch, additional, taskId]
-  );
+  useEffect(() => {
+    dispatch({
+      type: "updated_additional",
+      payload: {
+        taskId,
+        additionalId: additional.id,
+        additionalType: debouncedType,
+        additionalCost: debouncedCost,
+      },
+    });
+  }, [debouncedType, debouncedCost, dispatch, additional.id, taskId]);
 
   // Remove additional
   const handleRemoveAdditional = useCallback(() => {
@@ -83,84 +68,45 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
   }, [dispatch, additional.id, taskId]);
 
   return (
-    <div className="flex w-full items-center gap-4">
-      {/* Additional Type Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <HousePlus className="h-5 w-5" size={24} />
+    <div className="relative flex w-full flex-wrap items-center gap-3 rounded-lg border p-2 lg:border-none">
+      <div className="flex w-[calc(100%-40px)] flex-wrap items-center gap-3">
+        <HousePlus className="h-5 w-5 text-gray-600" />
+
+        {/* Additional Type Input */}
         <input
-          className="w-full rounded-lg border p-2"
+          className="text-md min-w-[100px] flex-1 rounded-md border px-2 py-1"
           type="text"
           placeholder="Type"
-          value={additional.type ?? ""}
-          onChange={(e) => handleUpdateAdditional({ type: e.target.value })}
+          value={type}
+          onChange={(e) => setType(e.target.value)}
         />
-      </div>
 
-      {/* Additional Cost Input */}
-      <div className="flex flex-1 items-center gap-1">
-        <DollarSign className="h-5 w-5" size={24} />
-        <input
-          className="w-full rounded-lg border p-2"
-          type="number"
-          min="0"
+        {/* Additional Cost Input */}
+        <NumericFormat
+          className="text-md w-24 min-w-[80px] rounded-md border px-2 py-1 text-center"
           placeholder="Cost"
-          value={additional.cost ?? 0}
-          onChange={(e) => handleUpdateAdditional({ cost: e.target.value })}
+          value={cost}
+          decimalScale={2}
+          allowNegative={false}
+          thousandSeparator
+          prefix="$"
+          onValueChange={(values) => setCost(parseFloat(values.value) || 0)}
+          customInput="input"
         />
+
+        <p className="text-gray-600">=</p>
+
+        {/* Additional Cost */}
+        <p className="font-semibold text-blue-600">${formatToDecimalCost(additional.cost, 2)}</p>
       </div>
 
-      <p>=</p>
-
-      {/* Additional Cost */}
-      <p className="font-semibold text-blue-600">${formatToDecimalCost(additional.cost, 2)}</p>
-
-      {/* Delete Button */}
+      {/* Delete Button - Positioned Outside */}
       <button
-        className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
+        className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full p-2 transition-all duration-200 hover:bg-red-100"
         onClick={handleRemoveAdditional}
       >
-        <Trash2 className="h-5 w-5" size={24} color="red" />
+        <Trash2 className="h-5 w-5 text-red-500" />
       </button>
-    </div>
-  );
-}
-
-function AddAdditional({ taskId, hasAdditional }: AddAdditionalProps) {
-  const dispatch = useTasksDispatch();
-
-  // Add additional
-  const handleAddAdditional = () => {
-    dispatch({
-      type: "added_additional",
-      payload: {
-        taskId: taskId,
-      },
-    });
-  };
-
-  return (
-    <div
-      className={clsx("flex justify-center gap-4", {
-        "mt-4": hasAdditional,
-        "mt-0": !hasAdditional,
-      })}
-    >
-      {hasAdditional ? (
-        <button
-          className="rounded-full border-2 border-slate-500 bg-slate-500 p-2 text-xl text-white hover:bg-slate-400"
-          onClick={handleAddAdditional}
-        >
-          <Plus className="h-5 w-5" size={24} />
-        </button>
-      ) : (
-        <button
-          className="flex items-center gap-2 rounded-full border-2 border-slate-500 bg-slate-500 px-4 py-2 text-xl text-white hover:bg-slate-400"
-          onClick={handleAddAdditional}
-        >
-          <Plus className="h-5 w-5" size={24} />
-          Additional
-        </button>
-      )}
     </div>
   );
 }

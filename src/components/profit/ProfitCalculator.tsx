@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
-import { useDebounce } from "@/hooks/useDebouce";
+import { useDebounce } from "@/hooks/useDebounce";
 import { useProjectDispatch } from "@/hooks/useProjectDispatch";
 
 interface ProfitCalculatorProps {
@@ -18,9 +18,10 @@ export default function ProfitCalculator({ profitMargin, totalProfit }: ProfitCa
     setLocalTotalProfit(totalProfit.toString());
   }, [totalProfit]);
 
-  // Update data changes on delay
+  // Debounced state
   const debouncedTotalProfit = useDebounce(localTotalProfit, 500);
 
+  // Dispatch update
   useEffect(() => {
     const profit = parseFloat(debouncedTotalProfit);
 

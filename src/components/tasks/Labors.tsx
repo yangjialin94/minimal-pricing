@@ -1,7 +1,8 @@
-import clsx from "clsx";
-import { DollarSign, Pickaxe, Plus, Trash2 } from "lucide-react";
-import { useCallback } from "react";
+import { Pickaxe, Trash2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { NumericFormat } from "react-number-format";
 
+import { useDebounce } from "@/hooks/useDebounce";
 import { useTasksDispatch } from "@/hooks/useTasksDispatch";
 import { formatToDecimalCost } from "@/lib/format";
 import { Labor } from "@/types";
@@ -11,36 +12,15 @@ interface LaborsProps {
   labors: Labor[];
 }
 
-interface LaborListProps {
-  taskId: number;
-  labors: Labor[];
-}
-
 interface LaborComponentProps {
   taskId: number;
   labor: Labor;
 }
 
-interface AddLaborProps {
-  taskId: number;
-  hasLabor: boolean;
-}
-
 export default function Labors({ taskId, labors }: LaborsProps) {
-  const hasLabor = labors.length > 0;
-
   return (
-    <div>
-      {hasLabor && <h2 className="mb-4 text-center text-xl font-bold">Labors</h2>}
-      <LaborList taskId={taskId} labors={labors} />
-      <AddLabor taskId={taskId} hasLabor={hasLabor} />
-    </div>
-  );
-}
-
-function LaborList({ taskId, labors }: LaborListProps) {
-  return (
-    <div className="flex w-full items-center gap-4">
+    <div className="flex w-full flex-col items-center gap-4">
+      <h3 className="text-lg font-semibold text-gray-700">Labors</h3>
       <ul className="flex w-full flex-col gap-4">
         {labors.map((labor) => (
           <li key={labor.id}>
@@ -55,23 +35,40 @@ function LaborList({ taskId, labors }: LaborListProps) {
 function LaborComponent({ taskId, labor }: LaborComponentProps) {
   const dispatch = useTasksDispatch();
 
+  // Local states for debouncing inputs
+  const [role, setRole] = useState(labor.role ?? "");
+  const [unit, setUnit] = useState(labor.unit ?? "");
+  const [quantity, setQuantity] = useState(labor.quantity ?? 0);
+  const [unitCost, setUnitCost] = useState(labor.unitCost ?? 0);
+
+  // Debounced values
+  const debouncedRole = useDebounce(role, 500);
+  const debouncedUnit = useDebounce(unit, 500);
+  const debouncedQuantity = useDebounce(quantity, 500);
+  const debouncedUnitCost = useDebounce(unitCost, 500);
+
   // Update labor
-  const handleUpdateLabor = useCallback(
-    (updates: { role?: string; unit?: string; quantity?: number; unitCost?: number }) => {
-      dispatch({
-        type: "updated_labor",
-        payload: {
-          taskId: taskId,
-          laborId: labor.id,
-          laborRole: updates.role ?? labor.role,
-          laborUnit: updates.unit ?? labor.unit,
-          laborQuantity: updates.quantity ?? labor.quantity,
-          laborUnitCost: updates.unitCost ?? labor.unitCost,
-        },
-      });
-    },
-    [dispatch, labor, taskId]
-  );
+  useEffect(() => {
+    dispatch({
+      type: "updated_labor",
+      payload: {
+        taskId,
+        laborId: labor.id,
+        laborRole: debouncedRole,
+        laborUnit: debouncedUnit,
+        laborQuantity: debouncedQuantity,
+        laborUnitCost: debouncedUnitCost,
+      },
+    });
+  }, [
+    debouncedRole,
+    debouncedUnit,
+    debouncedQuantity,
+    debouncedUnitCost,
+    dispatch,
+    labor.id,
+    taskId,
+  ]);
 
   // Remove labor
   const handleRemoveLabor = useCallback(() => {
@@ -85,111 +82,69 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
   }, [dispatch, labor.id, taskId]);
 
   return (
-    <div className="flex w-full items-center gap-4">
-      {/* Labor Role Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <Pickaxe className="h-5 w-5" size={24} />
+    <div className="relative flex w-full flex-wrap items-center gap-3 rounded-lg border p-2 lg:border-none">
+      <div className="flex w-[calc(100%-40px)] flex-wrap items-center gap-3">
+        <Pickaxe className="h-5 w-5 text-gray-600" />
+
+        {/* Labor Role Input */}
         <input
-          className="w-full rounded-lg border p-2"
+          className="text-md min-w-[100px] flex-1 rounded-md border px-2 py-1"
           type="text"
           placeholder="Role"
-          value={labor.role ?? ""}
-          onChange={(e) => handleUpdateLabor({ role: e.target.value })}
+          value={role}
+          onChange={(e) => setRole(e.target.value)}
         />
-      </div>
 
-      {/* Labor Unit Cost Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <DollarSign className="h-5 w-5" size={24} />
-        <input
-          className="w-full rounded-lg border p-2"
-          type="number"
-          min="0"
+        {/* Labor Unit Cost Input */}
+        <NumericFormat
+          className="text-md w-24 min-w-[80px] rounded-md border px-2 py-1 text-center"
           placeholder="Unit Cost"
-          value={labor.unitCost ?? 0}
-          onChange={(e) => handleUpdateLabor({ unitCost: e.target.value })}
+          value={unitCost}
+          decimalScale={2}
+          allowNegative={false}
+          thousandSeparator
+          prefix="$"
+          onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
+          customInput="input"
         />
-      </div>
 
-      <p>/</p>
+        <p className="text-gray-600">/</p>
 
-      {/* Labor Unit Input */}
-      <div className="flex flex-1 items-center gap-2">
+        {/* Labor Unit Input */}
         <input
-          className="w-full rounded-lg border p-2"
+          className="text-md w-16 min-w-[60px] rounded-md border px-2 py-1 text-center"
           type="text"
           placeholder="Unit"
-          value={labor.unit ?? ""}
-          onChange={(e) => handleUpdateLabor({ unit: e.target.value })}
+          value={unit}
+          onChange={(e) => setUnit(e.target.value)}
         />
-      </div>
 
-      <p>x</p>
+        <p className="text-gray-600">×</p>
 
-      {/* Labor Quantity Input */}
-      <div className="flex flex-1 items-center gap-2">
-        <input
-          className="w-full rounded-lg border p-2"
-          type="number"
-          min="0"
+        {/* Labor Quantity Input */}
+        <NumericFormat
+          className="text-md w-20 min-w-[80px] rounded-md border px-2 py-1 text-center"
           placeholder="Quantity"
-          value={labor.quantity ?? ""}
-          onChange={(e) => handleUpdateLabor({ quantity: e.target.value })}
+          value={quantity}
+          decimalScale={2}
+          allowNegative={false}
+          onValueChange={(values) => setQuantity(parseFloat(values.value) || 0)}
+          customInput="input"
         />
+
+        <p className="text-gray-600">=</p>
+
+        {/* Labor Cost */}
+        <p className="font-semibold text-blue-600">${formatToDecimalCost(labor.cost, 2)}</p>
       </div>
 
-      <p>=</p>
-
-      {/* Labor Cost */}
-      <p className="font-semibold text-blue-600">${formatToDecimalCost(labor.cost, 2)}</p>
-
-      {/* Delete Button */}
+      {/* Delete Button - Positioned Outside */}
       <button
-        className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200"
+        className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full p-2 transition-all duration-200 hover:bg-red-100"
         onClick={handleRemoveLabor}
       >
-        <Trash2 className="h-5 w-5" size={24} color="red" />
+        <Trash2 className="h-5 w-5 text-red-500" />
       </button>
-    </div>
-  );
-}
-
-function AddLabor({ taskId, hasLabor }: AddLaborProps) {
-  const dispatch = useTasksDispatch();
-
-  // Add labor
-  const handleAddLabor = () => {
-    dispatch({
-      type: "added_labor",
-      payload: {
-        taskId: taskId,
-      },
-    });
-  };
-
-  return (
-    <div
-      className={clsx("flex justify-center gap-4", {
-        "mt-4": hasLabor,
-        "mt-0": !hasLabor,
-      })}
-    >
-      {hasLabor ? (
-        <button
-          className="rounded-full border-2 border-green-500 bg-green-500 p-2 text-xl text-white hover:bg-green-400"
-          onClick={handleAddLabor}
-        >
-          <Plus className="h-5 w-5" size={24} />
-        </button>
-      ) : (
-        <button
-          className="flex items-center gap-2 rounded-full border-2 border-green-500 bg-green-500 px-4 py-2 text-xl text-white hover:bg-green-400"
-          onClick={handleAddLabor}
-        >
-          <Plus className="h-5 w-5" size={24} />
-          Labor
-        </button>
-      )}
     </div>
   );
 }
