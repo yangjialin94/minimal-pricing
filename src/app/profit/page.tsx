@@ -8,15 +8,18 @@ import { useProject } from "@/hooks/useProject";
 import { formatToDecimalCost } from "@/lib/format";
 import { Additional, Labor, Material } from "@/types";
 
-interface ProjectProps {
-  project: Project;
+interface TasksListProps {
+  tasks: Task[];
 }
 
 interface TaskSectionProps {
   title: string;
   items: Material[] | Labor[] | Additional[];
   icon: string;
-  costPercentage?: number;
+}
+
+interface SummaryProps {
+  project: Project;
 }
 
 export default function Profit() {
@@ -26,7 +29,7 @@ export default function Profit() {
     <div className="mx-auto flex max-w-2xl flex-col items-center">
       <h1 className="mb-12 text-center text-2xl font-bold">Profit Calculator</h1>
       <div className="w-full px-8">
-        <TasksList project={project} />
+        <TasksList tasks={project.tasks} />
         <Summary project={project} />
       </div>
       {/* Prev Page Button */}
@@ -42,10 +45,7 @@ export default function Profit() {
   );
 }
 
-function TasksList({ project }: ProjectProps) {
-  const tasks = project.tasks;
-  const costPercentage = project.profitMargin / 100;
-
+function TasksList({ tasks }: TasksListProps) {
   return (
     <>
       {tasks.map((task) => (
@@ -57,12 +57,7 @@ function TasksList({ project }: ProjectProps) {
 
           {/* Sections */}
           <TaskSection title="Materials" items={task.materials} icon="📦" />
-          <TaskSection
-            title="Labors"
-            items={task.labors}
-            icon="⚒️"
-            costPercentage={costPercentage}
-          />
+          <TaskSection title="Labors" items={task.labors} icon="⚒️" />
           <TaskSection title="Additional" items={task.additional} icon="🏡" />
 
           {/* Total Cost */}
@@ -81,7 +76,7 @@ function TasksList({ project }: ProjectProps) {
   );
 }
 
-function TaskSection({ title, items, icon, costPercentage = 1 }: TaskSectionProps) {
+function TaskSection({ title, items, icon }: TaskSectionProps) {
   if (items.length > 0) {
     return (
       <div className="mt-4">
@@ -99,14 +94,9 @@ function TaskSection({ title, items, icon, costPercentage = 1 }: TaskSectionProp
                   </p>
                 )}
               </div>
-              <div className="flex items-center gap-2 font-medium">
-                <p>${formatToDecimalCost(item.cost, 2)}</p>
-                {costPercentage !== 1 && (
-                  <p className="text-red-500">
-                    (${formatToDecimalCost(item.cost / costPercentage, 2)})
-                  </p>
-                )}
-              </div>
+              <p className="flex items-center gap-2 font-medium">
+                ${formatToDecimalCost(item.cost, 2)}
+              </p>
             </li>
           ))}
         </ul>
@@ -115,7 +105,7 @@ function TaskSection({ title, items, icon, costPercentage = 1 }: TaskSectionProp
   }
 }
 
-function Summary({ project }: ProjectProps) {
+function Summary({ project }: SummaryProps) {
   const totalCost = project.totalCost;
   const profitMargin = project.profitMargin;
   const totalPrice = project.totalPrice;
