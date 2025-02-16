@@ -2,6 +2,7 @@
 
 import { createContext, ReactNode, useEffect, useReducer, useState } from "react";
 
+import { calculateTotalCost } from "@/lib/calculation";
 import { Project, ProjectAction } from "@/types";
 
 interface ProjectProviderProps {
@@ -50,9 +51,10 @@ export function ProjectProvider({ initialProjectData, children }: ProjectProvide
 // Reducer function
 function projectReducer(project: Project, action: ProjectAction) {
   switch (action.type) {
-    case "updated_project_name":
+    case "updated_project_name": {
       console.log("updated_project_name");
       return { ...project, name: action.payload.projectName };
+    }
 
     case "updated_total_profit": {
       const totalPrice = Number(project.totalCost) + Number(action.payload.totalProfit);
@@ -66,10 +68,13 @@ function projectReducer(project: Project, action: ProjectAction) {
       };
     }
 
-    case "updated_tasks":
-      return { ...project, tasks: action.payload.tasks };
+    case "updated_tasks": {
+      const newTotalCost = calculateTotalCost(action.payload.tasks);
+      return { ...project, tasks: action.payload.tasks, totalCost: newTotalCost };
+    }
 
-    default:
+    default: {
       return project;
+    }
   }
 }

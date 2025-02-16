@@ -74,7 +74,7 @@ function TaskComponent({ task }: { task: Task }) {
   return (
     <div
       key={task.id}
-      className="relative mb-6 rounded-xl border bg-white p-5 shadow-lg transition-all hover:shadow-xl"
+      className="relative mb-6 rounded-xl border bg-white p-5 shadow-md transition-all hover:shadow-xl"
     >
       {/* Task Header */}
       <div className="flex items-center gap-4">
@@ -126,9 +126,9 @@ function TaskComponent({ task }: { task: Task }) {
       </div>
 
       {/* Sticky Bottom Bar */}
-      <div className="sticky bottom-0 left-0 flex w-full items-center justify-between rounded-xl bg-gray-100 p-4 shadow-md">
+      <div className="sticky bottom-0 left-0 flex w-full flex-col items-center rounded-xl bg-gray-100 p-4 shadow-md sm:flex-row sm:justify-between">
         {/* Total Cost */}
-        <div className="flex items-center gap-2 text-lg font-bold text-gray-800">
+        <div className="mb-2 flex items-center gap-2 text-lg font-bold text-gray-800 sm:mb-0">
           <p>Total:</p>
           <p className="text-blue-600">${formatToDecimalCost(task.totalCost, 2)}</p>
         </div>
@@ -187,7 +187,7 @@ function AddTask() {
 
       {/* Add Task Button */}
       <button
-        className="mt-4 flex items-center gap-2 rounded-lg border-2 border-blue-500 bg-blue-500 px-5 py-3 text-lg font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-400 hover:shadow-lg"
+        className="mt-4 flex items-center gap-2 rounded-lg border-2 border-blue-500 bg-blue-500 px-5 py-3 text-lg font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-400 hover:shadow-md"
         onClick={handleAddTask}
       >
         <Plus className="h-5 w-5" />
