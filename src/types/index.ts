@@ -30,7 +30,7 @@ export type Task = {
   additional: Additional[];
   totalCost: number;
   profitMargin: numbers;
-  totalPrice: numbers; // totalCost / (1 - profitMargin)
+  totalPrice: numbers; // totalCost / (1 - profitMargin / 100)
 };
 
 export type User = {

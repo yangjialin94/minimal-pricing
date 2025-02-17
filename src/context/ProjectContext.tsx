@@ -62,6 +62,11 @@ function projectReducer(project: Project, action: ProjectAction) {
 
       return {
         ...project,
+        tasks: project.tasks.map((task) => ({
+          ...task,
+          profitMargin: newProfitMargin,
+          totalPrice: task.totalCost / (1 - newProfitMargin / 100),
+        })),
         profitMargin: newProfitMargin,
         totalPrice: newTotalPrice,
         totalProfit: action.payload.totalProfit,
