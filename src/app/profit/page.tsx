@@ -28,17 +28,25 @@ export default function Profit() {
   return (
     <div className="mx-auto flex max-w-2xl flex-col items-center">
       <h1 className="mb-12 text-center text-2xl font-bold">Profit Calculator</h1>
+
       <div className="w-full px-8">
         <TasksList tasks={project.tasks} />
         <Summary project={project} />
       </div>
-      {/* Prev Page Button */}
-      <div className="mt-12 flex gap-4">
-        <Link className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200" href="/tasks">
-          <ArrowBigLeftDash size={30} />
+
+      {/* Navigation */}
+      <div className="mt-10 flex gap-6">
+        <Link
+          className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
+          href="/tasks"
+        >
+          <ArrowBigLeftDash size={22} /> Modify Tasks
         </Link>
-        <Link className="flex-shrink-0 rounded-full p-2 hover:bg-slate-200" href="/overview">
-          <ArrowBigRightDash size={30} />
+        <Link
+          className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
+          href="/overview"
+        >
+          Go to Overview <ArrowBigRightDash size={22} />
         </Link>
       </div>
     </div>
@@ -49,19 +57,16 @@ function TasksList({ tasks }: TasksListProps) {
   return (
     <>
       {tasks.map((task) => (
-        <div key={task.id} className="mb-6 rounded-lg border bg-white p-4 shadow-md">
-          {/* Project Name */}
+        <div key={task.id} className="mb-6 rounded-md border bg-white p-5 shadow-md">
           <h2 className="flex items-center gap-2 text-xl font-semibold">📂 {task.name}</h2>
 
           <hr className="my-4" />
 
-          {/* Sections */}
           <TaskSection title="Materials" items={task.materials} icon="📦" />
-          <TaskSection title="Labors" items={task.labors} icon="⚒️" />
-          <TaskSection title="Additional" items={task.additional} icon="🏡" />
+          <TaskSection title="Labors" items={task.labors} icon="🛠️" />
+          <TaskSection title="Additional" items={task.additional} icon="📑" />
 
-          {/* Total Cost */}
-          <div className="mt-4 flex justify-between border-t pt-2 text-lg font-bold text-gray-900">
+          <div className="mt-4 flex justify-between border-t pt-3 text-lg font-bold text-gray-900">
             <p>Total Cost:</p>
             <div className="flex items-center gap-2">
               <p>${formatToDecimalCost(task.totalCost, 2)}</p>
@@ -112,21 +117,24 @@ function Summary({ project }: SummaryProps) {
   const totalProfit = project.totalProfit;
 
   return (
-    <div className="mt-6 flex flex-col">
-      {/* Overall Total */}
-      <div className="flex justify-between border-gray-300 pt-4 text-xl font-bold text-gray-900">
-        <p>Total Cost:</p>
+    <div className="mt-6 flex flex-col rounded-md bg-white p-6 shadow-md">
+      <h2 className="mb-4 text-xl font-semibold text-gray-800">Project Summary</h2>
+
+      {/* TOTAL COST */}
+      <div className="flex items-center justify-between border-b pb-3 text-lg font-bold text-gray-900">
+        <span>Total Cost:</span>
         <div className="flex items-center gap-2">
-          <p>${formatToDecimalCost(totalCost, 2)}</p>
-          <p className="text-red-500">(${formatToDecimalCost(totalPrice, 2)})</p>
+          <span>${formatToDecimalCost(totalCost, 2)}</span>
+          <span className="text-red-500">(${formatToDecimalCost(totalPrice, 2)})</span>
         </div>
       </div>
 
-      {/* Profit Margin */}
-      <div className="flex justify-between border-gray-300 pt-4 text-xl font-bold text-gray-900">
-        <p>Profit:</p>
-
-        <ProfitCalculator profitMargin={profitMargin} totalProfit={totalProfit} />
+      {/* TOTAL PROFIT */}
+      <div className="mt-3 flex items-center justify-between text-lg font-bold text-gray-900">
+        <span>Total Profit:</span>
+        <div className="flex items-center gap-2">
+          <ProfitCalculator profitMargin={profitMargin} totalProfit={totalProfit} />
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { HousePlus, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
@@ -68,10 +68,9 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
   }, [dispatch, additional.id, taskId]);
 
   return (
-    <div className="relative flex w-full flex-wrap items-center gap-3 rounded-lg border p-2 lg:border-none">
+    <div className="relative flex w-full flex-wrap items-center gap-3 rounded-md border p-2 lg:border-none">
       <div className="flex w-[calc(100%-40px)] flex-wrap items-center gap-3">
-        <HousePlus className="h-5 w-5 text-gray-600" />
-
+        🏡
         {/* Additional Type Input */}
         <input
           className="text-md min-w-[100px] flex-1 rounded-md border px-2 py-1"
@@ -80,7 +79,6 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
           value={type}
           onChange={(e) => setType(e.target.value)}
         />
-
         {/* Additional Cost Input */}
         <NumericFormat
           className="text-md w-24 min-w-[80px] rounded-md border px-2 py-1 text-center"
@@ -93,9 +91,7 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
           onValueChange={(values) => setCost(parseFloat(values.value) || 0)}
           customInput="input"
         />
-
         <p className="text-gray-600">=</p>
-
         {/* Additional Cost */}
         <p className="font-semibold text-blue-600">${formatToDecimalCost(additional.cost, 2)}</p>
       </div>

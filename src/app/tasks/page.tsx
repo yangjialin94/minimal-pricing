@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { ArrowBigRightDash, ClipboardList, Plus, Trash2 } from "lucide-react";
+import { ArrowBigRightDash, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
@@ -17,12 +17,17 @@ import { Task } from "@/types";
 export default function Tasks() {
   return (
     <div className="mx-auto flex max-w-4xl flex-col items-center">
-      <h1 className="mb-12 text-center text-2xl font-bold">Cost Overview</h1>
+      <h1 className="mb-10 text-center text-2xl font-bold">Cost Overview</h1>
+
       <TaskList />
       <AddTask />
+
       {/* Next Page Button */}
-      <Link className="mt-12 flex-shrink-0 rounded-full p-2 hover:bg-slate-200" href="/profit">
-        <ArrowBigRightDash size={30} />
+      <Link
+        className="mt-10 flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
+        href="/profit"
+      >
+        Calculate Profit <ArrowBigRightDash size={22} />
       </Link>
     </div>
   );
@@ -79,7 +84,7 @@ function TaskComponent({ task }: { task: Task }) {
       {/* Task Header */}
       <div className="flex items-center gap-4">
         <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-gray-800">
-          <ClipboardList className="h-6 w-6 text-gray-500" />
+          📂
           <input
             className="w-full rounded-md border px-3 py-2 text-lg text-gray-700 shadow-sm transition-all focus:border-blue-400 focus:ring focus:ring-blue-200"
             type="text"
@@ -171,7 +176,7 @@ function AddTask() {
       <div className="relative w-full max-w-lg">
         <input
           className={clsx(
-            "w-full rounded-lg border px-4 py-3 text-lg shadow-md transition-all focus:border-blue-400 focus:ring focus:ring-blue-200",
+            "w-full rounded-md border px-4 py-3 text-lg shadow-md transition-all focus:border-blue-400 focus:ring focus:ring-blue-200",
             {
               "border-red-500 placeholder-red-500 focus:border-red-500 focus:ring-red-200":
                 hasError,
@@ -187,7 +192,7 @@ function AddTask() {
 
       {/* Add Task Button */}
       <button
-        className="mt-4 flex items-center gap-2 rounded-lg border-2 border-blue-500 bg-blue-500 px-5 py-3 text-lg font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-400 hover:shadow-md"
+        className="mt-4 flex items-center gap-2 rounded-md border-2 border-blue-500 bg-blue-500 px-5 py-3 text-lg font-semibold text-white shadow-md transition-all duration-200 hover:bg-blue-400 hover:shadow-md"
         onClick={handleAddTask}
       >
         <Plus className="h-5 w-5" />

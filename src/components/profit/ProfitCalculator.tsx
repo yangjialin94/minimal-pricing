@@ -39,22 +39,23 @@ export default function ProfitCalculator({ profitMargin, totalProfit }: ProfitCa
   };
 
   return (
-    <div className="flex items-center gap-4">
-      {/* Dollar Amount Input */}
+    <>
+      {/* Numeric input for profit */}
       <NumericFormat
-        className="w-40 rounded-lg border border-slate-300 px-4 text-lg placeholder:text-lg placeholder:font-normal focus:placeholder-transparent"
-        placeholder="Total profit in $"
+        className="w-32 rounded-md border border-gray-300 px-3 py-1 text-base placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
+        placeholder="$0.00"
         value={localTotalProfit}
         decimalScale={2}
         allowNegative={false}
         thousandSeparator
         prefix="$"
         onValueChange={handleValueChange}
-        customInput="input"
       />
 
-      {/* Profit margin display*/}
-      <span className="text-lg font-bold text-red-500">{profitMargin.toFixed(1)}%</span>
-    </div>
+      {/* Profit margin display */}
+      <span className="text-base font-bold text-red-500 transition-colors duration-300">
+        {profitMargin.toFixed(1)}%
+      </span>
+    </>
   );
 }

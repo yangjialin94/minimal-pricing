@@ -1,4 +1,4 @@
-import { Package, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
@@ -82,9 +82,8 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
   }, [dispatch, material.id, taskId]);
 
   return (
-    <div className="flex w-full flex-wrap items-center gap-3 rounded-lg border p-2 lg:border-none">
-      <Package className="h-5 w-5 text-gray-600" />
-
+    <div className="flex w-full flex-wrap items-center gap-3 rounded-md border p-2 lg:border-none">
+      📦
       {/* Material Name Input */}
       <input
         className="text-md min-w-[100px] flex-1 rounded-md border px-2 py-1"
@@ -93,7 +92,6 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-
       {/* Material Unit Cost Input */}
       <NumericFormat
         className="text-md w-24 min-w-[80px] rounded-md border px-2 py-1 text-center"
@@ -106,9 +104,7 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
         onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
         customInput="input"
       />
-
       <p className="text-gray-600">/</p>
-
       {/* Material Unit Input */}
       <input
         className="text-md w-16 min-w-[60px] rounded-md border px-2 py-1 text-center"
@@ -117,9 +113,7 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
         value={unit}
         onChange={(e) => setUnit(e.target.value)}
       />
-
       <p className="text-gray-600">×</p>
-
       {/* Material Quantity Input */}
       <NumericFormat
         className="text-md w-20 min-w-[80px] rounded-md border px-2 py-1 text-center"
@@ -130,12 +124,9 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
         onValueChange={(values) => setQuantity(parseFloat(values.value) || 0)}
         customInput="input"
       />
-
       <p className="text-gray-600">=</p>
-
       {/* Material Cost */}
       <p className="font-semibold text-blue-600">${formatToDecimalCost(material.cost, 2)}</p>
-
       {/* Delete Button */}
       <button
         className="flex-shrink-0 rounded-full p-2 transition-all duration-200 hover:bg-slate-200"

@@ -1,4 +1,4 @@
-import { Pickaxe, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { NumericFormat } from "react-number-format";
 
@@ -82,10 +82,9 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
   }, [dispatch, labor.id, taskId]);
 
   return (
-    <div className="relative flex w-full flex-wrap items-center gap-3 rounded-lg border p-2 lg:border-none">
+    <div className="relative flex w-full flex-wrap items-center gap-3 rounded-md border p-2 lg:border-none">
       <div className="flex w-[calc(100%-40px)] flex-wrap items-center gap-3">
-        <Pickaxe className="h-5 w-5 text-gray-600" />
-
+        🛠️
         {/* Labor Role Input */}
         <input
           className="text-md min-w-[100px] flex-1 rounded-md border px-2 py-1"
@@ -94,7 +93,6 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
           value={role}
           onChange={(e) => setRole(e.target.value)}
         />
-
         {/* Labor Unit Cost Input */}
         <NumericFormat
           className="text-md w-24 min-w-[80px] rounded-md border px-2 py-1 text-center"
@@ -107,9 +105,7 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
           onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
           customInput="input"
         />
-
         <p className="text-gray-600">/</p>
-
         {/* Labor Unit Input */}
         <input
           className="text-md w-16 min-w-[60px] rounded-md border px-2 py-1 text-center"
@@ -118,9 +114,7 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
           value={unit}
           onChange={(e) => setUnit(e.target.value)}
         />
-
         <p className="text-gray-600">×</p>
-
         {/* Labor Quantity Input */}
         <NumericFormat
           className="text-md w-20 min-w-[80px] rounded-md border px-2 py-1 text-center"
@@ -131,9 +125,7 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
           onValueChange={(values) => setQuantity(parseFloat(values.value) || 0)}
           customInput="input"
         />
-
         <p className="text-gray-600">=</p>
-
         {/* Labor Cost */}
         <p className="font-semibold text-blue-600">${formatToDecimalCost(labor.cost, 2)}</p>
       </div>

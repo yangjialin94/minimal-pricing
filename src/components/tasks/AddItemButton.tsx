@@ -20,7 +20,7 @@ export default function AddItemButton({ taskId }: { taskId: string }) {
     <div className="relative flex justify-center">
       {/* Add Item Dropdown Button */}
       <button
-        className="flex items-center gap-2 rounded-lg border bg-gray-200 px-4 py-2 text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-300"
+        className="flex items-center gap-2 rounded-md border bg-gray-200 px-4 py-2 text-gray-700 shadow-sm transition-all duration-200 hover:bg-gray-300"
         onClick={() => setIsOpen(!isOpen)}
       >
         <Plus className="h-5 w-5" />
@@ -29,7 +29,7 @@ export default function AddItemButton({ taskId }: { taskId: string }) {
 
       {/* Popover Menu */}
       {isOpen && (
-        <div className="absolute bottom-12 flex flex-col gap-1 rounded-lg border bg-white p-2 shadow-md">
+        <div className="absolute bottom-12 flex flex-col gap-1 rounded-md border bg-white p-2 shadow-md">
           <button
             className="flex items-center gap-2 whitespace-nowrap rounded-md px-4 py-2 text-gray-700 hover:bg-gray-200"
             onClick={() => handleAddItem("material")}
