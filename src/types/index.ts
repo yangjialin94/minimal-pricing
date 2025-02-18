@@ -50,7 +50,6 @@ export type Customer = {
 
 export type Project = {
   id: string;
-  name: string;
   tasks: Task[];
   totalCost: number; // Base cost of materials, labor, etc.
   profitMargin: number; // Stored as a whole number (10% -> 0.1)

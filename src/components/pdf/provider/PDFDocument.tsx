@@ -3,9 +3,13 @@ import React from "react";
 
 import { Project } from "@/types";
 
-// Function to format numbers with commas
+// Function to format numbers with commas and consistent decimal places
 const formatCurrency = (value: number) =>
-  new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 2,
+  }).format(value);
 
 const styles = StyleSheet.create({
   page: { padding: 40 },
@@ -27,12 +31,17 @@ const styles = StyleSheet.create({
   tableCellHeader: {
     fontSize: 10,
     fontWeight: "bold",
-    padding: 6,
+    padding: 8,
     width: "33%",
     textAlign: "center",
     backgroundColor: "#f3f3f3",
   },
-  tableCell: { fontSize: 10, padding: 6, width: "33%", textAlign: "center" },
+  tableCell: {
+    fontSize: 10,
+    padding: 8,
+    width: "33%",
+    textAlign: "center",
+  },
   totalContainer: {
     marginTop: 20,
     padding: 10,
@@ -41,8 +50,8 @@ const styles = StyleSheet.create({
     textAlign: "right",
   },
   totalRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
-  totalLabel: { fontSize: 12, fontWeight: "bold" },
-  totalValue: { fontSize: 12, fontWeight: "bold" },
+  totalLabel: { fontSize: 12, fontWeight: "bold", color: "#000" },
+  totalValue: { fontSize: 12, fontWeight: "bold", color: "#000" },
   totalPrice: { fontSize: 16, fontWeight: "bold", marginTop: 8, color: "#000" },
   taskTotalRow: {
     flexDirection: "row",
@@ -51,18 +60,20 @@ const styles = StyleSheet.create({
     backgroundColor: "#f3f3f3",
   },
   taskTotalLabel: {
-    fontSize: 10,
+    fontSize: 12, // Increased font size
     fontWeight: "bold",
-    padding: 6,
+    padding: 8,
     width: "50%",
     textAlign: "right",
+    color: "#000",
   },
   taskTotalValue: {
-    fontSize: 10,
+    fontSize: 12, // Increased font size
     fontWeight: "bold",
-    padding: 6,
+    padding: 8,
     width: "50%",
     textAlign: "center",
+    color: "#000",
   },
 });
 
@@ -90,9 +101,9 @@ export default function ProviderPDF({ project }: { project: Project }) {
           <Text style={styles.text}>Email: {project.customer.email}</Text>
         </View>
 
-        {/* Task-Based Tables */}
+        {/* Task-Based Tables - Prevent Page Breaks */}
         {project.tasks.map((task) => (
-          <View key={task.id} style={styles.tableContainer}>
+          <View key={task.id} style={styles.tableContainer} wrap={false}>
             {/* Task Title */}
             <Text style={styles.tableTitle}>{task.name}</Text>
 
@@ -131,12 +142,12 @@ export default function ProviderPDF({ project }: { project: Project }) {
                 </View>
               ))}
 
-              {/* Task Total Row (Only Total Cost & Total Price) */}
-              <View style={styles.taskTotalRow}>
+              {/* Task Total Row (Only Total Cost & Total Price) - Wrap Prevented */}
+              <View style={styles.taskTotalRow} wrap={false}>
                 <Text style={styles.taskTotalLabel}>Total Cost:</Text>
                 <Text style={styles.taskTotalValue}>{formatCurrency(task.totalCost)}</Text>
               </View>
-              <View style={styles.taskTotalRow}>
+              <View style={styles.taskTotalRow} wrap={false}>
                 <Text style={styles.taskTotalLabel}>Total Price:</Text>
                 <Text style={styles.taskTotalValue}>{formatCurrency(task.totalPrice)}</Text>
               </View>
@@ -145,7 +156,7 @@ export default function ProviderPDF({ project }: { project: Project }) {
         ))}
 
         {/* Totals Section - Now Properly Aligned & Spaced */}
-        <View style={styles.totalContainer}>
+        <View style={styles.totalContainer} wrap={false}>
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Total Cost:</Text>
             <Text style={styles.totalValue}>{formatCurrency(project.totalCost)}</Text>
