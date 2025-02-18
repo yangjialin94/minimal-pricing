@@ -21,7 +21,6 @@ export function TasksProvider({ children }: { children: ReactNode }) {
 
   // Update project level when detect tasks level changes
   useEffect(() => {
-    console.log("Triggered fn to update project!!!");
     projectDispatch({ type: "updated_tasks", payload: { tasks } });
   }, [projectDispatch, tasks]);
 

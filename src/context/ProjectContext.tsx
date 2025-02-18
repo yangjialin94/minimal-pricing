@@ -52,8 +52,32 @@ export function ProjectProvider({ initialProjectData, children }: ProjectProvide
 function projectReducer(project: Project, action: ProjectAction) {
   switch (action.type) {
     case "updated_project_name": {
-      console.log("updated_project_name");
       return { ...project, name: action.payload.projectName };
+    }
+
+    case "updated_user": {
+      return {
+        ...project,
+        user: {
+          ...project.user,
+          name: action.payload.userName,
+          phone: action.payload.userPhone,
+          email: action.payload.userEmail,
+        },
+      };
+    }
+
+    case "updated_customer": {
+      return {
+        ...project,
+        customer: {
+          ...project.customer,
+          name: action.payload.customerName,
+          address: action.payload.customerAddress,
+          phone: action.payload.customerPhone,
+          email: action.payload.customerEmail,
+        },
+      };
     }
 
     case "updated_total_profit": {

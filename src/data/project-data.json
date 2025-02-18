@@ -1,13 +1,13 @@
 {
-  "id": 2,
+  "id": "2",
   "name": "Home Renovation Project",
   "tasks": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Roof Replacement",
       "materials": [
         {
-          "id": 1,
+          "id": "1",
           "name": "Asphalt Shingles",
           "unit": "sq ft",
           "quantity": 1500,
@@ -15,7 +15,7 @@
           "cost": 7500
         },
         {
-          "id": 2,
+          "id": "2",
           "name": "Roofing Nails",
           "unit": "lbs",
           "quantity": 10,
@@ -23,7 +23,7 @@
           "cost": 150
         },
         {
-          "id": 3,
+          "id": "3",
           "name": "Roof Underlayment",
           "unit": "rolls",
           "quantity": 4,
@@ -33,7 +33,7 @@
       ],
       "labors": [
         {
-          "id": 1,
+          "id": "1",
           "role": "Roofer",
           "unit": "day",
           "quantity": 3,
@@ -41,7 +41,7 @@
           "cost": 1500
         },
         {
-          "id": 2,
+          "id": "2",
           "role": "Helper",
           "unit": "day",
           "quantity": 2,
@@ -49,17 +49,17 @@
           "cost": 600
         }
       ],
-      "additional": [{ "id": 1, "type": "Permit Fee", "cost": 200 }],
+      "additional": [{ "id": "1", "type": "Permit Fee", "cost": 200 }],
       "totalCost": 10250,
       "profitMargin": 0.0,
       "totalPrice": 10250
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Electrical Wiring Upgrade",
       "materials": [
         {
-          "id": 4,
+          "id": "4",
           "name": "Electrical Wires",
           "unit": "ft",
           "quantity": 500,
@@ -67,7 +67,7 @@
           "cost": 1500
         },
         {
-          "id": 5,
+          "id": "5",
           "name": "Circuit Breakers",
           "unit": "units",
           "quantity": 10,
@@ -75,7 +75,7 @@
           "cost": 600
         },
         {
-          "id": 6,
+          "id": "6",
           "name": "Electrical Outlets",
           "unit": "units",
           "quantity": 20,
@@ -85,7 +85,7 @@
       ],
       "labors": [
         {
-          "id": 3,
+          "id": "3",
           "role": "Electrician",
           "unit": "day",
           "quantity": 2,
@@ -93,7 +93,7 @@
           "cost": 1200
         },
         {
-          "id": 4,
+          "id": "4",
           "role": "Apprentice",
           "unit": "day",
           "quantity": 2,
@@ -103,7 +103,7 @@
       ],
       "additional": [
         {
-          "id": 2,
+          "id": "2",
           "type": "Inspection Fee",
           "cost": 150
         }
@@ -113,11 +113,11 @@
       "totalPrice": 4150
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Kitchen Remodeling",
       "materials": [
         {
-          "id": 7,
+          "id": "7",
           "name": "Granite Countertop",
           "unit": "sq ft",
           "quantity": 50,
@@ -125,7 +125,7 @@
           "cost": 4000
         },
         {
-          "id": 8,
+          "id": "8",
           "name": "Cabinet Wood",
           "unit": "sq ft",
           "quantity": 100,
@@ -133,7 +133,7 @@
           "cost": 2000
         },
         {
-          "id": 9,
+          "id": "9",
           "name": "Backsplash Tiles",
           "unit": "sq ft",
           "quantity": 30,
@@ -143,7 +143,7 @@
       ],
       "labors": [
         {
-          "id": 5,
+          "id": "5",
           "role": "Carpenter",
           "unit": "day",
           "quantity": 3,
@@ -151,7 +151,7 @@
           "cost": 1500
         },
         {
-          "id": 6,
+          "id": "6",
           "role": "Installer",
           "unit": "day",
           "quantity": 2,
@@ -161,7 +161,7 @@
       ],
       "additional": [
         {
-          "id": 3,
+          "id": "3",
           "type": "Permit Fee",
           "cost": 250
         }
@@ -176,13 +176,13 @@
   "totalPrice": 23350,
   "totalProfit": 0,
   "user": {
-    "id": 2,
+    "id": "2",
     "name": "Michael Johnson",
     "phone": "555-678-1234",
     "email": "michaelj@example.com"
   },
   "customer": {
-    "id": 2,
+    "id": "2",
     "name": "Emily Davis",
     "address": "456 Oak Street, Riverside",
     "phone": "555-789-2345",

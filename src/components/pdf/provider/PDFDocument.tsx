@@ -155,6 +155,10 @@ export default function ProviderPDF({ project }: { project: Project }) {
             <Text style={styles.totalValue}>{project.profitMargin.toFixed(1)}%</Text>
           </View>
           <View style={styles.totalRow}>
+            <Text style={styles.totalLabel}>Total Profit:</Text>
+            <Text style={styles.totalValue}>{formatCurrency(project.totalProfit)}</Text>
+          </View>
+          <View style={styles.totalRow}>
             <Text style={[styles.totalLabel, { fontSize: 14 }]}>Total Price:</Text>
             <Text style={styles.totalPrice}>{formatCurrency(project.totalPrice)}</Text>
           </View>

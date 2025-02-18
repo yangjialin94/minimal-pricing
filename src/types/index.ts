@@ -62,57 +62,74 @@ export type Project = {
 
 export type TaskAction =
   | { type: "added_task"; payload: { taskName: string } }
-  | { type: "updated_task"; payload: { taskId: number; taskName: string } }
-  | { type: "removed_task"; payload: { taskId: number } }
+  | { type: "updated_task"; payload: { taskId: string; taskName: string } }
+  | { type: "removed_task"; payload: { taskId: string } }
   | {
       type: "added_material";
       payload: {
-        taskId: number;
+        taskId: string;
       };
     }
   | {
       type: "updated_material";
       payload: {
-        taskId: number;
-        materialId: number;
+        taskId: string;
+        materialId: string;
         materialName: string;
         materialUnit: string;
         materialQuantity: number;
         materialUnitCost: number;
       };
     }
-  | { type: "removed_material"; payload: { taskId: number; materialId: number } }
+  | { type: "removed_material"; payload: { taskId: string; materialId: string } }
   | { type: "added_labor"; payload: { taskId: string } }
   | {
       type: "updated_labor";
       payload: {
-        taskId: number;
-        laborId: number;
+        taskId: string;
+        laborId: string;
         laborType: string;
         laborUnit: string;
         laborQuantity: number;
         laborUnitCost: number;
       };
     }
-  | { type: "removed_labor"; payload: { taskId: number; laborId: number } }
+  | { type: "removed_labor"; payload: { taskId: string; laborId: string } }
   | {
       type: "added_additional";
       payload: {
-        taskId: number;
+        taskId: string;
       };
     }
   | {
       type: "updated_additional";
       payload: {
-        taskId: number;
-        additionalId: number;
+        taskId: string;
+        additionalId: string;
         additionalType: string;
         additionalCost: number;
       };
     }
-  | { type: "removed_additional"; payload: { taskId: number; additionalId: number } };
+  | { type: "removed_additional"; payload: { taskId: string; additionalId: string } };
 
 export type ProjectAction =
   | { type: "updated_project_name"; payload: { projectName: string } }
+  | {
+      type: "updated_user";
+      payload: {
+        userName: string;
+        userPhone: string;
+        userEmail: string;
+      };
+    }
+  | {
+      type: "updated_customer";
+      payload: {
+        customerName: string;
+        customerAddress: string;
+        customerPhone: string;
+        customerEmail: string;
+      };
+    }
   | { type: "updated_total_profit"; payload: { totalProfit: number } }
   | { type: "updated_tasks"; payload: { tasks: Task[] } };

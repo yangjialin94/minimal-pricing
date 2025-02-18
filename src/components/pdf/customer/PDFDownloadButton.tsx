@@ -24,7 +24,7 @@ export default function PDFDownloadButton() {
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = "Customer_Invoice.pdf";
+      a.download = "Customer_Quote.pdf";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -45,7 +45,7 @@ export default function PDFDownloadButton() {
       ) : (
         <div className="flex items-center gap-2">
           <Download className="h-5 w-5" />
-          <p>User</p>
+          <p>Customer</p>
         </div>
       )}
     </button>
