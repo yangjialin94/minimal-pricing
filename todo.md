@@ -2,8 +2,6 @@
 
 ## Coding
 
-- [ ] Remove the project name attribute.
-- [ ] Remove details for materials, labors, and additional from the profit page.
 - [ ] Update the UI for all pages to make them consistent.
 
 ## Deployment
