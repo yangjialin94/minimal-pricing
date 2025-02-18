@@ -1,6 +1,5 @@
 # TODO List
 
-- [ ] Show the updated task price after applying weighted profit.
 - [ ] Add the project name, user, and customer modifications on the overview page.
 - [ ] Update the PDF layouts for user the customer (x2).
 - [ ] Create a home/intro screen for the product.

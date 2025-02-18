@@ -1,9 +1,10 @@
 "use client";
 
 import { pdf } from "@react-pdf/renderer";
+import { Download } from "lucide-react";
 import React, { useState } from "react";
 
-import PDFDocument from "@/components/pdf/PDFDocument";
+import PDFDocument from "@/components/pdf/customer/PDFDocument";
 import { useProject } from "@/hooks/useProject";
 
 export default function PDFDownloadButton() {
@@ -23,7 +24,7 @@ export default function PDFDownloadButton() {
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = "Project_Report.pdf";
+      a.download = "Customer_Invoice.pdf";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -35,11 +36,18 @@ export default function PDFDownloadButton() {
 
   return (
     <button
-      className="flex items-center gap-2 rounded-full border-2 border-blue-500 bg-blue-500 px-4 py-2 text-xl text-white hover:bg-blue-400"
+      className="flex items-center gap-2 rounded-full border-2 border-blue-500 bg-blue-500 px-5 py-2 text-lg font-medium text-white transition-all duration-200 ease-in-out hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
       onClick={handleDownload}
       disabled={loading}
     >
-      {loading ? "Generating PDF..." : "Download PDF"}
+      {loading ? (
+        <p className="animate-pulse">Generating PDF...</p>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Download className="h-5 w-5" />
+          <p>User</p>
+        </div>
+      )}
     </button>
   );
 }

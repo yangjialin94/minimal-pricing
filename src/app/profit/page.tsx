@@ -44,9 +44,9 @@ export default function Profit() {
         </Link>
         <Link
           className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
-          href="/overview"
+          href="/users"
         >
-          Go to Overview <ArrowBigRightDash size={22} />
+          Modify Users <ArrowBigRightDash size={22} />
         </Link>
       </div>
     </div>
@@ -118,10 +118,12 @@ function Summary({ project }: SummaryProps) {
 
   return (
     <div className="mt-6 flex flex-col rounded-md bg-white p-6 shadow-md">
-      <h2 className="mb-4 text-xl font-semibold text-gray-800">Project Summary</h2>
+      <h2 className="text-xl font-semibold text-gray-800">Project Summary</h2>
+
+      <hr className="my-4" />
 
       {/* TOTAL COST */}
-      <div className="flex items-center justify-between border-b pb-3 text-lg font-bold text-gray-900">
+      <div className="flex items-center justify-between text-lg font-bold text-gray-900">
         <span>Total Cost:</span>
         <div className="flex items-center gap-2">
           <span>${formatToDecimalCost(totalCost, 2)}</span>

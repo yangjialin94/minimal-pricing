@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { ArrowBigRightDash, Plus, Trash2 } from "lucide-react";
+import { ArrowBigLeftDash, ArrowBigRightDash, Plus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 
@@ -22,13 +22,21 @@ export default function Tasks() {
       <TaskList />
       <AddTask />
 
-      {/* Next Page Button */}
-      <Link
-        className="mt-10 flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
-        href="/profit"
-      >
-        Calculate Profit <ArrowBigRightDash size={22} />
-      </Link>
+      {/* Navigation */}
+      <div className="mt-10 flex gap-6">
+        <Link
+          className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
+          href="/"
+        >
+          <ArrowBigLeftDash size={22} /> Back to Home
+        </Link>
+        <Link
+          className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
+          href="/profit"
+        >
+          Calculate Profit <ArrowBigRightDash size={22} />
+        </Link>
+      </div>
     </div>
   );
 }
