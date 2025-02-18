@@ -79,7 +79,7 @@ function Summary({ project }: SummaryProps) {
   const totalProfit = project.totalProfit;
 
   return (
-    <div className="mt-6 flex flex-col rounded-md bg-gray-50 p-6 shadow-md">
+    <div className="mt-6 flex flex-col rounded-md border bg-gray-50 p-6 shadow-md">
       <h2 className="text-xl font-semibold text-gray-800">Project Summary</h2>
 
       <hr className="my-4" />
