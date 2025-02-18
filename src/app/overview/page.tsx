@@ -22,16 +22,10 @@ const CustomerPDFDownloadButton = dynamic(
   }
 );
 
-interface UserProps {
-  user: User;
-}
-
-interface CustomerProps {
-  customer: Customer;
-}
-
-interface TasksListProps {
-  tasks: Task[];
+interface InfoItemProps {
+  label: string;
+  value: string;
+  icon: string;
 }
 
 interface TaskSectionProps {
@@ -40,170 +34,140 @@ interface TaskSectionProps {
   icon: string;
 }
 
-interface SummaryProps {
-  project: Project;
-}
-
-export default function Profit() {
+export default function Overview() {
   const project = useProject();
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center">
-      <h1 className="mb-12 text-center text-2xl font-bold">Project Overview</h1>
+    <div className="mx-auto max-w-4xl px-4 py-8">
+      <h1 className="mb-8 text-center text-3xl font-bold text-gray-100">Project Overview</h1>
 
-      <div className="w-full px-8">
-        <User user={project.user} />
-        <Customer customer={project.customer} />
-        <TasksList tasks={project.tasks} />
-        <Summary project={project} />
+      {/* User & Customer Info */}
+      <div className="grid gap-6 sm:grid-cols-2">
+        <UserInfo user={project.user} />
+        <CustomerInfo customer={project.customer} />
       </div>
 
+      {/* Tasks & Summary */}
+      <TasksList tasks={project.tasks} />
+      <Summary project={project} />
+
       {/* Navigation */}
-      <div className="mt-10 flex gap-6">
-        <Link
-          className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
-          href="/users"
-        >
+      <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
+        <Link className="btn-secondary" href="/users">
           <ArrowBigLeftDash size={22} /> Modify Users
         </Link>
-
-        {/* Provider PDF Download Button */}
         <ProviderPDFDownloadButton />
-
-        {/* Customer PDF Download Button */}
         <CustomerPDFDownloadButton />
       </div>
     </div>
   );
 }
 
-function User({ user }: UserProps) {
+function UserInfo({ user }: { user: User }) {
   return (
-    <div className="mb-6 rounded-md border bg-white p-5 shadow-md">
-      <h2 className="flex items-center gap-2 text-xl font-semibold">👤 User Information</h2>
-      <hr className="my-4" />
-      <div className="space-y-2 text-gray-700">
-        <p className="flex items-center gap-2">
-          📛 <span className="font-semibold">Name:</span> {user.name}
-        </p>
-        <p className="flex items-center gap-2">
-          📞 <span className="font-semibold">Phone:</span> {user.phone}
-        </p>
-        <p className="flex items-center gap-2">
-          📧 <span className="font-semibold">Email:</span> {user.email}
-        </p>
-      </div>
+    <div className="rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md dark:bg-gray-900">
+      <h2 className="mb-4 text-lg font-semibold text-gray-200">Provider Information</h2>
+      <InfoItem label="Name" value={user.name} icon="📛" />
+      <InfoItem label="Phone" value={user.phone} icon="📞" />
+      <InfoItem label="Email" value={user.email} icon="📧" />
     </div>
   );
 }
 
-function Customer({ customer }: CustomerProps) {
+function CustomerInfo({ customer }: { customer: Customer }) {
   return (
-    <div className="mb-6 rounded-md border bg-white p-5 shadow-md">
-      <h2 className="flex items-center gap-2 text-xl font-semibold">👤 Customer Information</h2>
-      <hr className="my-4" />
-      <div className="space-y-2 text-gray-700">
-        <p className="flex items-center gap-2">
-          📛 <span className="font-semibold">Name:</span> {customer.name}
-        </p>
-        <p className="flex items-center gap-2">
-          📍 <span className="font-semibold">Address:</span> {customer.address}
-        </p>
-        <p className="flex items-center gap-2">
-          📞 <span className="font-semibold">Phone:</span> {customer.phone}
-        </p>
-        <p className="flex items-center gap-2">
-          📧 <span className="font-semibold">Email:</span> {customer.email}
-        </p>
-      </div>
+    <div className="rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md dark:bg-gray-900">
+      <h2 className="mb-4 text-lg font-semibold text-gray-200">Customer Information</h2>
+      <InfoItem label="Name" value={customer.name} icon="📛" />
+      <InfoItem label="Address" value={customer.address} icon="📍" />
+      <InfoItem label="Phone" value={customer.phone} icon="📞" />
+      <InfoItem label="Email" value={customer.email} icon="📧" />
     </div>
   );
 }
 
-function TasksList({ tasks }: TasksListProps) {
+function InfoItem({ label, value, icon }: InfoItemProps) {
   return (
-    <>
+    <p className="flex items-center gap-2 text-gray-300">
+      {icon} <span className="font-medium">{label}:</span> {value}
+    </p>
+  );
+}
+
+function TasksList({ tasks }: { tasks: Task[] }) {
+  return (
+    <div className="mt-8 space-y-6">
       {tasks.map((task) => (
-        <div key={task.id} className="mb-6 rounded-md border bg-white p-5 shadow-md">
-          <h2 className="flex items-center gap-2 text-xl font-semibold">📂 {task.name}</h2>
-          <hr className="my-4" />
+        <div key={task.id} className="rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md">
+          <h2 className="text-lg font-semibold text-gray-100">📂 {task.name}</h2>
 
+          {/* Task Sections */}
           <TaskSection title="Materials" items={task.materials} icon="📦" />
           <TaskSection title="Labors" items={task.labors} icon="🛠️" />
           <TaskSection title="Additional" items={task.additional} icon="📑" />
 
-          <div className="mt-4 flex justify-between border-t pt-3 text-lg font-bold text-gray-900">
+          {/* Task Cost */}
+          <div className="mt-4 flex justify-between border-t border-gray-600 pt-3 text-lg font-medium text-gray-200">
             <p>Total Cost:</p>
-            <div className="flex items-center gap-2">
-              <p>${formatToDecimalCost(task.totalCost, 2)}</p>
-              {task.profitMargin !== 0 && (
-                <p className="text-red-500">(${formatToDecimalCost(task.totalPrice, 2)})</p>
-              )}
-            </div>
+            <p className="text-blue-400">${formatToDecimalCost(task.totalCost, 2)}</p>
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 
 function TaskSection({ title, items, icon }: TaskSectionProps) {
-  if (items.length > 0) {
-    return (
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold">{title}</h3>
-        <ul className="mt-2">
-          {items.map((item) => (
-            <li key={item.id} className="flex items-center justify-between text-gray-700">
-              <div className="flex items-center gap-2">
-                <p className="flex items-center">
-                  {icon} {item.name || item.role || item.type}
-                </p>
-                {["Materials", "Labors"].includes(title) && (
-                  <p className="flex items-center">
-                    (${item.unitCost}/{item.unit} x {item.quantity})
-                  </p>
-                )}
-              </div>
-              <p className="flex items-center gap-2 font-medium">
-                ${formatToDecimalCost(item.cost, 2)}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
-  }
-}
-
-function Summary({ project }: SummaryProps) {
-  const totalCost = project.totalCost;
-  const profitMargin = project.profitMargin;
-  const totalPrice = project.totalPrice;
-  const totalProfit = project.totalProfit;
+  if (!items.length) return null;
 
   return (
-    <div className="mt-6 flex flex-col rounded-xl bg-white p-6 shadow-lg">
-      <h2 className="text-2xl font-bold text-gray-900">Project Summary</h2>
-      <hr className="my-4 border-gray-300" />
+    <div className="mt-4">
+      <h3 className="text-lg font-semibold text-gray-100">{title}</h3>
+      <ul className="mt-2 space-y-1 text-gray-300">
+        {items.map((item) => (
+          <li key={item.id} className="flex justify-between">
+            <p className="flex items-center gap-2">
+              {icon} {item.name || item.role || item.type}
+              {["Materials", "Labors"].includes(title) && (
+                <span className="text-sm text-gray-400">
+                  (${item.unitCost}/{item.unit} × {item.quantity})
+                </span>
+              )}
+            </p>
+            <p className="font-medium text-blue-400">${formatToDecimalCost(item.cost, 2)}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
-      {/* Total Cost */}
-      <div className="flex items-center justify-between text-lg font-semibold text-gray-700">
+function Summary({ project }: { project: Project }) {
+  return (
+    <div className="mt-8 rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md">
+      <h2 className="text-xl font-semibold text-gray-100">Project Summary</h2>
+      <hr className="my-4 border-gray-600" />
+
+      {/* TOTAL COST */}
+      <div className="flex justify-between text-lg font-medium text-gray-300">
         <p>Total Cost:</p>
-        <p className="text-gray-900">${formatToDecimalCost(totalCost, 2)}</p>
+        <p className="text-blue-400">${formatToDecimalCost(project.totalCost, 2)}</p>
       </div>
 
-      {/* Total Price */}
-      <div className="mt-4 flex items-center justify-between text-lg font-semibold text-gray-700">
+      {/* TOTAL PRICE */}
+      <div className="mt-4 flex justify-between text-lg font-medium text-gray-300">
         <p>Total Price:</p>
-        <p>${formatToDecimalCost(totalPrice, 2)}</p>
+        <p className="text-blue-400">${formatToDecimalCost(project.totalPrice, 2)}</p>
       </div>
 
-      {/* Total Profit */}
-      <div className="mt-4 flex items-center justify-between text-lg font-semibold text-gray-700">
-        <p>Total Profit:</p>
-        <p className={`${totalProfit >= 0 ? "text-green-600" : "text-red-500"}`}>
-          {`$${formatToDecimalCost(totalProfit, 2)} / ${formatToDecimalCost(profitMargin, 1)}%`}
+      {/* TOTAL PROFIT */}
+      <div className="mt-4 flex justify-between text-lg font-medium">
+        <p className="text-gray-300">Total Profit:</p>
+        <p className={`${project.totalProfit >= 0 ? "text-green-400" : "text-red-400"}`}>
+          {`$${formatToDecimalCost(project.totalProfit, 2)} / ${formatToDecimalCost(
+            project.profitMargin,
+            1
+          )}%`}
         </p>
       </div>
     </div>

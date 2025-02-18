@@ -19,9 +19,9 @@ interface MaterialComponentProps {
 
 export default function Materials({ taskId, materials }: MaterialsProps) {
   return (
-    <div className="flex w-full flex-col items-center gap-4">
-      <h3 className="text-lg font-semibold text-gray-700">Materials</h3>
-      <ul className="flex w-full flex-col gap-4">
+    <div className="w-full">
+      <h3 className="text-lg font-semibold text-gray-100">Materials</h3>
+      <ul className="mt-3 space-y-6">
         {materials.map((material) => (
           <li key={material.id}>
             <MaterialComponent taskId={taskId} material={material} />
@@ -75,65 +75,84 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
     dispatch({
       type: "removed_material",
       payload: {
-        taskId: taskId,
+        taskId,
         materialId: material.id,
       },
     });
   }, [dispatch, material.id, taskId]);
 
   return (
-    <div className="flex w-full flex-wrap items-center gap-3 rounded-md border p-2 lg:border-none">
-      📦
-      {/* Material Name Input */}
-      <input
-        className="text-md min-w-[100px] flex-1 rounded-md border px-2 py-1"
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      {/* Material Unit Cost Input */}
-      <NumericFormat
-        className="text-md w-24 min-w-[80px] rounded-md border px-2 py-1 text-center"
-        placeholder="Unit Cost"
-        value={unitCost}
-        decimalScale={2}
-        allowNegative={false}
-        thousandSeparator
-        prefix="$"
-        onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
-        customInput="input"
-      />
-      <p className="text-gray-600">/</p>
-      {/* Material Unit Input */}
-      <input
-        className="text-md w-16 min-w-[60px] rounded-md border px-2 py-1 text-center"
-        type="text"
-        placeholder="Unit"
-        value={unit}
-        onChange={(e) => setUnit(e.target.value)}
-      />
-      <p className="text-gray-600">×</p>
-      {/* Material Quantity Input */}
-      <NumericFormat
-        className="text-md w-20 min-w-[80px] rounded-md border px-2 py-1 text-center"
-        placeholder="Quantity"
-        value={quantity}
-        decimalScale={2}
-        allowNegative={false}
-        onValueChange={(values) => setQuantity(parseFloat(values.value) || 0)}
-        customInput="input"
-      />
-      <p className="text-gray-600">=</p>
-      {/* Material Cost */}
-      <p className="font-semibold text-blue-600">${formatToDecimalCost(material.cost, 2)}</p>
-      {/* Delete Button */}
-      <button
-        className="flex-shrink-0 rounded-full p-2 transition-all duration-200 hover:bg-slate-200"
-        onClick={handleRemoveMaterial}
-      >
-        <Trash2 className="h-5 w-5 text-red-500" />
-      </button>
+    <div className="relative w-full rounded-lg border border-gray-700 bg-gray-800 p-5 shadow-md dark:border-gray-600">
+      {/* Material Header */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-lg font-medium text-gray-200">
+          <p className="hidden sm:flex">📦 </p>
+          <input
+            className="input-field min-w-[160px] flex-grow border-gray-600 bg-gray-900 text-lg font-semibold focus:border-blue-500 focus:ring focus:ring-blue-400/40 sm:min-w-[300px] md:min-w-[350px] lg:min-w-[400px] xl:min-w-[450px]"
+            type="text"
+            placeholder="Material Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </div>
+        <button
+          className="rounded-full p-2 transition-all duration-200 hover:bg-red-700/20"
+          onClick={handleRemoveMaterial}
+        >
+          <Trash2 className="h-6 w-6 text-red-500" />
+        </button>
+      </div>
+
+      {/* Adjusted Grid for Small Screens */}
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
+        {/* Price Per Unit */}
+        <div className="flex w-full min-w-0 flex-col">
+          <p className="text-sm text-gray-400">Price Per Unit</p>
+          <div className="flex flex-nowrap items-center gap-2">
+            <NumericFormat
+              className="input-field w-full border-gray-600 bg-gray-900 text-center focus:border-blue-500 focus:ring focus:ring-blue-400/40"
+              placeholder="Unit Cost"
+              value={unitCost}
+              decimalScale={2}
+              allowNegative={false}
+              thousandSeparator
+              prefix="$"
+              onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
+              customInput="input"
+            />
+            <p className="mx-1 min-w-[20px] text-center text-gray-400">per</p>{" "}
+            <input
+              className="input-field w-full border-gray-600 bg-gray-900 text-center focus:border-blue-500 focus:ring focus:ring-blue-400/40"
+              type="text"
+              placeholder="Unit"
+              value={unit}
+              onChange={(e) => setUnit(e.target.value)}
+            />
+          </div>
+        </div>
+
+        {/* Quantity */}
+        <div className="flex w-full min-w-0 flex-col">
+          <p className="text-sm text-gray-400">Quantity</p>
+          <NumericFormat
+            className="input-field w-full border-gray-600 bg-gray-900 text-center focus:border-blue-500 focus:ring focus:ring-blue-400/40"
+            placeholder="Quantity"
+            value={quantity}
+            decimalScale={2}
+            allowNegative={false}
+            onValueChange={(values) => setQuantity(parseFloat(values.value) || 0)}
+            customInput="input"
+          />
+        </div>
+      </div>
+
+      {/* Total Cost Section */}
+      <div className="mt-4 flex items-center justify-between border-t border-gray-700 pt-3">
+        <p className="text-lg font-medium text-gray-300">Total:</p>
+        <p className="text-xl font-semibold text-blue-400">
+          ${formatToDecimalCost(material.cost, 2)}
+        </p>
+      </div>
     </div>
   );
 }

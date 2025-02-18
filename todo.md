@@ -2,7 +2,8 @@
 
 ## Coding
 
-- [ ] Update the UI for all pages to make them consistent.
+- [ ] Testing.
+- [ ] Remove the test data on initial load.
 
 ## Deployment
 

@@ -1,6 +1,7 @@
 import "../styles/globals.css";
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import { ProjectProvider } from "@/context/ProjectContext";
 import { TasksProvider } from "@/context/TasksContext";
@@ -11,12 +12,11 @@ export const metadata: Metadata = {
   description: "Contract pricing calculator app",
 };
 
-// Fetch data from the server (runs only on first load)
+// Fetch project data on the client side if possible (to avoid blocking UI rendering)
 async function getProjectDataFromServer() {
   try {
-    // Build an absolute URL
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-    const response = await fetch(`${baseUrl}/api/project-template`, {});
+    const response = await fetch(`${baseUrl}/api/project-template`);
     if (!response.ok) throw new Error("Failed to fetch project data");
     return await response.json();
   } catch (error) {
@@ -25,22 +25,31 @@ async function getProjectDataFromServer() {
   }
 }
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const initialProjectData = await getProjectDataFromServer();
 
   return (
     <html lang="en">
-      <body className="flex min-h-screen w-screen items-center justify-center bg-gray-50">
+      <body className="min-h-screen w-full bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
         <ProjectProvider initialProjectData={initialProjectData}>
           <TasksProvider>
-            <div className="w-full max-w-5xl p-6 md:p-10 lg:p-12 xl:p-16">{children}</div>
+            <main className="flex w-full flex-col items-center justify-center">
+              <div className="w-full max-w-3xl px-2 sm:max-w-4xl sm:px-6 md:max-w-5xl md:px-10 lg:px-12 xl:px-16 2xl:px-24">
+                <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
+              </div>
+            </main>
           </TasksProvider>
         </ProjectProvider>
       </body>
     </html>
+  );
+}
+
+// Fallback loading screen to prevent UI freezing
+function LoadingScreen() {
+  return (
+    <div className="flex h-screen w-full items-center justify-center">
+      <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-blue-500"></div>
+    </div>
   );
 }

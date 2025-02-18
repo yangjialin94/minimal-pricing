@@ -19,9 +19,9 @@ interface AdditionalComponentProps {
 
 export default function Additional({ taskId, additional }: AdditionalProps) {
   return (
-    <div className="flex w-full flex-col items-center gap-4">
-      <h3 className="text-lg font-semibold text-gray-700">Additional</h3>
-      <ul className="flex w-full flex-col gap-4">
+    <div className="w-full">
+      <h3 className="text-lg font-semibold text-gray-100">Additional</h3>
+      <ul className="mt-3 space-y-6">
         {additional.map((add) => (
           <li key={add.id}>
             <AdditionalComponent taskId={taskId} additional={add} />
@@ -68,41 +68,53 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
   }, [dispatch, additional.id, taskId]);
 
   return (
-    <div className="relative flex w-full flex-wrap items-center gap-3 rounded-md border p-2 lg:border-none">
-      <div className="flex w-[calc(100%-40px)] flex-wrap items-center gap-3">
-        🏡
-        {/* Additional Type Input */}
-        <input
-          className="text-md min-w-[100px] flex-1 rounded-md border px-2 py-1"
-          type="text"
-          placeholder="Type"
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-        />
-        {/* Additional Cost Input */}
-        <NumericFormat
-          className="text-md w-24 min-w-[80px] rounded-md border px-2 py-1 text-center"
-          placeholder="Cost"
-          value={cost}
-          decimalScale={2}
-          allowNegative={false}
-          thousandSeparator
-          prefix="$"
-          onValueChange={(values) => setCost(parseFloat(values.value) || 0)}
-          customInput="input"
-        />
-        <p className="text-gray-600">=</p>
-        {/* Additional Cost */}
-        <p className="font-semibold text-blue-600">${formatToDecimalCost(additional.cost, 2)}</p>
+    <div className="relative w-full rounded-lg border border-gray-700 bg-gray-800 p-5 shadow-md dark:border-gray-600">
+      {/* Additional Header */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center gap-2 text-lg font-medium text-gray-200">
+          <p className="hidden sm:flex">🏡</p> {/* Hidden on small screens */}
+          <input
+            className="input-field min-w-[160px] flex-grow border-gray-600 bg-gray-900 text-lg font-semibold focus:border-blue-500 focus:ring focus:ring-blue-400/40 sm:min-w-[250px] md:min-w-[300px] lg:min-w-[350px] xl:min-w-[400px]"
+            type="text"
+            placeholder="Type"
+            value={type}
+            onChange={(e) => setType(e.target.value)}
+          />
+        </div>
+        <button
+          className="rounded-full p-2 transition-all duration-200 hover:bg-red-700/20"
+          onClick={handleRemoveAdditional}
+        >
+          <Trash2 className="h-6 w-6 text-red-500" />
+        </button>
       </div>
 
-      {/* Delete Button - Positioned Outside */}
-      <button
-        className="absolute right-0 top-1/2 -translate-y-1/2 rounded-full p-2 transition-all duration-200 hover:bg-red-100"
-        onClick={handleRemoveAdditional}
-      >
-        <Trash2 className="h-5 w-5 text-red-500" />
-      </button>
+      {/* Adjusted Grid for Small Screens */}
+      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
+        {/* Additional Cost Input */}
+        <div className="flex w-full min-w-0 flex-col">
+          <p className="text-sm text-gray-400">Cost</p>
+          <NumericFormat
+            className="input-field w-full border-gray-600 bg-gray-900 text-center focus:border-blue-500 focus:ring focus:ring-blue-400/40"
+            placeholder="Cost"
+            value={cost}
+            decimalScale={2}
+            allowNegative={false}
+            thousandSeparator
+            prefix="$"
+            onValueChange={(values) => setCost(parseFloat(values.value) || 0)}
+            customInput="input"
+          />
+        </div>
+      </div>
+
+      {/* Total Cost Section */}
+      <div className="mt-4 flex items-center justify-between border-t border-gray-700 pt-3">
+        <p className="text-lg font-medium text-gray-300">Total:</p>
+        <p className="text-xl font-semibold text-blue-400">
+          ${formatToDecimalCost(additional.cost, 2)}
+        </p>
+      </div>
     </div>
   );
 }

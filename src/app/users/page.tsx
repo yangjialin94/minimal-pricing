@@ -19,27 +19,20 @@ export default function Users() {
   const project = useProject();
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center px-4 py-6">
-      <h1 className="mb-6 text-center text-2xl font-bold">Users</h1>
+    <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-8">
+      <h1 className="mb-6 text-center text-3xl font-bold dark:text-gray-100">Users</h1>
 
-      {/* User Information */}
-      <UserInfo user={project.user} />
-
-      {/* Customer Information */}
-      <CustomerInfo customer={project.customer} />
+      <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
+        <UserInfo user={project.user} />
+        <CustomerInfo customer={project.customer} />
+      </div>
 
       {/* Navigation */}
-      <div className="mt-10 flex w-full justify-center gap-6">
-        <Link
-          className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
-          href="/profit"
-        >
+      <div className="mt-10 flex w-full max-w-lg justify-center gap-6">
+        <Link className="btn-secondary" href="/profit">
           <ArrowBigLeftDash size={22} /> Calculate Profit
         </Link>
-        <Link
-          className="flex items-center gap-2 rounded-md border px-4 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
-          href="/overview"
-        >
+        <Link className="btn-primary" href="/overview">
           Project Overview <ArrowBigRightDash size={22} />
         </Link>
       </div>
@@ -69,17 +62,25 @@ function UserInfo({ user }: { user: User }) {
   }, [debouncedUser.name, debouncedUser.phone, debouncedUser.email, dispatch]);
 
   return (
-    <div className="w-full rounded-md border bg-white p-6 shadow-md">
-      <h2 className="mb-4 text-xl font-semibold text-gray-800">Provider Information</h2>
+    <div className="w-full rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md sm:mt-8 dark:bg-gray-900">
+      {" "}
+      <h2 className="mb-4 text-xl font-semibold text-gray-200">Provider Information</h2>
       <div className="space-y-4">
-        {["name", "phone", "email"].map((field) => (
-          <InputFieldRow
-            key={field}
-            label={field.charAt(0).toUpperCase() + field.slice(1)}
-            value={userState[field]}
-            onChange={(e) => setUserState((prev) => ({ ...prev, [field]: e.target.value }))}
-          />
-        ))}
+        <InputFieldRow
+          label="Name"
+          value={userState.name}
+          onChange={(e) => setUserState((prev) => ({ ...prev, name: e.target.value }))}
+        />
+        <InputFieldRow
+          label="Phone"
+          value={userState.phone}
+          onChange={(e) => setUserState((prev) => ({ ...prev, phone: e.target.value }))}
+        />
+        <InputFieldRow
+          label="Email"
+          value={userState.email}
+          onChange={(e) => setUserState((prev) => ({ ...prev, email: e.target.value }))}
+        />
       </div>
     </div>
   );
@@ -96,7 +97,6 @@ function CustomerInfo({ customer }: { customer: Customer }) {
     email: useDebounce(customerState.email, 500),
   };
 
-  // Update customer in the global state when debounce completes
   useEffect(() => {
     dispatch({
       type: "updated_customer",
@@ -116,17 +116,29 @@ function CustomerInfo({ customer }: { customer: Customer }) {
   ]);
 
   return (
-    <div className="mt-6 w-full rounded-md border bg-white p-6 shadow-md">
-      <h2 className="mb-4 text-xl font-semibold text-gray-800">Customer Information</h2>
+    <div className="mt-6 w-full rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md dark:bg-gray-900">
+      <h2 className="mb-4 text-xl font-semibold text-gray-200">Customer Information</h2>
       <div className="space-y-4">
-        {["name", "address", "phone", "email"].map((field) => (
-          <InputFieldRow
-            key={field}
-            label={field.charAt(0).toUpperCase() + field.slice(1)}
-            value={customerState[field]}
-            onChange={(e) => setCustomerState((prev) => ({ ...prev, [field]: e.target.value }))}
-          />
-        ))}
+        <InputFieldRow
+          label="Name"
+          value={customerState.name}
+          onChange={(e) => setCustomerState((prev) => ({ ...prev, name: e.target.value }))}
+        />
+        <InputFieldRow
+          label="Address"
+          value={customerState.address}
+          onChange={(e) => setCustomerState((prev) => ({ ...prev, address: e.target.value }))}
+        />
+        <InputFieldRow
+          label="Phone"
+          value={customerState.phone}
+          onChange={(e) => setCustomerState((prev) => ({ ...prev, phone: e.target.value }))}
+        />
+        <InputFieldRow
+          label="Email"
+          value={customerState.email}
+          onChange={(e) => setCustomerState((prev) => ({ ...prev, email: e.target.value }))}
+        />
       </div>
     </div>
   );
@@ -134,14 +146,14 @@ function CustomerInfo({ customer }: { customer: Customer }) {
 
 function InputFieldRow({ label, value, onChange }: InputFieldRowProps) {
   return (
-    <div className="flex items-center gap-4">
-      <label className="w-24 text-lg font-bold text-gray-900">{label}:</label>
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <label className="w-full text-lg font-medium text-gray-200 sm:w-24 md:w-28">{label}:</label>
       <input
         type="text"
         value={value}
         onChange={onChange}
-        placeholder={`Enter ${label.toLowerCase()}`}
-        className="flex-1 rounded-md border border-gray-300 px-3 py-2 text-base focus:border-blue-500 focus:outline-none"
+        placeholder={`Enter ${label.toLowerCase()}...`}
+        className={`input-field w-full max-w-md sm:flex-1`}
       />
     </div>
   );

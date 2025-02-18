@@ -19,26 +19,20 @@ export default function Profit() {
   const project = useProject();
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col items-center">
-      <h1 className="mb-12 text-center text-2xl font-bold">Profit Calculator</h1>
+    <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-4 py-10 md:px-6 lg:px-8">
+      <h1 className="mb-12 text-center text-3xl font-bold dark:text-gray-100">Profit Calculator</h1>
 
-      <div className="w-full px-8">
+      <div className="w-full">
         <TasksList tasks={project.tasks} />
         <Summary project={project} />
       </div>
 
       {/* Navigation */}
-      <div className="mt-10 flex w-full justify-center gap-8">
-        <Link
-          className="flex items-center gap-2 rounded-md border px-5 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
-          href="/tasks"
-        >
+      <div className="mt-10 flex w-full justify-center gap-6">
+        <Link className="btn-secondary" href="/tasks">
           <ArrowBigLeftDash size={22} /> Modify Tasks
         </Link>
-        <Link
-          className="flex items-center gap-2 rounded-md border px-5 py-2 text-gray-700 shadow-sm hover:bg-gray-100"
-          href="/users"
-        >
+        <Link className="btn-primary" href="/users">
           Modify Users <ArrowBigRightDash size={22} />
         </Link>
       </div>
@@ -48,17 +42,23 @@ export default function Profit() {
 
 function TasksList({ tasks }: TasksListProps) {
   return (
-    <>
+    <div className="w-full space-y-6">
       {tasks.map((task) => (
-        <div key={task.id} className="mb-6 rounded-md border bg-white p-6 shadow-md">
-          <h2 className="flex items-center gap-2 text-xl font-semibold">📂 {task.name}</h2>
+        <div
+          key={task.id}
+          className="rounded-xl border bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-800"
+        >
+          <h2 className="flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-gray-100">
+            📂 {task.name}
+          </h2>
 
-          {/* Remove unnecessary horizontal rule */}
-
-          <div className="mt-4 flex justify-between pt-3 text-lg font-bold text-gray-900">
-            <p>Total Cost:</p>
+          {/* Cost Breakdown */}
+          <div className="mt-4 flex justify-between border-t border-gray-300 pt-3 text-lg font-bold dark:border-gray-600">
+            <p className="text-gray-700 dark:text-gray-200">Total Cost:</p>
             <div className="flex items-center gap-2">
-              <p>${formatToDecimalCost(task.totalCost, 2)}</p>
+              <p className="text-blue-600 dark:text-blue-400">
+                ${formatToDecimalCost(task.totalCost, 2)}
+              </p>
               {task.profitMargin !== 0 && (
                 <p className="text-base text-red-500">
                   (${formatToDecimalCost(task.totalPrice, 2)})
@@ -68,7 +68,7 @@ function TasksList({ tasks }: TasksListProps) {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 }
 
@@ -79,26 +79,28 @@ function Summary({ project }: SummaryProps) {
   const totalProfit = project.totalProfit;
 
   return (
-    <div className="mt-6 flex flex-col rounded-md border bg-gray-50 p-6 shadow-md">
-      <h2 className="text-xl font-semibold text-gray-800">Project Summary</h2>
+    <div className="mt-8 w-full rounded-xl border bg-gray-50 p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
+      <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-200">Project Summary</h2>
 
-      <hr className="my-4" />
+      <hr className="my-4 border-gray-300 dark:border-gray-600" />
 
       {/* TOTAL COST */}
-      <div className="flex items-center justify-between text-lg font-bold text-gray-900">
-        <span>Total Cost:</span>
+      <div className="flex items-center justify-between text-lg font-bold">
+        <span className="text-gray-900 dark:text-gray-100">Total Cost:</span>
         <div className="flex items-center gap-2">
-          <span>${formatToDecimalCost(totalCost, 2)}</span>
+          <span className="text-blue-600 dark:text-blue-400">
+            ${formatToDecimalCost(totalCost, 2)}
+          </span>
           <span className="text-base text-red-500">(${formatToDecimalCost(totalPrice, 2)})</span>
         </div>
       </div>
 
       {/* TOTAL PROFIT */}
-      <div className="mt-4 flex items-center justify-between text-lg font-bold text-gray-900">
-        <span>Total Profit:</span>
+      <div className="mt-4 flex items-center justify-between text-lg font-bold">
+        <span className="text-gray-900 dark:text-gray-100">Total Profit:</span>
         <div className="flex items-center gap-2">
-          <ProfitCalculator profitMargin={profitMargin} totalProfit={totalProfit} />
-          <span className="text-xl font-extrabold text-green-600">{profitMargin.toFixed(1)}%</span>
+          <ProfitCalculator totalProfit={totalProfit} />
+          <span className="text-xl font-extrabold text-green-500">{profitMargin.toFixed(1)}%</span>
         </div>
       </div>
     </div>

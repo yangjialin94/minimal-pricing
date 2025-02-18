@@ -5,11 +5,10 @@ import { useDebounce } from "@/hooks/useDebounce";
 import { useProjectDispatch } from "@/hooks/useProjectDispatch";
 
 interface ProfitCalculatorProps {
-  profitMargin: number; // e.g., 10 means 10%
   totalProfit: number;
 }
 
-export default function ProfitCalculator({ profitMargin, totalProfit }: ProfitCalculatorProps) {
+export default function ProfitCalculator({ totalProfit }: ProfitCalculatorProps) {
   const dispatch = useProjectDispatch();
   const [localTotalProfit, setLocalTotalProfit] = useState(totalProfit.toString());
 
@@ -42,7 +41,7 @@ export default function ProfitCalculator({ profitMargin, totalProfit }: ProfitCa
     <>
       {/* Numeric input for profit */}
       <NumericFormat
-        className="w-32 rounded-md border border-gray-300 px-3 py-1 text-base placeholder:text-gray-400 focus:border-blue-500 focus:outline-none"
+        className="input-field w-28 text-center sm:w-32"
         placeholder="$0.00"
         value={localTotalProfit}
         decimalScale={2}
@@ -51,11 +50,6 @@ export default function ProfitCalculator({ profitMargin, totalProfit }: ProfitCa
         prefix="$"
         onValueChange={handleValueChange}
       />
-
-      {/* Profit margin display */}
-      <span className="text-base font-bold text-red-500 transition-colors duration-300">
-        {profitMargin.toFixed(1)}%
-      </span>
     </>
   );
 }
