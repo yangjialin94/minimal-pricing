@@ -43,30 +43,31 @@ export default function Overview() {
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8">
-      <h1 className="mb-8 text-center text-3xl font-bold text-gray-100">Project Overview</h1>
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="mx-auto w-full max-w-4xl px-4 py-8">
+        <h1 className="mb-8 text-center text-3xl font-bold text-gray-100">Project Overview</h1>
 
-      {/* User & Customer Info */}
-      <div className="grid gap-6 sm:grid-cols-2">
-        <UserInfo user={project.user} />
-        <CustomerInfo customer={project.customer} />
-      </div>
+        {/* User & Customer Info */}
+        <div className="grid gap-6 sm:grid-cols-2">
+          <UserInfo user={project.user} />
+          <CustomerInfo customer={project.customer} />
+        </div>
 
-      {/* Tasks & Summary */}
-      <TasksList tasks={project.tasks} />
-      <Summary project={project} />
+        {/* Tasks & Summary */}
+        <TasksList tasks={project.tasks} />
+        <Summary project={project} />
 
-      {/* Navigation */}
-      <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
-        <Link className="btn-secondary" href="/users">
-          <ArrowBigLeftDash size={22} /> Modify Users
-        </Link>
-        <ProviderPDFDownloadButton />
-        <CustomerPDFDownloadButton />
-      </div>
+        {/* Navigation */}
+        <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
+          <Link className="btn-secondary" href="/users">
+            <ArrowBigLeftDash size={22} /> Modify Users
+          </Link>
+          <ProviderPDFDownloadButton />
+          <CustomerPDFDownloadButton />
+        </div>
 
-      {/* Donation Button */}
-      {/* <motion.button
+        {/* Donation Button */}
+        {/* <motion.button
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -77,8 +78,9 @@ export default function Overview() {
         Buy Me a Coffee
       </motion.button> */}
 
-      {/* Payment Modal */}
-      {/* {isModalOpen && <BuyMeCoffeeModal onClose={() => setIsModalOpen(false)} />} */}
+        {/* Payment Modal */}
+        {/* {isModalOpen && <BuyMeCoffeeModal onClose={() => setIsModalOpen(false)} />} */}
+      </div>
     </div>
   );
 }

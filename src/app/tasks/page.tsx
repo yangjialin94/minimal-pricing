@@ -25,7 +25,7 @@ export default function Tasks() {
   const tasks = useTasks();
 
   return (
-    <div className="container flex min-h-screen flex-col items-center px-4 py-10 sm:px-6 md:px-8">
+    <div className="container flex min-h-screen flex-col items-center justify-center px-4 py-10 sm:px-6 md:px-8">
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}

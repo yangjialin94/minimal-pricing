@@ -20,14 +20,12 @@ export default function Profit() {
   const project = useProject();
 
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col items-center px-4 py-10 md:px-6 lg:px-8">
+    <div className="container flex min-h-screen flex-col items-center justify-center px-4 py-10 sm:px-6 md:px-8">
       <h1 className="mb-12 text-center text-3xl font-bold dark:text-gray-100">Profit Calculator</h1>
-
       <div className="w-full">
         <TasksList tasks={project.tasks} />
         <Summary project={project} />
       </div>
-
       {/* Navigation */}
       <div className="mt-10 flex w-full justify-center gap-6">
         <Link className="btn-secondary" href="/tasks">

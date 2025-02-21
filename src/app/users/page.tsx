@@ -19,14 +19,12 @@ export default function Users() {
   const project = useProject();
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col items-center px-4 py-8">
+    <div className="container flex min-h-screen flex-col items-center justify-center px-4 py-10 sm:px-6 md:px-8">
       <h1 className="mb-6 text-center text-3xl font-bold dark:text-gray-100">Users</h1>
-
       <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
         <UserInfo user={project.user} />
         <CustomerInfo customer={project.customer} />
       </div>
-
       {/* Navigation */}
       <div className="mt-10 flex w-full max-w-lg justify-center gap-6">
         <Link className="btn-secondary" href="/profit">
