@@ -1,6 +1,5 @@
 # TODO List
 
-- [ ] Remove the test data on initial load.
 - [ ] Implement Stripe API for "Buy me a coffee" donation function.
 - [ ] Implement Google AdSense.
 - [ ] Update the README.md file.
