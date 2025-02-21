@@ -51,10 +51,6 @@ export function ProjectProvider({ initialProjectData, children }: ProjectProvide
 // Reducer function
 function projectReducer(project: Project, action: ProjectAction) {
   switch (action.type) {
-    case "updated_project_name": {
-      return { ...project, name: action.payload.projectName };
-    }
-
     case "updated_user": {
       return {
         ...project,
@@ -100,7 +96,9 @@ function projectReducer(project: Project, action: ProjectAction) {
     case "updated_tasks": {
       const newTotalCost = calculateTotalCost(action.payload.tasks);
       const newTotalPrice = newTotalCost + project.totalProfit;
-      const newProfitMargin = ((newTotalPrice - newTotalCost) / newTotalPrice) * 100;
+      // const newProfitMargin = ((newTotalPrice - newTotalCost) / newTotalPrice) * 100;
+      const newProfitMargin =
+        newTotalPrice === 0 ? 0 : ((newTotalPrice - newTotalCost) / newTotalPrice) * 100;
 
       return {
         ...project,

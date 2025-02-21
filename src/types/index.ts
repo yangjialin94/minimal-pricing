@@ -114,7 +114,6 @@ export type TaskAction =
   | { type: "removed_additional"; payload: { taskId: string; additionalId: string } };
 
 export type ProjectAction =
-  | { type: "updated_project_name"; payload: { projectName: string } }
   | {
       type: "updated_user";
       payload: {

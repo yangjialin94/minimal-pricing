@@ -22,6 +22,8 @@ import { formatToDecimalCost } from "@/lib/format";
 import { Task } from "@/types";
 
 export default function Tasks() {
+  const tasks = useTasks();
+
   return (
     <div className="container flex min-h-screen flex-col items-center px-4 py-10 sm:px-6 md:px-8">
       <motion.h1
@@ -41,9 +43,11 @@ export default function Tasks() {
         <Link className="btn-secondary" href="/">
           <ArrowBigLeftDash size={22} /> Back to Home
         </Link>
-        <Link className="btn-primary" href="/profit">
-          Calculate Profit <ArrowBigRightDash size={22} />
-        </Link>
+        {tasks && tasks.length > 0 && (
+          <Link className="btn-primary" href="/profit">
+            Calculate Profit <ArrowBigRightDash size={22} />
+          </Link>
+        )}
       </div>
     </div>
   );
