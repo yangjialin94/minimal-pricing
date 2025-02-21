@@ -104,7 +104,7 @@ export default function ProviderPDF({ project }: { project: Project }) {
       <Page size="LETTER" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>DETAILED QUOTE</Text>
+          <Text style={styles.title}>QUOTE</Text>
         </View>
 
         {/* User's Company Info */}

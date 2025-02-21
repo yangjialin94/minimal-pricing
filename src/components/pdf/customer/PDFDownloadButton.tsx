@@ -24,7 +24,7 @@ export default function PDFDownloadButton() {
       const blobUrl = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = blobUrl;
-      a.download = "Customer_Quote.pdf";
+      a.download = "Customer_Invoice.pdf";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);

@@ -19,10 +19,10 @@ const styles = StyleSheet.create({
   subtitle: { fontSize: 12, fontWeight: "bold", marginBottom: 4 },
   text: { fontSize: 10, marginBottom: 2 },
 
-  // Use Flexbox
+  // Table Styles
   table: {
     display: "flex",
-    flexDirection: "column", // Stack rows
+    flexDirection: "column",
     width: "100%",
     borderWidth: 1,
     borderColor: "#000",
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     display: "flex",
-    flexDirection: "row", // Cells side-by-side
+    flexDirection: "row",
     borderBottomWidth: 1,
     borderBottomColor: "#000",
   },
@@ -48,6 +48,8 @@ const styles = StyleSheet.create({
     flex: 1,
     textAlign: "center",
   },
+
+  // Totals
   totalContainer: {
     marginTop: 20,
     padding: 10,
@@ -58,6 +60,23 @@ const styles = StyleSheet.create({
   totalRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
   totalLabel: { fontSize: 12, fontWeight: "bold" },
   totalPrice: { fontSize: 16, fontWeight: "bold", marginTop: 8, color: "#000" },
+
+  // Signature & Date Section
+  signatureSection: {
+    marginTop: 30,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  signatureField: {
+    fontSize: 12,
+    marginTop: 10,
+    textAlign: "center",
+    width: "45%",
+    borderTopWidth: 1,
+    borderTopColor: "#000",
+    paddingTop: 5,
+  },
 });
 
 export default function CustomerPDF({ project }: { project: Project }) {
@@ -66,7 +85,7 @@ export default function CustomerPDF({ project }: { project: Project }) {
       <Page size="LETTER" style={styles.page}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={styles.title}>QUOTE</Text>
+          <Text style={styles.title}>INVOICE</Text>
         </View>
 
         {/* User's Company Info */}
@@ -106,6 +125,12 @@ export default function CustomerPDF({ project }: { project: Project }) {
             <Text style={[styles.totalLabel, { fontSize: 14 }]}>Total Price:</Text>
             <Text style={styles.totalPrice}>{formatCurrency(project.totalPrice)}</Text>
           </View>
+        </View>
+
+        {/* Signature & Date Section */}
+        <View style={styles.signatureSection}>
+          <Text style={styles.signatureField}>Authorized Signature</Text>
+          <Text style={styles.signatureField}>Date</Text>
         </View>
       </Page>
     </Document>
