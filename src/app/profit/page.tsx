@@ -92,7 +92,9 @@ function Summary({ project }: SummaryProps) {
           <span className="text-blue-600 dark:text-blue-400">
             ${formatToDecimalCost(totalCost, 2)}
           </span>
-          <span className="text-base text-red-500">(${formatToDecimalCost(totalPrice, 2)})</span>
+          {profitMargin !== 0 && (
+            <span className="text-base text-red-500">(${formatToDecimalCost(totalPrice, 2)})</span>
+          )}
         </div>
       </div>
 

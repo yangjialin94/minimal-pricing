@@ -129,7 +129,12 @@ function TasksList({ tasks }: { tasks: Task[] }) {
           {/* Task Cost */}
           <div className="mt-4 flex justify-between border-t border-gray-600 pt-3 text-lg font-medium text-gray-200">
             <p>Total Cost:</p>
-            <p className="text-blue-400">${formatToDecimalCost(task.totalCost, 2)}</p>
+            <div className="flex items-center gap-2">
+              <p className="text-blue-400">${formatToDecimalCost(task.totalCost, 2)}</p>
+              {task.profitMargin !== 0 && (
+                <p className="text-red-500">(${formatToDecimalCost(task.totalPrice, 2)})</p>
+              )}
+            </div>
           </div>
         </div>
       ))}
