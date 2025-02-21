@@ -1,11 +1,30 @@
 import { HousePlus, Package, Pickaxe, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useTasksDispatch } from "@/hooks/useTasksDispatch";
 
 export default function AddItemButton({ taskId }: { taskId: string }) {
   const dispatch = useTasksDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const popoverRef = useRef<HTMLDivElement>(null);
+
+  // Handle closing popover
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      console.log(popoverRef.current);
+      if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
 
   // Handle adding items
   const handleAddItem = (type: "material" | "labor" | "additional") => {
@@ -28,7 +47,10 @@ export default function AddItemButton({ taskId }: { taskId: string }) {
 
       {/* Popover Menu */}
       {isOpen && (
-        <div className="absolute bottom-14 flex w-48 flex-col gap-1 rounded-lg border border-gray-300 bg-white p-2 shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200">
+        <div
+          className="absolute bottom-14 flex w-48 flex-col gap-1 rounded-lg border border-gray-300 bg-white p-2 shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+          ref={popoverRef}
+        >
           <button
             className="flex items-center gap-2 rounded-md px-4 py-2 text-gray-700 transition-all duration-200 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
             onClick={() => handleAddItem("material")}
