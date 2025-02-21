@@ -1,8 +1,8 @@
 # TODO List
 
-- [ ] Implement Stripe API for "Buy me a coffee" donation function.
-- [ ] Implement Google AdSense.
-- [ ] Update the README.md file.
-- [ ] Deploy the app on Vercel.
 - [ ] Buy a domain.
+- [ ] Deploy the app on Vercel.
+
+- [ ] Implement Stripe API.
+- [ ] Implement Google AdSense.
 - [ ] Marketing - "Upload" to the Saas online markets.
