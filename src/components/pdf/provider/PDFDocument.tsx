@@ -15,33 +15,48 @@ const styles = StyleSheet.create({
   page: { padding: 40 },
   header: { textAlign: "center", marginBottom: 20 },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 10 },
-  section: { marginBottom: 15, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" },
+  section: {
+    marginBottom: 15,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
   subtitle: { fontSize: 12, fontWeight: "bold", marginBottom: 4 },
   text: { fontSize: 10, marginBottom: 2 },
+
   tableContainer: { marginTop: 15, marginBottom: 20 },
   tableTitle: { fontSize: 14, fontWeight: "bold", marginBottom: 5 },
+
+  // Use Flexbox instead of display: "table"
   table: {
-    display: "table",
+    display: "flex",
+    flexDirection: "column", // Stacks each row vertically
     width: "100%",
     borderWidth: 1,
     borderColor: "#000",
     marginTop: 5,
   },
-  tableRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#000" },
+  tableRow: {
+    display: "flex",
+    flexDirection: "row", // Places cells side by side
+    borderBottomWidth: 1,
+    borderBottomColor: "#000",
+  },
   tableCellHeader: {
     fontSize: 10,
     fontWeight: "bold",
     padding: 8,
-    width: "33%",
+    width: "33%", // 3 columns at 33% each
     textAlign: "center",
     backgroundColor: "#f3f3f3",
   },
   tableCell: {
     fontSize: 10,
     padding: 8,
-    width: "33%",
+    width: "33%", // match columns
     textAlign: "center",
   },
+
   totalContainer: {
     marginTop: 20,
     padding: 10,
@@ -49,10 +64,16 @@ const styles = StyleSheet.create({
     borderTopColor: "#ccc",
     textAlign: "right",
   },
-  totalRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
+  totalRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 4,
+  },
   totalLabel: { fontSize: 12, fontWeight: "bold", color: "#000" },
   totalValue: { fontSize: 12, fontWeight: "bold", color: "#000" },
   totalPrice: { fontSize: 16, fontWeight: "bold", marginTop: 8, color: "#000" },
+
+  // For total rows at the end of each task
   taskTotalRow: {
     flexDirection: "row",
     borderTopWidth: 1,
@@ -60,7 +81,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#f3f3f3",
   },
   taskTotalLabel: {
-    fontSize: 12, // Increased font size
+    fontSize: 12,
     fontWeight: "bold",
     padding: 8,
     width: "50%",
@@ -68,7 +89,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   taskTotalValue: {
-    fontSize: 12, // Increased font size
+    fontSize: 12,
     fontWeight: "bold",
     padding: 8,
     width: "50%",
@@ -101,7 +122,7 @@ export default function ProviderPDF({ project }: { project: Project }) {
           <Text style={styles.text}>Email: {project.customer.email}</Text>
         </View>
 
-        {/* Task-Based Tables - Prevent Page Breaks */}
+        {/* Task-Based Tables */}
         {project.tasks.map((task) => (
           <View key={task.id} style={styles.tableContainer} wrap={false}>
             {/* Task Title */}
@@ -142,7 +163,7 @@ export default function ProviderPDF({ project }: { project: Project }) {
                 </View>
               ))}
 
-              {/* Task Total Row (Only Total Cost & Total Price) - Wrap Prevented */}
+              {/* Task Totals (Cost & Price) */}
               <View style={styles.taskTotalRow} wrap={false}>
                 <Text style={styles.taskTotalLabel}>Total Cost:</Text>
                 <Text style={styles.taskTotalValue}>{formatCurrency(task.totalCost)}</Text>
@@ -155,7 +176,7 @@ export default function ProviderPDF({ project }: { project: Project }) {
           </View>
         ))}
 
-        {/* Totals Section - Now Properly Aligned & Spaced */}
+        {/* Overall Totals */}
         <View style={styles.totalContainer} wrap={false}>
           <View style={styles.totalRow}>
             <Text style={styles.totalLabel}>Total Cost:</Text>

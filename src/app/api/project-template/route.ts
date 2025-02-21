@@ -8,7 +8,6 @@ export async function GET() {
     const fileContent = fs.readFileSync(filePath, "utf-8");
     const projectData = JSON.parse(fileContent);
 
-    // Return JSON response
     return NextResponse.json(projectData);
   } catch (error) {
     console.error("Error loading project data:", error);

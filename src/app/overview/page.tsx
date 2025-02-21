@@ -9,7 +9,7 @@ import { useState } from "react";
 import BuyMeCoffeeModal from "@/components/overview/BuyMeCoffeeModal";
 import { useProject } from "@/hooks/useProject";
 import { formatToDecimalCost } from "@/lib/format";
-import { Additional, Customer, Labor, Material, User } from "@/types";
+import { Additional, Customer, Labor, Material, Project, Task, User } from "@/types";
 
 const ProviderPDFDownloadButton = dynamic(
   () => import("@/components/pdf/provider/PDFDownloadButton"),
@@ -143,19 +143,55 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
     <div className="mt-4">
       <h3 className="text-lg font-semibold text-gray-100">{title}</h3>
       <ul className="mt-2 space-y-1 text-gray-300">
-        {items.map((item) => (
-          <li key={item.id} className="flex justify-between">
-            <p className="flex items-center gap-2">
-              {icon} {item.name || item.role || item.type}
-              {["Materials", "Labors"].includes(title) && (
-                <span className="text-sm text-gray-400">
-                  (${item.unitCost}/{item.unit} × {item.quantity})
-                </span>
-              )}
-            </p>
-            <p className="font-medium text-blue-400">${formatToDecimalCost(item.cost, 2)}</p>
-          </li>
-        ))}
+        {items.map((item) => {
+          if (title === "Materials") {
+            // Material
+            const material = item as Material;
+
+            return (
+              <li key={material.id} className="flex justify-between">
+                <p className="flex items-center gap-2">
+                  {icon} {material.name}
+                  <span className="text-sm text-gray-400">
+                    (${material.unitCost}/{material.unit} x {material.quantity})
+                  </span>
+                </p>
+                <p className="font-medium text-blue-400">
+                  ${formatToDecimalCost(material.cost, 2)}
+                </p>
+              </li>
+            );
+          } else if (title === "Labors") {
+            // Labor
+            const labor = item as Labor;
+
+            return (
+              <li key={labor.id} className="flex justify-between">
+                <p className="flex items-center gap-2">
+                  {icon} {labor.role}
+                  <span className="text-sm text-gray-400">
+                    (${labor.unitCost}/{labor.unit} x {labor.quantity})
+                  </span>
+                </p>
+                <p className="font-medium text-blue-400">${formatToDecimalCost(labor.cost, 2)}</p>
+              </li>
+            );
+          } else {
+            // Additional
+            const additional = item as Additional;
+
+            return (
+              <li key={additional.id} className="flex justify-between">
+                <p className="flex items-center gap-2">
+                  {icon} {additional.type}
+                </p>
+                <p className="font-medium text-blue-400">
+                  ${formatToDecimalCost(additional.cost, 2)}
+                </p>
+              </li>
+            );
+          }
+        })}
       </ul>
     </div>
   );

@@ -11,8 +11,8 @@ interface ProjectProviderProps {
 }
 
 // Create Contexts
-export const ProjectContext = createContext<Project[] | null>(null);
-export const ProjectDispatchContext = createContext<React.Dispatch<TaskAction> | null>(null);
+export const ProjectContext = createContext<Project | null>(null);
+export const ProjectDispatchContext = createContext<React.Dispatch<ProjectAction> | null>(null);
 
 // Create Provider
 export function ProjectProvider({ initialProjectData, children }: ProjectProviderProps) {

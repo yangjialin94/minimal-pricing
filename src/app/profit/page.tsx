@@ -6,6 +6,7 @@ import Link from "next/link";
 import ProfitCalculator from "@/components/profit/ProfitCalculator";
 import { useProject } from "@/hooks/useProject";
 import { formatToDecimalCost } from "@/lib/format";
+import { Project, Task } from "@/types";
 
 interface TasksListProps {
   tasks: Task[];

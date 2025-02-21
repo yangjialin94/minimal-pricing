@@ -8,12 +8,12 @@ import { formatToDecimalCost } from "@/lib/format";
 import { Material } from "@/types";
 
 interface MaterialsProps {
-  taskId: number;
+  taskId: string;
   materials: Material[];
 }
 
 interface MaterialComponentProps {
-  taskId: number;
+  taskId: string;
   material: Material;
 }
 
@@ -120,7 +120,6 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
               thousandSeparator
               prefix="$"
               onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
-              customInput="input"
             />
             <p className="mr-2 min-w-[20px] text-center text-gray-400">per</p>{" "}
             <input
@@ -143,7 +142,6 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
             decimalScale={2}
             allowNegative={false}
             onValueChange={(values) => setQuantity(parseFloat(values.value) || 0)}
-            customInput="input"
           />
         </div>
       </div>

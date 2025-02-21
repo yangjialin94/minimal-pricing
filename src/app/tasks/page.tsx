@@ -52,6 +52,10 @@ export default function Tasks() {
 function TaskList() {
   const tasks = useTasks();
 
+  if (!tasks) {
+    return;
+  }
+
   return (
     <div className="w-full max-w-xl px-4 sm:max-w-3xl sm:px-6 md:px-8">
       <ul className="space-y-6">
@@ -74,7 +78,6 @@ function TaskComponent({ task }: { task: Task }) {
   const dispatch = useTasksDispatch();
 
   const handleToggleTask = () => {
-    console.log("hit the toggle task");
     dispatch({
       type: "toggled_task",
       payload: { taskId: task.id },
@@ -82,7 +85,7 @@ function TaskComponent({ task }: { task: Task }) {
   };
 
   const handleUpdateTask = useCallback(
-    (id: number, name: string) => {
+    (name: string) => {
       dispatch({
         type: "updated_task",
         payload: {

@@ -8,12 +8,12 @@ import { formatToDecimalCost } from "@/lib/format";
 import { Labor } from "@/types";
 
 interface LaborsProps {
-  taskId: number;
+  taskId: string;
   labors: Labor[];
 }
 
 interface LaborComponentProps {
-  taskId: number;
+  taskId: string;
   labor: Labor;
 }
 
@@ -120,7 +120,6 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
               thousandSeparator
               prefix="$"
               onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
-              customInput="input"
             />
             <p className="mr-2 min-w-[20px] text-center text-gray-400">per</p>{" "}
             <input
@@ -143,7 +142,6 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
             decimalScale={2}
             allowNegative={false}
             onValueChange={(values) => setQuantity(parseFloat(values.value) || 0)}
-            customInput="input"
           />
         </div>
       </div>

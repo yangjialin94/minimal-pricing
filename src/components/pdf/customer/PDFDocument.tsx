@@ -3,7 +3,6 @@ import React from "react";
 
 import { Project } from "@/types";
 
-// Function to format numbers with commas
 const formatCurrency = (value: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
 
@@ -11,26 +10,44 @@ const styles = StyleSheet.create({
   page: { padding: 40 },
   header: { textAlign: "center", marginBottom: 20 },
   title: { fontSize: 22, fontWeight: "bold", marginBottom: 10 },
-  section: { marginBottom: 15, paddingBottom: 10, borderBottomWidth: 1, borderBottomColor: "#ccc" },
+  section: {
+    marginBottom: 15,
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
   subtitle: { fontSize: 12, fontWeight: "bold", marginBottom: 4 },
   text: { fontSize: 10, marginBottom: 2 },
+
+  // Use Flexbox
   table: {
-    display: "table",
+    display: "flex",
+    flexDirection: "column", // Stack rows
     width: "100%",
     borderWidth: 1,
     borderColor: "#000",
     marginTop: 10,
   },
-  tableRow: { flexDirection: "row", borderBottomWidth: 1, borderBottomColor: "#000" },
+  tableRow: {
+    display: "flex",
+    flexDirection: "row", // Cells side-by-side
+    borderBottomWidth: 1,
+    borderBottomColor: "#000",
+  },
   tableCellHeader: {
     fontSize: 10,
     fontWeight: "bold",
     padding: 6,
-    width: "50%",
+    flex: 1,
     textAlign: "center",
     backgroundColor: "#f3f3f3",
   },
-  tableCell: { fontSize: 10, padding: 6, width: "50%", textAlign: "center" },
+  tableCell: {
+    fontSize: 10,
+    padding: 6,
+    flex: 1,
+    textAlign: "center",
+  },
   totalContainer: {
     marginTop: 20,
     padding: 10,
@@ -40,7 +57,6 @@ const styles = StyleSheet.create({
   },
   totalRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 4 },
   totalLabel: { fontSize: 12, fontWeight: "bold" },
-  totalValue: { fontSize: 12, fontWeight: "bold" },
   totalPrice: { fontSize: 16, fontWeight: "bold", marginTop: 8, color: "#000" },
 });
 
@@ -53,7 +69,7 @@ export default function CustomerPDF({ project }: { project: Project }) {
           <Text style={styles.title}>QUOTE</Text>
         </View>
 
-        {/* User's Company Info (User's Name in Place of Company Name) */}
+        {/* User's Company Info */}
         <View style={styles.section}>
           <Text style={styles.subtitle}>{project.user.name}</Text>
           <Text style={styles.text}>{project.user.phone}</Text>
@@ -84,7 +100,7 @@ export default function CustomerPDF({ project }: { project: Project }) {
           ))}
         </View>
 
-        {/* Totals Section - Now Properly Aligned & Spaced */}
+        {/* Totals Section */}
         <View style={styles.totalContainer}>
           <View style={styles.totalRow}>
             <Text style={[styles.totalLabel, { fontSize: 14 }]}>Total Price:</Text>

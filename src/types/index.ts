@@ -29,8 +29,8 @@ export type Task = {
   labors: Labor[];
   additional: Additional[];
   totalCost: number;
-  profitMargin: numbers;
-  totalPrice: numbers; // totalCost / (1 - profitMargin / 100)
+  profitMargin: number;
+  totalPrice: number; // totalCost / (1 - profitMargin / 100)
   isOpen: boolean;
 };
 
@@ -89,7 +89,7 @@ export type TaskAction =
       payload: {
         taskId: string;
         laborId: string;
-        laborType: string;
+        laborRole: string;
         laborUnit: string;
         laborQuantity: number;
         laborUnitCost: number;

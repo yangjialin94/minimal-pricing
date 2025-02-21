@@ -8,12 +8,12 @@ import { formatToDecimalCost } from "@/lib/format";
 import { Additional as AdditionalType } from "@/types";
 
 interface AdditionalProps {
-  taskId: number;
+  taskId: string;
   additional: AdditionalType[];
 }
 
 interface AdditionalComponentProps {
-  taskId: number;
+  taskId: string;
   additional: AdditionalType;
 }
 
@@ -103,7 +103,6 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
           thousandSeparator
           prefix="$"
           onValueChange={(values) => setCost(parseFloat(values.value) || 0)}
-          customInput="input"
         />
       </div>
 

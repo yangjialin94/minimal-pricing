@@ -46,6 +46,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
           totalCost: 0,
           profitMargin: 0.0,
           totalPrice: 0,
+          isOpen: true,
         },
       ];
     }
@@ -78,7 +79,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                   name: "",
                   unit: "",
                   quantity: 1,
-                  materialUnitCost: 0,
+                  unitCost: 0,
                   cost: 0,
                 },
               ],
@@ -145,7 +146,7 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
                   role: "",
                   unit: "",
                   quantity: 1,
-                  unitCost: "",
+                  unitCost: 0,
                   cost: 0,
                 },
               ],

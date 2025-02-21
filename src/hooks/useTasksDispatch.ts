@@ -4,5 +4,11 @@ import { TasksDispatchContext } from "@/context/TasksContext";
 
 // Dispatch tasks
 export function useTasksDispatch() {
-  return useContext(TasksDispatchContext);
+  const dispatch = useContext(TasksDispatchContext);
+
+  if (!dispatch) {
+    throw new Error("useTasksDispatch must be used within a <TasksProvider>.");
+  }
+
+  return dispatch;
 }

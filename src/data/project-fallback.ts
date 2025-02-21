@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
 
+import { Project } from "@/types";
+
 export const PROJECT_FALLBACK: Project = {
   id: uuidv4(),
-  name: "",
   tasks: [],
   totalCost: 0,
   profitMargin: 0,
@@ -21,5 +22,4 @@ export const PROJECT_FALLBACK: Project = {
     phone: "",
     email: "",
   },
-  isOpen: true,
 };
