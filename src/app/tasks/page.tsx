@@ -31,10 +31,10 @@ export default function Tasks() {
 
       {/* Navigation */}
       <div className="mt-10 flex w-full justify-center gap-6">
-        <Link className="btn-secondary" href="/tasks">
+        <Link className="btn-secondary" href="/">
           <ArrowBigLeftDash size={22} /> Back to Home
         </Link>
-        <Link className="btn-primary" href="/users">
+        <Link className="btn-primary" href="/profit">
           Calculate Profit <ArrowBigRightDash size={22} />
         </Link>
       </div>

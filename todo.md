@@ -3,7 +3,6 @@
 ## Coding
 
 - [ ] Testing. Check all functionalities and copies.
-  - [ ] "Add Item" dismiss on clicking outside the button.
   - [ ] Add minimize task button in the task header.
   - [ ] Navigation on tasks page is wrong.
 - [ ] Remove the test data on initial load.
