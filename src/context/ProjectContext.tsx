@@ -22,11 +22,21 @@ export function ProjectProvider({ initialProjectData, children }: ProjectProvide
     setIsClient(true);
   }, []);
 
-  // Get initial project data
   const getInitialData = () => {
     if (typeof window !== "undefined") {
       const storedProject = sessionStorage.getItem("project");
-      return storedProject ? JSON.parse(storedProject) : initialProjectData;
+      if (storedProject) {
+        try {
+          const parsedProject = JSON.parse(storedProject);
+          return {
+            ...initialProjectData,
+            ...parsedProject,
+          };
+        } catch (error) {
+          console.error("Error parsing project data from sessionStorage:", error);
+          return initialProjectData;
+        }
+      }
     }
     return initialProjectData;
   };
@@ -34,8 +44,17 @@ export function ProjectProvider({ initialProjectData, children }: ProjectProvide
   const [project, dispatch] = useReducer(projectReducer, initialProjectData, getInitialData);
 
   useEffect(() => {
-    if (isClient) {
-      sessionStorage.setItem("project", JSON.stringify(project));
+    if (isClient && project) {
+      sessionStorage.setItem(
+        "project",
+        JSON.stringify({
+          ...project,
+          totalCost: project.totalCost ?? 0,
+          totalPrice: project.totalPrice ?? 0,
+          profitMargin: project.profitMargin ?? 0,
+          totalProfit: project.totalProfit ?? 0,
+        })
+      );
     }
   }, [project, isClient]);
 
@@ -78,34 +97,120 @@ function projectReducer(project: Project, action: ProjectAction) {
 
     case "updated_total_profit": {
       const newTotalPrice = project.totalCost + action.payload.totalProfit;
-      const newProfitMargin = ((newTotalPrice - project.totalCost) / newTotalPrice) * 100;
+      const newProfitMargin =
+        newTotalPrice > 0 ? ((newTotalPrice - project.totalCost) / newTotalPrice) * 100 : 0;
+
+      const numberOfTasks = project.tasks.length;
+      const profitPerTask = numberOfTasks > 0 ? action.payload.totalProfit / numberOfTasks : 0;
+
+      // Calculate the total cost of non-zero cost tasks
+      const nonZeroCostTasks = project.tasks.filter((task) => task.totalCost > 0);
+      const totalCostOfNonZeroTasks = nonZeroCostTasks.reduce(
+        (sum, task) => sum + task.totalCost,
+        0
+      );
 
       return {
         ...project,
-        tasks: project.tasks.map((task) => ({
-          ...task,
-          profitMargin: newProfitMargin,
-          totalPrice: task.totalCost / (1 - newProfitMargin / 100),
-        })),
-        profitMargin: newProfitMargin,
-        totalPrice: newTotalPrice,
+        tasks: project.tasks.map((task) => {
+          const taskTotalCost = task.totalCost ?? 0;
+          let taskProfitMargin = task.profitMargin ?? 0;
+          let taskTotalPrice = task.totalPrice ?? 0;
+          let taskProfit = 0;
+
+          if (action.payload.totalProfit === 0) {
+            // If totalProfit is 0, each task should have totalPrice = totalCost
+            taskTotalPrice = taskTotalCost;
+            taskProfitMargin = 0;
+          } else if (project.totalCost > 0) {
+            // Normal Case: Weighted profit distribution based on task cost
+            if (taskTotalCost > 0) {
+              taskProfit = (taskTotalCost / totalCostOfNonZeroTasks) * action.payload.totalProfit;
+            }
+            taskTotalPrice = taskTotalCost + taskProfit;
+            taskProfitMargin =
+              taskTotalPrice > 0 ? ((taskTotalPrice - taskTotalCost) / taskTotalPrice) * 100 : 0;
+          } else if (project.totalCost === 0 && action.payload.totalProfit > 0) {
+            // Special Case: All Tasks Have 0 Cost ➝ Distribute profit evenly
+            taskTotalPrice = profitPerTask;
+            taskProfitMargin = 100;
+          }
+
+          // Prevent NaN or Infinity
+          if (!isFinite(taskTotalPrice) || isNaN(taskTotalPrice)) {
+            taskTotalPrice = 0;
+          }
+
+          return {
+            ...task,
+            totalCost: taskTotalCost,
+            profitMargin: taskProfitMargin,
+            totalPrice: taskTotalPrice,
+          };
+        }),
+        profitMargin: newProfitMargin ?? 0,
+        totalPrice: newTotalPrice ?? 0,
         totalProfit: action.payload.totalProfit,
       };
     }
 
     case "updated_tasks": {
-      const newTotalCost = calculateTotalCost(action.payload.tasks);
-      const newTotalPrice = newTotalCost + project.totalProfit;
-      // const newProfitMargin = ((newTotalPrice - newTotalCost) / newTotalPrice) * 100;
+      const newTotalCost =
+        action.payload.tasks.length > 0 ? calculateTotalCost(action.payload.tasks) : 0;
+      const newTotalPrice = newTotalCost + (project.totalProfit ?? 0);
       const newProfitMargin =
-        newTotalPrice === 0 ? 0 : ((newTotalPrice - newTotalCost) / newTotalPrice) * 100;
+        newTotalPrice > 0 ? ((newTotalPrice - newTotalCost) / newTotalPrice) * 100 : 0;
+
+      const numberOfTasks = action.payload.tasks.length;
+      const profitPerTask = numberOfTasks > 0 ? project.totalProfit / numberOfTasks : 0;
+
+      // Calculate the total cost of non-zero cost tasks
+      const nonZeroCostTasks = action.payload.tasks.filter((task) => task.totalCost > 0);
+      const totalCostOfNonZeroTasks = nonZeroCostTasks.reduce(
+        (sum, task) => sum + task.totalCost,
+        0
+      );
+
+      // Update each task
+      const updatedTasks = action.payload.tasks.map((task) => {
+        const taskTotalCost = task.totalCost ?? 0;
+        let taskProfitMargin = task.profitMargin ?? 0;
+        let taskTotalPrice = task.totalPrice ?? 0;
+        let taskProfit = 0;
+
+        if (newTotalCost > 0) {
+          // Normal Case: Weighted profit distribution based on task cost
+          if (taskTotalCost > 0) {
+            taskProfit = (taskTotalCost / totalCostOfNonZeroTasks) * (project.totalProfit ?? 0);
+          }
+          taskTotalPrice = taskTotalCost + taskProfit;
+          taskProfitMargin =
+            taskTotalPrice > 0 ? ((taskTotalPrice - taskTotalCost) / taskTotalPrice) * 100 : 0;
+        } else if (newTotalCost === 0 && project.totalProfit > 0) {
+          // Special Case: All Tasks Have 0 Cost -> Distribute profit evenly
+          taskTotalPrice = profitPerTask;
+          taskProfitMargin = 100;
+        }
+
+        // Prevent NaN or Infinity
+        if (!isFinite(taskTotalPrice) || isNaN(taskTotalPrice)) {
+          taskTotalPrice = 0;
+        }
+
+        return {
+          ...task,
+          totalCost: taskTotalCost,
+          profitMargin: taskProfitMargin,
+          totalPrice: taskTotalPrice,
+        };
+      });
 
       return {
         ...project,
-        tasks: action.payload.tasks,
-        totalCost: newTotalCost,
-        totalPrice: newTotalPrice,
-        profitMargin: newProfitMargin,
+        tasks: updatedTasks,
+        totalCost: newTotalCost ?? 0,
+        totalPrice: newTotalPrice ?? 0,
+        profitMargin: newProfitMargin ?? 0,
       };
     }
 

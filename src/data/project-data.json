@@ -6,13 +6,13 @@
   "totalPrice": 0,
   "totalProfit": 0,
   "user": {
-    "id": "",
+    "id": "1",
     "name": "",
     "phone": "",
     "email": ""
   },
   "customer": {
-    "id": "",
+    "id": "1",
     "name": "",
     "address": "",
     "phone": "",

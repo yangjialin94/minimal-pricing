@@ -74,10 +74,10 @@ function TasksList({ tasks }: TasksListProps) {
 }
 
 function Summary({ project }: SummaryProps) {
-  const totalCost = project.totalCost;
-  const profitMargin = project.profitMargin;
-  const totalPrice = project.totalPrice;
-  const totalProfit = project.totalProfit;
+  const totalCost = project.totalCost ?? 0;
+  const profitMargin = project.profitMargin ?? 0;
+  const totalPrice = project.totalPrice ?? 0;
+  const totalProfit = project.totalProfit ?? 0;
 
   return (
     <div className="mt-8 w-full rounded-xl border bg-gray-50 p-6 shadow-md dark:border-gray-700 dark:bg-gray-800">
