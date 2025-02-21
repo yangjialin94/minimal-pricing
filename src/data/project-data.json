@@ -1,5 +1,5 @@
 {
-  "id": "2",
+  "id": "1",
   "tasks": [
     {
       "id": "1",
@@ -51,7 +51,8 @@
       "additional": [{ "id": "1", "type": "Permit Fee", "cost": 200 }],
       "totalCost": 10250,
       "profitMargin": 0.0,
-      "totalPrice": 10250
+      "totalPrice": 10250,
+      "isOpen": true
     },
     {
       "id": "2",
@@ -109,7 +110,8 @@
       ],
       "totalCost": 4150,
       "profitMargin": 0.0,
-      "totalPrice": 4150
+      "totalPrice": 4150,
+      "isOpen": true
     },
     {
       "id": "3",
@@ -167,7 +169,8 @@
       ],
       "totalCost": 8950,
       "profitMargin": 0.0,
-      "totalPrice": 8950
+      "totalPrice": 8950,
+      "isOpen": true
     }
   ],
   "totalCost": 23350,

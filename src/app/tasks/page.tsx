@@ -1,6 +1,13 @@
 "use client";
 
-import { ArrowBigLeftDash, ArrowBigRightDash, Plus, Trash2 } from "lucide-react";
+import {
+  ArrowBigLeftDash,
+  ArrowBigRightDash,
+  ChevronDown,
+  ChevronUp,
+  Plus,
+  Trash2,
+} from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
@@ -66,17 +73,25 @@ function TaskList() {
 function TaskComponent({ task }: { task: Task }) {
   const dispatch = useTasksDispatch();
 
+  const handleToggleTask = () => {
+    console.log("hit the toggle task");
+    dispatch({
+      type: "toggled_task",
+      payload: { taskId: task.id },
+    });
+  };
+
   const handleUpdateTask = useCallback(
     (id: number, name: string) => {
       dispatch({
         type: "updated_task",
         payload: {
-          taskId: id,
+          taskId: task.id,
           taskName: name,
         },
       });
     },
-    [dispatch]
+    [dispatch, task.id]
   );
 
   const handleRemoveTask = useCallback(() => {
@@ -90,59 +105,81 @@ function TaskComponent({ task }: { task: Task }) {
 
   return (
     <div className="relative mb-6 rounded-xl border bg-white p-5 shadow-md transition-all hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
-      <div className="flex items-center gap-4">
-        <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
-          📂
-          <input
-            className="input-field"
-            type="text"
-            placeholder="Task Name"
-            value={task.name}
-            onChange={(e) => handleUpdateTask(task.id, e.target.value)}
-          />
-        </label>
-        <button
-          className="rounded-full p-2 transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-900"
-          onClick={handleRemoveTask}
-        >
-          <Trash2 className="h-6 w-6 text-red-500" />
-        </button>
-      </div>
-
-      <hr className="my-4 border-gray-300 dark:border-gray-600" />
-
-      {/* Scrollable Content */}
-      <div className="scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 max-h-[60vh] overflow-y-auto p-4">
-        {task.materials.length > 0 && (
-          <>
-            <Materials taskId={task.id} materials={task.materials} />
-            <hr className="my-4 border-gray-300 dark:border-gray-600" />
-          </>
-        )}
-        {task.labors.length > 0 && (
-          <>
-            <Labors taskId={task.id} labors={task.labors} />
-            <hr className="my-4 border-gray-300 dark:border-gray-600" />
-          </>
-        )}
-        {task.additional.length > 0 && (
-          <>
-            <Additional taskId={task.id} additional={task.additional} />
-            <hr className="my-4 border-gray-300 dark:border-gray-600" />
-          </>
-        )}
-      </div>
-
-      {/* Sticky Bottom Bar */}
-      <div className="sticky bottom-0 left-0 flex w-full flex-col items-center rounded-xl bg-gray-100 p-4 shadow-md sm:flex-row sm:justify-between dark:bg-gray-700">
-        <div className="mb-2 flex items-center gap-2 text-lg font-bold text-gray-800 sm:mb-0 dark:text-gray-200">
-          <p>Total:</p>
-          <p className="text-blue-600 dark:text-blue-400">
-            ${formatToDecimalCost(task.totalCost, 2)}
-          </p>
+      <div className="flex items-center justify-between">
+        {/* Task Name Input */}
+        <div className="flex w-full items-center gap-4">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
+            <span className="hidden sm:flex">📂</span>
+            <input
+              className="input-field"
+              type="text"
+              placeholder="Task Name"
+              value={task.name}
+              onChange={(e) => handleUpdateTask(e.target.value)}
+            />
+          </label>
         </div>
-        <AddItemButton taskId={task.id} />
+        <div className="ml-4 flex items-center gap-2">
+          {/* Toggle Button */}
+          <button
+            className="rounded-full p-2 transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+            onClick={handleToggleTask}
+          >
+            {task.isOpen ? (
+              <ChevronUp className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+            ) : (
+              <ChevronDown className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+            )}
+          </button>
+
+          {/* Delete Button */}
+          <button
+            className="rounded-full p-2 transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-700/20"
+            onClick={handleRemoveTask}
+          >
+            <Trash2 className="h-6 w-6 text-red-500" />
+          </button>
+        </div>
       </div>
+
+      {task.isOpen && (
+        <>
+          <hr className="my-4 border-gray-300 dark:border-gray-600" />
+
+          {/* Scrollable Content */}
+          <div className="scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 max-h-[60vh] overflow-y-auto p-4">
+            {task.materials.length > 0 && (
+              <>
+                <Materials taskId={task.id} materials={task.materials} />
+                <hr className="my-4 border-gray-300 dark:border-gray-600" />
+              </>
+            )}
+            {task.labors.length > 0 && (
+              <>
+                <Labors taskId={task.id} labors={task.labors} />
+                <hr className="my-4 border-gray-300 dark:border-gray-600" />
+              </>
+            )}
+            {task.additional.length > 0 && (
+              <>
+                <Additional taskId={task.id} additional={task.additional} />
+                <hr className="my-4 border-gray-300 dark:border-gray-600" />
+              </>
+            )}
+          </div>
+
+          {/* Sticky Bottom Bar */}
+          <div className="sticky bottom-0 left-0 flex w-full flex-col items-center rounded-xl bg-gray-100 p-4 shadow-md sm:flex-row sm:justify-between dark:bg-gray-700">
+            <div className="mb-2 flex items-center gap-2 text-lg font-bold text-gray-800 sm:mb-0 dark:text-gray-200">
+              <p>Total:</p>
+              <p className="text-blue-600 dark:text-blue-400">
+                ${formatToDecimalCost(task.totalCost, 2)}
+              </p>
+            </div>
+            <AddItemButton taskId={task.id} />
+          </div>
+        </>
+      )}
     </div>
   );
 }

@@ -31,6 +31,7 @@ export type Task = {
   totalCost: number;
   profitMargin: numbers;
   totalPrice: numbers; // totalCost / (1 - profitMargin / 100)
+  isOpen: boolean;
 };
 
 export type User = {
@@ -63,6 +64,7 @@ export type TaskAction =
   | { type: "added_task"; payload: { taskName: string } }
   | { type: "updated_task"; payload: { taskId: string; taskName: string } }
   | { type: "removed_task"; payload: { taskId: string } }
+  | { type: "toggled_task"; payload: { taskId: string } }
   | {
       type: "added_material";
       payload: {

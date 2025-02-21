@@ -21,4 +21,5 @@ export const PROJECT_FALLBACK: Project = {
     phone: "",
     email: "",
   },
+  isOpen: true,
 };

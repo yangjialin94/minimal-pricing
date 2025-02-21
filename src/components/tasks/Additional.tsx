@@ -71,41 +71,40 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
     <div className="relative w-full rounded-lg border border-gray-700 bg-gray-800 p-5 shadow-md dark:border-gray-600">
       {/* Additional Header */}
       <div className="mb-4 flex items-center justify-between">
-        <div className="flex items-center gap-2 text-lg font-medium text-gray-200">
-          <p className="hidden sm:flex">🏡</p> {/* Hidden on small screens */}
-          <input
-            className="input-field min-w-[160px] flex-grow border-gray-600 bg-gray-900 text-lg font-semibold focus:border-blue-500 focus:ring focus:ring-blue-400/40 sm:min-w-[250px] md:min-w-[300px] lg:min-w-[350px] xl:min-w-[400px]"
-            type="text"
-            placeholder="Type"
-            value={type}
-            onChange={(e) => setType(e.target.value)}
-          />
+        <div className="flex w-full items-center gap-4">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
+            <span className="hidden sm:flex">🏡️</span>
+            <input
+              className="input-field"
+              type="text"
+              placeholder="Type"
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+            />
+          </label>
         </div>
         <button
-          className="rounded-full p-2 transition-all duration-200 hover:bg-red-700/20"
+          className="ml-4 rounded-full p-2 transition-all duration-200 hover:bg-red-700/20"
           onClick={handleRemoveAdditional}
         >
           <Trash2 className="h-6 w-6 text-red-500" />
         </button>
       </div>
 
-      {/* Adjusted Grid for Small Screens */}
-      <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
-        {/* Additional Cost Input */}
-        <div className="flex w-full min-w-0 flex-col">
-          <p className="text-sm text-gray-400">Cost</p>
-          <NumericFormat
-            className="input-field w-full border-gray-600 bg-gray-900 text-center focus:border-blue-500 focus:ring focus:ring-blue-400/40"
-            placeholder="Cost"
-            value={cost}
-            decimalScale={2}
-            allowNegative={false}
-            thousandSeparator
-            prefix="$"
-            onValueChange={(values) => setCost(parseFloat(values.value) || 0)}
-            customInput="input"
-          />
-        </div>
+      {/* Additional Cost Input */}
+      <div className="flex w-full items-center gap-2">
+        <p className="text-center text-gray-400">Cost</p>
+        <NumericFormat
+          className="input-field !w-1/2 text-center"
+          placeholder="Cost"
+          value={cost}
+          decimalScale={2}
+          allowNegative={false}
+          thousandSeparator
+          prefix="$"
+          onValueChange={(values) => setCost(parseFloat(values.value) || 0)}
+          customInput="input"
+        />
       </div>
 
       {/* Total Cost Section */}

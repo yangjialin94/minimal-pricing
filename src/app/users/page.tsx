@@ -153,7 +153,7 @@ function InputFieldRow({ label, value, onChange }: InputFieldRowProps) {
         value={value}
         onChange={onChange}
         placeholder={`Enter ${label.toLowerCase()}...`}
-        className={`input-field w-full max-w-md sm:flex-1`}
+        className={`input-field max-w-md sm:flex-1`}
       />
     </div>
   );

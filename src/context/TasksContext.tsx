@@ -60,6 +60,12 @@ function tasksReducer(tasks: Task[], action: TaskAction) {
       return tasks.filter((task) => task.id !== action.payload.taskId);
     }
 
+    case "toggled_task": {
+      return tasks.map((task) =>
+        task.id === action.payload.taskId ? { ...task, isOpen: !task.isOpen } : task
+      );
+    }
+
     case "added_material": {
       return tasks.map((task) =>
         task.id === action.payload.taskId
