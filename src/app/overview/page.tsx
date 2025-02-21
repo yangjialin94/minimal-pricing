@@ -1,12 +1,13 @@
 "use client";
 
-import { ArrowBigLeftDash, Coffee } from "lucide-react";
-import { motion } from "motion/react";
+// import { ArrowBigLeftDash, Coffee } from "lucide-react";
+import { ArrowBigLeftDash } from "lucide-react";
+// import { motion } from "motion/react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { useState } from "react";
 
-import BuyMeCoffeeModal from "@/components/overview/BuyMeCoffeeModal";
+// import { useState } from "react";
+// import BuyMeCoffeeModal from "@/components/overview/BuyMeCoffeeModal";
 import { useProject } from "@/hooks/useProject";
 import { formatToDecimalCost } from "@/lib/format";
 import { Additional, Customer, Labor, Material, Project, Task, User } from "@/types";
@@ -39,7 +40,7 @@ interface TaskSectionProps {
 
 export default function Overview() {
   const project = useProject();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
@@ -65,7 +66,7 @@ export default function Overview() {
       </div>
 
       {/* Donation Button */}
-      <motion.button
+      {/* <motion.button
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
@@ -74,10 +75,10 @@ export default function Overview() {
       >
         <Coffee className="h-6 w-6" />
         Buy Me a Coffee
-      </motion.button>
+      </motion.button> */}
 
       {/* Payment Modal */}
-      {isModalOpen && <BuyMeCoffeeModal onClose={() => setIsModalOpen(false)} />}
+      {/* {isModalOpen && <BuyMeCoffeeModal onClose={() => setIsModalOpen(false)} />} */}
     </div>
   );
 }
