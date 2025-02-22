@@ -42,7 +42,7 @@ export default function Overview() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen items-center justify-center">
+    <div className="flex flex-1 items-center justify-center">
       <div className="mx-auto w-full max-w-4xl px-4 py-8">
         <h1 className="mb-8 text-center text-3xl font-bold text-gray-900 dark:text-gray-100">
           Project Overview
