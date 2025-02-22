@@ -11,7 +11,6 @@ export default function AddItemButton({ taskId }: { taskId: string }) {
   // Handle closing popover
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      console.log(popoverRef.current);
       if (popoverRef.current && !popoverRef.current.contains(e.target as Node)) {
         setIsOpen(false);
       }

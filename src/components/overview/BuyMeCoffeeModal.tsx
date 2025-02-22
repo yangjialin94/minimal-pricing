@@ -1,96 +1,185 @@
-// import { loadStripe } from "@stripe/stripe-js";
-// import { Coffee, X } from "lucide-react";
-// import { AnimatePresence, motion } from "motion/react";
-// import { useState } from "react";
+import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import { AnimatePresence, motion } from "framer-motion";
+import { Coffee, X } from "lucide-react";
+import { useState } from "react";
 
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
-// const coffeeOptions = [
-//   { id: "price_1CoffeeSmall", name: "Small Coffee", price: 2.99, size: "h-5 w-5" },
-//   { id: "price_1CoffeeMedium", name: "Medium Coffee", price: 4.99, size: "h-6 w-6" },
-//   { id: "price_1CoffeeLarge", name: "Large Coffee", price: 6.99, size: "h-8 w-8" },
-// ];
+const coffeeOptions = [
+  { id: "prod_Roin99pzYVkC2q", name: "Small Coffee", price: 2.99, size: "h-5 w-5" },
+  { id: "prod_RoinNAN9DGkrpP", name: "Medium Coffee", price: 4.99, size: "h-6 w-6" },
+  { id: "prod_RoiofhYcczXZzW", name: "Large Coffee", price: 6.99, size: "h-8 w-8" },
+];
 
-// export default function BuyMeCoffeeModal({ onClose }: { onClose: () => void }) {
-//   const [success, setSuccess] = useState(false);
+export default function BuyMeCoffeeModal({ onClose }: { onClose: () => void }) {
+  return (
+    <Elements stripe={stripePromise}>
+      <PaymentForm onClose={onClose} />
+    </Elements>
+  );
+}
 
-//   const handleCheckout = async (priceId: string) => {
-//     const stripe = await stripePromise;
-//     const response = await fetch("/api/checkout", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ priceId }),
-//     });
+function PaymentForm({ onClose }: { onClose: () => void }) {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [success, setSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [selectedCoffee, setSelectedCoffee] = useState<{ name: string; price: number } | null>(
+    null
+  );
 
-//     const session = await response.json();
-//     await stripe?.redirectToCheckout({ sessionId: session.id });
-//     setSuccess(true);
-//   };
+  // Handle payment when a coffee option is clicked
+  const handleSelectPrice = async (priceId: string) => {
+    if (!stripe) return;
 
-//   return (
-//     <AnimatePresence>
-//       <motion.div
-//         initial={{ opacity: 0 }}
-//         animate={{ opacity: 1 }}
-//         exit={{ opacity: 0 }}
-//         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md"
-//       >
-//         {success ? (
-//           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-//             <div className="rounded-lg bg-gray-900 p-6 text-white shadow-lg">
-//               <h2 className="text-2xl font-bold">🎉 Thank You for Your Support!</h2>
-//               <p className="mt-2">Your coffee is greatly appreciated ☕</p>
-//               <button
-//                 onClick={onClose}
-//                 className="mt-4 rounded bg-yellow-500 px-4 py-2 font-semibold text-black"
-//               >
-//                 Close
-//               </button>
-//             </div>
-//           </div>
-//         ) : (
-//           <motion.div
-//             initial={{ scale: 0.8, opacity: 0 }}
-//             animate={{ scale: 1, opacity: 1 }}
-//             exit={{ scale: 0.8, opacity: 0 }}
-//             transition={{ duration: 0.3 }}
-//             className="w-full max-w-md rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-2xl"
-//           >
-//             {/* Header */}
-//             <div className="flex items-center justify-between">
-//               <h2 className="flex items-center gap-2 text-2xl font-semibold text-white">
-//                 Buy Me a Coffee ☕
-//               </h2>
-//               <button onClick={onClose} className="p-2 text-gray-400 transition hover:text-white">
-//                 <X className="h-6 w-6" />
-//               </button>
-//             </div>
+    setErrorMessage(null);
 
-//             <p className="mt-2 text-center text-gray-300">
-//               If you like my work, feel free to support me!
-//             </p>
+    // Find the selected coffee
+    const coffee = coffeeOptions.find((c) => c.id === priceId);
+    if (coffee) setSelectedCoffee({ name: coffee.name, price: coffee.price });
 
-//             {/* Coffee Options */}
-//             <div className="mt-6 space-y-3">
-//               {coffeeOptions.map((coffee) => (
-//                 <motion.button
-//                   key={coffee.id}
-//                   whileHover={{ scale: 1.05 }}
-//                   whileTap={{ scale: 0.95 }}
-//                   onClick={() => handleCheckout(coffee.id)}
-//                   className="flex w-full items-center justify-between rounded-lg bg-yellow-500 px-5 py-3 text-lg font-semibold text-black shadow-md transition-all hover:bg-yellow-600"
-//                 >
-//                   <div className="flex items-center gap-3">
-//                     <Coffee className={`${coffee.size}`} />
-//                     {coffee.name}
-//                   </div>
-//                   <span>${coffee.price.toFixed(2)}</span>
-//                 </motion.button>
-//               ))}
-//             </div>
-//           </motion.div>
-//         )}
-//       </motion.div>
-//     </AnimatePresence>
-//   );
-// }
+    try {
+      const response = await fetch("/api/donate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ priceId }),
+      });
+
+      const { clientSecret, message } = await response.json();
+      if (!clientSecret) throw new Error(message || "Payment setup failed");
+
+      setClientSecret(clientSecret); // Triggers hiding coffee options
+    } catch (error) {
+      const err = error as Error;
+      console.error("Error creating payment intent:", err.message);
+      setErrorMessage(err.message || "Something went wrong");
+    }
+  };
+
+  const handlePayment = async () => {
+    if (!stripe || !elements || !clientSecret) return;
+
+    setErrorMessage(null);
+
+    try {
+      const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: { card: elements.getElement(CardElement)! },
+      });
+
+      if (error) {
+        console.error("Error creating payment:", error.message);
+        throw new Error(error.message);
+      }
+
+      if (paymentIntent?.status === "succeeded") setSuccess(true);
+    } catch (error) {
+      const err = error as Error;
+      console.error("Error:", err.message);
+      setErrorMessage(err.message);
+    }
+  };
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md"
+      >
+        <motion.div className="w-full max-w-md rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-2xl">
+          {/* Title */}
+          {!success && (
+            <div className="flex items-center justify-between">
+              <h2 className="flex items-center gap-2 text-2xl font-semibold text-white">
+                Buy Me a Coffee ☕
+              </h2>
+              <button onClick={onClose} className="p-2 text-gray-400 transition hover:text-white">
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {success ? (
+            <div className="text-center text-white">
+              <h2 className="text-2xl font-bold">🎉 Thank You for Your Support!</h2>
+              <p className="mt-2">Your coffee is greatly appreciated ☕</p>
+              <button
+                onClick={onClose}
+                className="mt-4 w-full rounded bg-yellow-500 px-4 py-2 font-semibold text-black hover:bg-yellow-600"
+              >
+                Close
+              </button>
+            </div>
+          ) : (
+            <>
+              {!clientSecret && (
+                <>
+                  <p className="mt-2 text-gray-300">Choose an amount:</p>
+
+                  {/* Coffee Selection Buttons (Hidden when payment form appears) */}
+                  <div className="mt-4 space-y-3">
+                    {coffeeOptions.map((coffee) => (
+                      <button
+                        key={coffee.id}
+                        onClick={() => handleSelectPrice(coffee.id)}
+                        className="flex w-full items-center justify-between rounded-lg bg-yellow-500 px-5 py-3 text-lg font-semibold text-black shadow-md transition-all hover:bg-yellow-600"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Coffee className={`${coffee.size}`} />
+                          <span>{coffee.name}</span>
+                        </div>
+                        <span className="text-xl font-bold">${coffee.price.toFixed(2)}</span>
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* Show Payment Details When Coffee is Selected */}
+              {clientSecret && selectedCoffee && (
+                <div className="mt-4 flex justify-between rounded-lg bg-gray-800 p-4 text-lg text-white">
+                  <span>Selected: {selectedCoffee.name}</span>
+                  <span className="font-bold">${selectedCoffee.price.toFixed(2)}</span>
+                </div>
+              )}
+
+              {/* Show Credit Card Input */}
+              {clientSecret && (
+                <div className="mt-4">
+                  <div className="rounded-lg border border-gray-600 bg-gray-800 p-3">
+                    <CardElement
+                      options={{
+                        style: {
+                          base: {
+                            fontSize: "16px",
+                            color: "#ffffff",
+                            "::placeholder": { color: "#b3b3b3" },
+                          },
+                          invalid: { color: "#ff4d4f" },
+                        },
+                      }}
+                      className="w-full rounded bg-transparent p-2 focus:outline-none"
+                    />
+                  </div>
+                  <button
+                    onClick={handlePayment}
+                    className="mt-4 w-full rounded-lg bg-green-500 px-5 py-3 text-lg font-semibold text-white transition hover:bg-green-600"
+                  >
+                    Pay with Card
+                  </button>
+                </div>
+              )}
+
+              {/* Show Error Message */}
+              {errorMessage && <p className="mt-3 text-red-500">{errorMessage}</p>}
+            </>
+          )}
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+}
