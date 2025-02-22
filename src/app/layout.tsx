@@ -52,7 +52,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProjectProvider initialProjectData={projectData}>
             <TasksProvider>
-              {/* Header (Fixed Height) */}
+              {/* Header */}
               <header className="w-full bg-gray-100 px-4 py-3 text-center dark:bg-gray-800">
                 <h1 className="text-2xl font-bold">Contract Pricing Calculator</h1>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -60,12 +60,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 </p>
               </header>
 
-              {/* Main Content (Fills Remaining Space) */}
+              {/* Main Content */}
               <main className="flex flex-1 flex-col items-center justify-center">
-                {/* Adjusted Theme Toggle Position */}
-                <div className="fixed right-4 top-[4rem] z-50">
-                  {" "}
-                  {/* Adjusted for header height */}
+                <div className="fixed right-4 top-[5.6rem] z-50">
                   <ThemeToggle />
                 </div>
 
@@ -74,7 +71,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                 </div>
               </main>
 
-              {/* Footer (Fixed Height) */}
+              {/* Footer */}
               <footer className="mt-4 w-full bg-gray-100 px-4 py-3 text-center dark:bg-gray-800">
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   &copy; {new Date().getFullYear()} Contract Pricing App | All Rights Reserved.
@@ -90,7 +87,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   );
 }
 
-// Fallback loading screen to prevent UI freezing
+// Fallback loading screen
 function LoadingScreen() {
   return (
     <div className="flex h-screen w-full items-center justify-center">
