@@ -23,6 +23,7 @@ Minimal Pricing Platform is a **contract pricing app (currently frontend-only)**
 - **PDF Generation**: [react-pdf](https://react-pdf.org/)
 - **Data Persistence**: Browser Session Storage (temporary data retention)
 - **Form Handling**: [React Hook Form](https://react-hook-form.com/)
+- **Payment Processing**: [Stripe](https://stripe.com/)
 
 ## 🏗 Future Enhancements
 
