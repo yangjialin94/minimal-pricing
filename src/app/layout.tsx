@@ -3,8 +3,10 @@ import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import { ThemeProvider } from "next-themes";
 import { Suspense } from "react";
 
+import ThemeToggle from "@/components/ThemeToggle";
 import { ProjectProvider } from "@/context/ProjectContext";
 import { TasksProvider } from "@/context/TasksContext";
 import projectData from "@/data/project-data.json";
@@ -16,19 +18,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="flex min-h-screen w-full flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
-        <ProjectProvider initialProjectData={projectData}>
-          <TasksProvider>
-            <main className="flex w-full flex-col items-center justify-center">
-              <div className="w-full max-w-3xl px-2 sm:max-w-4xl sm:px-6 md:max-w-5xl md:px-10 lg:px-12 xl:px-16 2xl:px-24">
-                <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
-              </div>
-            </main>
-          </TasksProvider>
-        </ProjectProvider>
-        <Analytics />
-        <SpeedInsights />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <ProjectProvider initialProjectData={projectData}>
+            <TasksProvider>
+              <main className="flex w-full flex-col items-center justify-center">
+                <div className="fixed right-4 top-4 z-50">
+                  <ThemeToggle />
+                </div>
+                <div className="w-full max-w-3xl px-2 sm:max-w-4xl sm:px-6 md:max-w-5xl md:px-10 lg:px-12 xl:px-16 2xl:px-24">
+                  <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
+                </div>
+              </main>
+            </TasksProvider>
+          </ProjectProvider>
+          <Analytics />
+          <SpeedInsights />
+        </ThemeProvider>
       </body>
     </html>
   );
