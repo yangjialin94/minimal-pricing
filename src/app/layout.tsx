@@ -12,8 +12,37 @@ import { TasksProvider } from "@/context/TasksContext";
 import projectData from "@/data/project-data.json";
 
 export const metadata: Metadata = {
-  title: "Contract Pricing",
-  description: "Contract pricing calculator app",
+  title: "Contract Pricing Calculator | Accurate Project Cost Estimates",
+  description:
+    "Estimate contract pricing with precision. Calculate labor, material, and additional costs in one place. Perfect for contractors, freelancers, and businesses.",
+  keywords:
+    "contract pricing, cost estimation, project budgeting, contractor calculator, labor costs, material pricing, pricing calculator",
+  openGraph: {
+    title: "Contract Pricing Calculator | Estimate Project Costs",
+    description:
+      "Easily estimate contract pricing, including labor, material, and additional fees.",
+    type: "website",
+    url: "https://www.minimalpricing.com",
+    // images: [
+    //   {
+    //     url: "https://yourwebsite.com/og-image.jpg",
+    //     width: 1200,
+    //     height: 630,
+    //     alt: "Contract Pricing Calculator",
+    //   },
+    // ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Contract Pricing Calculator | Estimate Project Costs",
+    description:
+      "Easily estimate contract pricing, including labor, material, and additional fees.",
+    // images: ["https://yourwebsite.com/twitter-image.jpg"],
+  },
+  robots: "index, follow",
+  alternates: {
+    canonical: "https://www.minimalpricing.com",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -23,6 +52,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProjectProvider initialProjectData={projectData}>
             <TasksProvider>
+              {/* Add header for SEO */}
+              <header className="w-full bg-gray-100 px-4 py-2 text-center dark:bg-gray-800">
+                <h1 className="text-2xl font-bold">Contract Pricing Calculator</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Calculate labor, material, and additional costs easily.
+                </p>
+              </header>
+
+              {/* Main content */}
               <main className="flex w-full flex-col items-center justify-center">
                 <div className="fixed right-4 top-4 z-50">
                   <ThemeToggle />
@@ -31,6 +69,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
                 </div>
               </main>
+
+              {/* Add footer for extra SEO */}
+              <footer className="w-full bg-gray-100 px-4 py-2 text-center dark:bg-gray-800">
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  &copy; {new Date().getFullYear()} Contract Pricing App | All Rights Reserved.
+                </p>
+              </footer>
             </TasksProvider>
           </ProjectProvider>
           <Analytics />
