@@ -1,3 +1,5 @@
+"use client";
+
 import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { AnimatePresence, motion } from "framer-motion";
@@ -89,14 +91,17 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md"
       >
-        <motion.div className="w-full max-w-md rounded-xl border border-gray-700 bg-gray-900 p-6 shadow-2xl">
+        <motion.div className="w-full max-w-md rounded-xl border border-gray-300 bg-white p-6 shadow-2xl dark:border-gray-600 dark:bg-gray-900">
           {/* Title */}
           {!success && (
             <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-2xl font-semibold text-white">
+              <h2 className="flex items-center gap-2 text-2xl font-semibold text-gray-900 dark:text-white">
                 Buy Me a Coffee ☕
               </h2>
-              <button onClick={onClose} className="p-2 text-gray-400 transition hover:text-white">
+              <button
+                onClick={onClose}
+                className="p-2 text-gray-400 transition hover:text-gray-700 dark:hover:text-white"
+              >
                 <X className="h-6 w-6" />
               </button>
             </div>
@@ -104,7 +109,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
 
           {/* Success Message */}
           {success ? (
-            <div className="text-center text-white">
+            <div className="text-center text-gray-900 dark:text-white">
               <h2 className="text-2xl font-bold">🎉 Thank You for Your Support!</h2>
               <p className="mt-2">Your coffee is greatly appreciated ☕</p>
               <button
@@ -118,7 +123,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
             <>
               {!clientSecret && (
                 <>
-                  <p className="mt-2 text-gray-300">Choose an amount:</p>
+                  <p className="mt-2 text-gray-700 dark:text-gray-300">Choose an amount:</p>
 
                   {/* Coffee Selection Buttons (Hidden when payment form appears) */}
                   <div className="mt-4 space-y-3">
@@ -141,7 +146,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
 
               {/* Show Payment Details When Coffee is Selected */}
               {clientSecret && selectedCoffee && (
-                <div className="mt-4 flex justify-between rounded-lg bg-gray-800 p-4 text-lg text-white">
+                <div className="mt-4 flex justify-between rounded-lg bg-gray-100 p-4 text-lg text-gray-900 dark:bg-gray-800 dark:text-white">
                   <span>Selected: {selectedCoffee.name}</span>
                   <span className="font-bold">${selectedCoffee.price.toFixed(2)}</span>
                 </div>
@@ -150,14 +155,14 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
               {/* Show Credit Card Input */}
               {clientSecret && (
                 <div className="mt-4">
-                  <div className="rounded-lg border border-gray-600 bg-gray-800 p-3">
+                  <div className="rounded-lg border border-gray-300 bg-white p-3 dark:border-gray-600 dark:bg-gray-800">
                     <CardElement
                       options={{
                         style: {
                           base: {
                             fontSize: "16px",
-                            color: "#ffffff",
-                            "::placeholder": { color: "#b3b3b3" },
+                            color: "#1F2937", // text-gray-900
+                            "::placeholder": { color: "#6B7280" }, // text-gray-500
                           },
                           invalid: { color: "#ff4d4f" },
                         },

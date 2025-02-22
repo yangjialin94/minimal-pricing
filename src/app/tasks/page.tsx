@@ -176,8 +176,8 @@ function TaskComponent({ task }: { task: Task }) {
           </div>
 
           {/* Sticky Bottom Bar */}
-          <div className="sticky bottom-0 left-0 flex w-full flex-col items-center rounded-xl bg-gray-100 p-4 shadow-md sm:flex-row sm:justify-between dark:bg-gray-700">
-            <div className="mb-2 flex items-center gap-2 text-lg font-bold text-gray-800 sm:mb-0 dark:text-gray-200">
+          <div className="sticky bottom-0 left-0 flex w-full flex-col items-center rounded-xl bg-gray-100 p-4 shadow-md dark:bg-gray-700 sm:flex-row sm:justify-between">
+            <div className="mb-2 flex items-center gap-2 text-lg font-bold text-gray-800 dark:text-gray-200 sm:mb-0">
               <p>Total:</p>
               <p className="text-blue-600 dark:text-blue-400">
                 ${formatToDecimalCost(task.totalCost, 2)}

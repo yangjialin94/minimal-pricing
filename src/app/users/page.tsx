@@ -20,11 +20,15 @@ export default function Users() {
 
   return (
     <div className="container flex min-h-screen flex-col items-center justify-center px-4 py-10 sm:px-6 md:px-8">
-      <h1 className="mb-6 text-center text-3xl font-bold dark:text-gray-100">Users</h1>
+      <h1 className="mb-6 text-center text-3xl font-bold text-gray-900 dark:text-gray-100">
+        Users
+      </h1>
+
       <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
         <UserInfo user={project.user} />
         <CustomerInfo customer={project.customer} />
       </div>
+
       {/* Navigation */}
       <div className="mt-10 flex w-full max-w-lg justify-center gap-6">
         <Link className="btn-secondary" href="/profit">
@@ -60,9 +64,11 @@ function UserInfo({ user }: { user: User }) {
   }, [debouncedUser.name, debouncedUser.phone, debouncedUser.email, dispatch]);
 
   return (
-    <div className="w-full rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md sm:mt-8 dark:bg-gray-900">
-      {" "}
-      <h2 className="mb-4 text-xl font-semibold text-gray-200">Provider Information</h2>
+    <div className="w-full rounded-lg border border-gray-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-600 dark:bg-gray-900">
+      <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-200">
+        Provider Information
+      </h2>
+
       <div className="space-y-4">
         <InputFieldRow
           label="Name"
@@ -114,8 +120,11 @@ function CustomerInfo({ customer }: { customer: Customer }) {
   ]);
 
   return (
-    <div className="mt-6 w-full rounded-lg border border-gray-700 bg-gray-800 p-6 shadow-md dark:bg-gray-900">
-      <h2 className="mb-4 text-xl font-semibold text-gray-200">Customer Information</h2>
+    <div className="mt-6 w-full rounded-lg border border-gray-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-600 dark:bg-gray-900">
+      <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-200">
+        Customer Information
+      </h2>
+
       <div className="space-y-4">
         <InputFieldRow
           label="Name"
@@ -145,13 +154,15 @@ function CustomerInfo({ customer }: { customer: Customer }) {
 function InputFieldRow({ label, value, onChange }: InputFieldRowProps) {
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <label className="w-full text-lg font-medium text-gray-200 sm:w-24 md:w-28">{label}:</label>
+      <label className="w-full text-lg font-medium text-gray-900 dark:text-gray-200 sm:w-24 md:w-28">
+        {label}:
+      </label>
       <input
         type="text"
         value={value}
         onChange={onChange}
         placeholder={`Enter ${label.toLowerCase()}...`}
-        className={`input-field max-w-md sm:flex-1`}
+        className="input-field max-w-md sm:flex-1"
       />
     </div>
   );

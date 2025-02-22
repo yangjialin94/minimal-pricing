@@ -2,42 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Improved Container for All Screens (Mobile → Ultra-Wide) */
+/* Improved Container for Mobile → Ultra-Wide Screens */
 .container {
   @apply mx-auto w-full max-w-6xl px-4 md:px-6 lg:px-8;
 }
 
-/* Typography Scaling for Enterprise Feel */
+/* Typography Scaling for an Enterprise Feel */
 h1 {
-  @apply text-3xl font-bold text-gray-900 sm:text-4xl md:text-5xl dark:text-gray-100;
+  @apply text-3xl font-bold text-gray-900 dark:text-gray-100 sm:text-4xl md:text-5xl;
 }
 h2 {
-  @apply text-2xl font-semibold text-gray-800 sm:text-3xl dark:text-gray-200;
+  @apply text-2xl font-semibold text-gray-800 dark:text-gray-200 sm:text-3xl;
 }
 h3 {
   @apply text-xl font-semibold text-gray-700 dark:text-gray-300;
 }
 p {
-  @apply text-base text-gray-700 sm:text-lg dark:text-gray-300;
+  @apply text-base text-gray-700 dark:text-gray-300 sm:text-lg;
 }
 
-/* Buttons - Consistent Spacing & Dark Mode Support */
+/* Buttons - Unified Styling & Dark Mode Support */
 .btn-primary,
 .btn-secondary {
   @apply flex items-center gap-2 rounded-md px-3 py-2 text-base font-semibold shadow-sm transition-all duration-200;
 }
 
+/* Primary Button - Strong Blue Theme */
 .btn-primary {
   @apply border-2 border-blue-500 bg-blue-500 text-white hover:bg-blue-600 dark:border-blue-400 dark:bg-blue-400 dark:hover:bg-blue-500;
 }
 
+/* Secondary Button - Improved Contrast */
 .btn-secondary {
-  @apply border border-gray-500 bg-gray-200 text-gray-700 hover:bg-gray-300 dark:border-gray-400 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600;
+  @apply border border-gray-400 bg-gray-100 text-gray-700 hover:bg-gray-200 dark:border-gray-500 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600;
 }
 
-/*  Input Fields - Uniform Across App */
+/* Input Fields - Uniform Styling Across the App */
 .input-field {
-  @apply min-h-[40px] w-full rounded-md border border-gray-600 bg-gray-900 px-3 py-2 text-base text-gray-200 shadow-sm focus:border-blue-400 focus:ring focus:ring-blue-500/40;
+  @apply min-h-[40px] w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-base text-gray-900 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300/40;
+  @apply dark:border-gray-600 dark:bg-gray-900 dark:text-gray-200 dark:focus:border-blue-400 dark:focus:ring-blue-500/40;
 }
 
 /* Dark Mode Support */
@@ -45,6 +48,12 @@ p {
   @apply bg-gray-900 text-gray-200;
 }
 
+/* Material Cards - Subtle Hover Effects */
 .material-card {
   @apply transition-all duration-200 hover:shadow-md hover:shadow-blue-500/30;
+}
+
+/* Light Theme Fixes */
+.light {
+  @apply bg-white text-gray-900;
 }
