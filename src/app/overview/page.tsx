@@ -72,11 +72,11 @@ export default function Overview() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="fixed bottom-6 right-6 flex items-center gap-2 rounded-full bg-yellow-500 px-4 py-3 text-lg font-semibold text-white shadow-lg transition-all hover:bg-yellow-600"
+          className="fixed bottom-6 right-6 flex items-center gap-2 rounded-full bg-yellow-500 px-4 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-yellow-600"
           onClick={() => setIsModalOpen(true)}
         >
           <Coffee className="h-6 w-6" />
-          Buy Me a Coffee
+          <span className="hidden md:block">Buy Me a Coffee</span>
         </motion.button>
 
         {/* Payment Modal */}
