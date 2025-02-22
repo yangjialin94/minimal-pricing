@@ -48,30 +48,34 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex min-h-screen w-full flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
+      <body className="flex min-h-screen flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProjectProvider initialProjectData={projectData}>
             <TasksProvider>
-              {/* Add header for SEO */}
-              <header className="w-full bg-gray-100 px-4 py-2 text-center dark:bg-gray-800">
+              {/* Header (Fixed Height) */}
+              <header className="w-full bg-gray-100 px-4 py-3 text-center dark:bg-gray-800">
                 <h1 className="text-2xl font-bold">Contract Pricing Calculator</h1>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   Calculate labor, material, and additional costs easily.
                 </p>
               </header>
 
-              {/* Main content */}
-              <main className="flex w-full flex-col items-center justify-center">
-                <div className="fixed right-4 top-4 z-50">
+              {/* Main Content (Fills Remaining Space) */}
+              <main className="flex flex-1 flex-col items-center justify-center">
+                {/* Adjusted Theme Toggle Position */}
+                <div className="fixed right-4 top-[4rem] z-50">
+                  {" "}
+                  {/* Adjusted for header height */}
                   <ThemeToggle />
                 </div>
+
                 <div className="w-full max-w-3xl px-2 sm:max-w-4xl sm:px-6 md:max-w-5xl md:px-10 lg:px-12 xl:px-16 2xl:px-24">
                   <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
                 </div>
               </main>
 
-              {/* Add footer for extra SEO */}
-              <footer className="w-full bg-gray-100 px-4 py-2 text-center dark:bg-gray-800">
+              {/* Footer (Fixed Height) */}
+              <footer className="mt-4 w-full bg-gray-100 px-4 py-3 text-center dark:bg-gray-800">
                 <p className="text-sm text-gray-600 dark:text-gray-300">
                   &copy; {new Date().getFullYear()} Contract Pricing App | All Rights Reserved.
                 </p>
