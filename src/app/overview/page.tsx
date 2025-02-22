@@ -88,7 +88,6 @@ export default function Overview() {
 
 function UserInfo({ user }: { user: User }) {
   return (
-    // Updated light theme classes: border-gray-700 -> border-gray-300, bg-gray-800 -> bg-white, text-gray-200 -> text-gray-900
     <div className="rounded-lg border border-gray-300 bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-gray-600 dark:bg-gray-900">
       <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-200">
         Provider Information
@@ -102,7 +101,6 @@ function UserInfo({ user }: { user: User }) {
 
 function CustomerInfo({ customer }: { customer: Customer }) {
   return (
-    // Updated light theme classes: border-gray-700 -> border-gray-300, bg-gray-800 -> bg-white, text-gray-200 -> text-gray-900
     <div className="rounded-lg border border-gray-300 bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-gray-600 dark:bg-gray-900">
       <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-gray-200">
         Customer Information
@@ -116,7 +114,6 @@ function CustomerInfo({ customer }: { customer: Customer }) {
 }
 
 function InfoItem({ label, value, icon }: InfoItemProps) {
-  // Updated light theme text color: text-gray-300 -> text-gray-700
   return (
     <p className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
       {icon} <span className="font-medium">{label}:</span> {value}
@@ -128,7 +125,6 @@ function TasksList({ tasks }: { tasks: Task[] }) {
   return (
     <div className="mt-8 space-y-6">
       {tasks.map((task) => (
-        // Updated light theme classes: border-gray-700 -> border-gray-300, bg-gray-800 -> bg-white, text-gray-100 -> text-gray-900, border-t border-gray-600 -> border-t border-gray-300, text-gray-200 -> text-gray-800
         <div
           key={task.id}
           className="rounded-lg border border-gray-300 bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-gray-600 dark:bg-gray-900"
