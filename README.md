@@ -34,7 +34,7 @@ Minimal Pricing Platform is a **contract pricing app (currently frontend-only)**
 
 ## 📜 License
 
-© 2025 Minimal Pricing Platform. All Rights Reserved.  
+© 2025 Minimal Pricing. All Rights Reserved.  
 This software and its source code are proprietary and may not be copied, modified, or distributed without explicit permission.
 
 ## 📩 Contact

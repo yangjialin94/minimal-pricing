@@ -61,7 +61,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </header>
 
               {/* Main Content */}
-              <main className="flex flex-1 flex-col items-center justify-center">
+              <main className="flex w-full flex-1 flex-col items-center justify-center">
                 <div className="fixed right-4 top-[5.6rem] z-50">
                   <ThemeToggle />
                 </div>
@@ -74,7 +74,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               {/* Footer */}
               <footer className="mt-4 w-full bg-gray-100 px-4 py-3 text-center dark:bg-gray-800">
                 <p className="text-sm text-gray-600 dark:text-gray-300">
-                  &copy; {new Date().getFullYear()} Contract Pricing App | All Rights Reserved.
+                  &copy; {new Date().getFullYear()} Minimal Pricing | All Rights Reserved.
                 </p>
               </footer>
             </TasksProvider>

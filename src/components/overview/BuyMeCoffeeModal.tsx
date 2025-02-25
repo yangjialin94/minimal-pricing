@@ -43,7 +43,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
     if (coffee) setSelectedCoffee({ name: coffee.name, price: coffee.price });
 
     try {
-      const response = await fetch("/api/donate", {
+      const response = await fetch("/api/support", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ priceId }),
