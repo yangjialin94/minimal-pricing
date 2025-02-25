@@ -18,7 +18,7 @@
 
 - **Framework**: [Next.js](https://nextjs.org/)
 - **UI Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Animations**: [Motion](https://www.framer.com/motion/)
 - **State Management**: Context API
 - **PDF Generation**: [react-pdf](https://react-pdf.org/)
 - **Data Persistence**: Browser Session Storage (temporary data retention)
