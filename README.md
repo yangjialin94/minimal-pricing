@@ -1,8 +1,8 @@
 # Minimal Pricing Platform (Frontend-Only Version)
 
-![Minimal Pricing Platform](https://minimalpricing.com/)
+## 🗒️ TL;DR
 
-Minimal Pricing Platform is a **contract pricing app (currently frontend-only)** that helps users manage project pricing efficiently by organizing **tasks, materials, labor fees, and additional costs**. This version is **frontend-only**, built with **Next.js** and optimized for responsiveness across different screen sizes.
+[Minimal Pricing](https://minimalpricing.com/) is a **contract pricing app (currently frontend-only)** that helps users manage project pricing efficiently by organizing **tasks, materials, labor fees, and additional costs**. This version is **frontend-only**, built with **Next.js** and optimized for responsiveness across different screen sizes.
 
 ## 🚀 Features
 
