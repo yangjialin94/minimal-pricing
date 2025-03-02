@@ -1,4 +1,4 @@
-# Minimal Pricing Platform (Frontend-Only Version)
+# Minimal Pricing Platform
 
 ## 🗒️ TL;DR
 
@@ -23,13 +23,6 @@
 - **PDF Generation**: [react-pdf](https://react-pdf.org/)
 - **Data Persistence**: Browser Session Storage (temporary data retention)
 - **Payment Processing**: [Stripe](https://stripe.com/)
-
-## 🏗 Future Enhancements
-
-- **Cloud Sync**: Connect with a backend API (FastAPI & PostgreSQL) for real-time data sync.
-- **Authentication**: Implement user authentication and role-based access control.
-- **Multi-User Support**: Enable collaborative project pricing for teams.
-- **Dark Mode**: Add dark/light theme toggle.
 
 ## 📜 License
 
