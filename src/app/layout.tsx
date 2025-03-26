@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Suspense } from "react";
 
-import ThemeToggle from "@/components/ThemeToggle";
+import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { ProjectProvider } from "@/context/ProjectContext";
 import { TasksProvider } from "@/context/TasksContext";
 import projectData from "@/data/project-data.json";
@@ -62,10 +62,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
 
               {/* Main Content */}
               <main className="flex w-full flex-1 flex-col items-center justify-center">
-                <div className="fixed right-4 top-[5.6rem] z-50">
-                  <ThemeToggle />
-                </div>
-
                 <div className="w-full max-w-3xl px-2 sm:max-w-4xl sm:px-6 md:max-w-5xl md:px-10 lg:px-12 xl:px-16 2xl:px-24">
                   <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
                 </div>
@@ -79,6 +75,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
               </footer>
             </TasksProvider>
           </ProjectProvider>
+          <ThemeSwitcher />
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>
