@@ -30,7 +30,7 @@ export default function Tasks() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="mb-8 text-center text-3xl font-bold dark:text-gray-100"
+        className="mb-8 text-center text-3xl font-bold dark:text-neutral-100"
       >
         Tasks
       </motion.h1>
@@ -111,11 +111,11 @@ function TaskComponent({ task }: { task: Task }) {
   }, [dispatch, task.id]);
 
   return (
-    <div className="relative mb-6 rounded-xl border bg-white p-5 shadow-md transition-all hover:shadow-xl dark:border-gray-700 dark:bg-gray-800">
+    <div className="relative mb-6 rounded-xl border bg-white p-5 shadow-md transition-all hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800">
       <div className="flex items-center justify-between">
         {/* Task Name Input */}
         <div className="flex w-full items-center gap-4">
-          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-gray-800 dark:text-gray-200">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
             <span className="hidden sm:flex">📂</span>
             <input
               className="input-field"
@@ -129,13 +129,13 @@ function TaskComponent({ task }: { task: Task }) {
         <div className="ml-4 flex items-center gap-2">
           {/* Toggle Button */}
           <button
-            className="rounded-full p-2 transition-all duration-200 hover:bg-gray-200 dark:hover:bg-gray-700"
+            className="rounded-full p-2 transition-all duration-200 hover:bg-neutral-200 dark:hover:bg-neutral-700"
             onClick={handleToggleTask}
           >
             {task.isOpen ? (
-              <ChevronUp className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+              <ChevronUp className="h-6 w-6 text-neutral-600 dark:text-neutral-300" />
             ) : (
-              <ChevronDown className="h-6 w-6 text-gray-600 dark:text-gray-300" />
+              <ChevronDown className="h-6 w-6 text-neutral-600 dark:text-neutral-300" />
             )}
           </button>
 
@@ -151,33 +151,33 @@ function TaskComponent({ task }: { task: Task }) {
 
       {task.isOpen && (
         <>
-          <hr className="my-4 border-gray-300 dark:border-gray-600" />
+          <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
 
           {/* Scrollable Content */}
-          <div className="scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-600 max-h-[60vh] overflow-y-auto p-4">
+          <div className="scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-600 max-h-[60vh] overflow-y-auto p-4">
             {task.materials.length > 0 && (
               <>
                 <Materials taskId={task.id} materials={task.materials} />
-                <hr className="my-4 border-gray-300 dark:border-gray-600" />
+                <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
               </>
             )}
             {task.labors.length > 0 && (
               <>
                 <Labors taskId={task.id} labors={task.labors} />
-                <hr className="my-4 border-gray-300 dark:border-gray-600" />
+                <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
               </>
             )}
             {task.additional.length > 0 && (
               <>
                 <Additional taskId={task.id} additional={task.additional} />
-                <hr className="my-4 border-gray-300 dark:border-gray-600" />
+                <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
               </>
             )}
           </div>
 
           {/* Sticky Bottom Bar */}
-          <div className="sticky bottom-0 left-0 flex w-full flex-col items-center rounded-xl bg-gray-100 p-4 shadow-md dark:bg-gray-700 sm:flex-row sm:justify-between">
-            <div className="mb-2 flex items-center gap-2 text-lg font-bold text-gray-800 dark:text-gray-200 sm:mb-0">
+          <div className="sticky bottom-0 left-0 flex w-full flex-col items-center rounded-xl bg-neutral-100 p-4 shadow-md dark:bg-neutral-700 sm:flex-row sm:justify-between">
+            <div className="mb-2 flex items-center gap-2 text-lg font-bold text-neutral-800 dark:text-neutral-200 sm:mb-0">
               <p>Total:</p>
               <p className="text-blue-600 dark:text-blue-400">
                 ${formatToDecimalCost(task.totalCost, 2)}

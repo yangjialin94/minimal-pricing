@@ -20,7 +20,7 @@ export default function Users() {
 
   return (
     <div className="container flex flex-1 flex-col items-center justify-center px-4 py-10 sm:px-6 md:px-8">
-      <h1 className="mb-6 text-center text-3xl font-bold text-gray-900 dark:text-gray-100">
+      <h1 className="mb-6 text-center text-3xl font-bold text-neutral-900 dark:text-neutral-100">
         Users
       </h1>
 
@@ -64,8 +64,8 @@ function UserInfo({ user }: { user: User }) {
   }, [debouncedUser.name, debouncedUser.phone, debouncedUser.email, dispatch]);
 
   return (
-    <div className="w-full rounded-lg border border-gray-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-600 dark:bg-gray-900">
-      <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-200">
+    <div className="w-full rounded-lg border border-neutral-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-900">
+      <h2 className="mb-4 text-xl font-semibold text-neutral-900 dark:text-neutral-200">
         Provider Information
       </h2>
 
@@ -120,8 +120,8 @@ function CustomerInfo({ customer }: { customer: Customer }) {
   ]);
 
   return (
-    <div className="mt-6 w-full rounded-lg border border-gray-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-600 dark:bg-gray-900">
-      <h2 className="mb-4 text-xl font-semibold text-gray-900 dark:text-gray-200">
+    <div className="mt-6 w-full rounded-lg border border-neutral-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-900">
+      <h2 className="mb-4 text-xl font-semibold text-neutral-900 dark:text-neutral-200">
         Customer Information
       </h2>
 
@@ -154,7 +154,7 @@ function CustomerInfo({ customer }: { customer: Customer }) {
 function InputFieldRow({ label, value, onChange }: InputFieldRowProps) {
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <label className="w-full text-lg font-medium text-gray-900 dark:text-gray-200 sm:w-24 md:w-28">
+      <label className="w-full text-lg font-medium text-neutral-900 dark:text-neutral-200 sm:w-24 md:w-28">
         {label}:
       </label>
       <input

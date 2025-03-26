@@ -20,7 +20,7 @@ interface LaborComponentProps {
 export default function Labors({ taskId, labors }: LaborsProps) {
   return (
     <div className="w-full">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Labors</h3>
+      <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Labors</h3>
       <ul className="mt-3 space-y-6">
         {labors.map((labor) => (
           <li key={labor.id}>
@@ -82,11 +82,11 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
   }, [dispatch, labor.id, taskId]);
 
   return (
-    <div className="material-card relative w-full rounded-lg border border-gray-300 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-600 dark:bg-gray-800">
+    <div className="material-card relative w-full rounded-lg border border-neutral-300 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-800">
       {/* Labor Header */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex w-full items-center gap-4">
-          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-gray-900 dark:text-gray-200">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-neutral-900 dark:text-neutral-200">
             <span className="hidden sm:flex">🛠️</span>
             <input
               className="input-field"
@@ -109,7 +109,7 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
       <div className="grid grid-cols-1 gap-2 md:grid-cols-2 md:gap-4">
         {/* Price Per Unit */}
         <div className="flex w-full min-w-0 flex-col">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Price Per Unit</p>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Price Per Unit</p>
           <div className="flex flex-nowrap items-center gap-2">
             <NumericFormat
               className="input-field text-center"
@@ -121,7 +121,9 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
               prefix="$"
               onValueChange={(values) => setUnitCost(parseFloat(values.value) || 0)}
             />
-            <p className="mr-2 min-w-[20px] text-center text-gray-600 dark:text-gray-400">per</p>
+            <p className="mr-2 min-w-[20px] text-center text-neutral-600 dark:text-neutral-400">
+              per
+            </p>
             <input
               className="input-field text-center"
               type="text"
@@ -134,7 +136,7 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
 
         {/* Quantity */}
         <div className="flex w-full min-w-0 flex-col">
-          <p className="text-sm text-gray-600 dark:text-gray-400">Quantity</p>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Quantity</p>
           <NumericFormat
             className="input-field text-center"
             placeholder="Quantity"
@@ -147,8 +149,8 @@ function LaborComponent({ taskId, labor }: LaborComponentProps) {
       </div>
 
       {/* Total Cost Section */}
-      <div className="mt-4 flex items-center justify-between border-t border-gray-300 pt-3 dark:border-gray-700">
-        <p className="text-lg font-medium text-gray-900 dark:text-gray-300">Total:</p>
+      <div className="mt-4 flex items-center justify-between border-t border-neutral-300 pt-3 dark:border-neutral-700">
+        <p className="text-lg font-medium text-neutral-900 dark:text-neutral-300">Total:</p>
         <p className="text-xl font-semibold text-blue-500 dark:text-blue-400">
           ${formatToDecimalCost(labor.cost, 2)}
         </p>

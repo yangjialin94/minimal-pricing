@@ -3,9 +3,12 @@ import "../styles/globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { ThemeProvider } from "next-themes";
 import { Suspense } from "react";
 
+import LoadingSkeleton from "@/components/LoadingSkeleton";
+import NavBar from "@/components/NavBar";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
 import { ProjectProvider } from "@/context/ProjectContext";
 import { TasksProvider } from "@/context/TasksContext";
@@ -48,47 +51,52 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-200">
+      <body className="flex min-h-screen flex-col bg-neutral-200 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-200">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProjectProvider initialProjectData={projectData}>
             <TasksProvider>
               {/* Header */}
-              <header className="w-full bg-gray-100 px-4 py-3 text-center dark:bg-gray-800">
-                <h1 className="text-2xl font-bold">Contract Pricing Calculator</h1>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  Calculate labor, material, and additional costs easily.
-                </p>
+              <header className="flex items-center justify-between border-b border-neutral-700 bg-neutral-100 p-4 dark:bg-neutral-900">
+                <Link
+                  className="rounded-2xl px-4 py-2 text-2xl font-semibold dark:text-neutral-200 dark:hover:bg-neutral-500"
+                  href="/"
+                >
+                  Minimal Pricing
+                </Link>
+
+                {/* Buttons */}
+                <div>
+                  <ThemeSwitcher />
+                </div>
               </header>
 
-              {/* Main Content */}
-              <main className="flex w-full flex-1 flex-col items-center justify-center">
-                <div className="w-full max-w-3xl px-2 sm:max-w-4xl sm:px-6 md:max-w-5xl md:px-10 lg:px-12 xl:px-16 2xl:px-24">
-                  <Suspense fallback={<LoadingScreen />}>{children}</Suspense>
+              {/* Content */}
+              <div className="flex flex-1">
+                {/* Sidebar */}
+                <div className="flex">
+                  <NavBar />
                 </div>
-              </main>
 
-              {/* Footer */}
-              <footer className="mt-4 w-full bg-gray-100 px-4 py-3 text-center dark:bg-gray-800">
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  &copy; {new Date().getFullYear()} Minimal Pricing | All Rights Reserved.
-                </p>
-              </footer>
+                {/* Content */}
+                <div className="flex w-full flex-col">
+                  <main className="flex flex-1 items-center justify-center">
+                    <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
+                  </main>
+
+                  {/* Footer */}
+                  <footer className="h-12 bg-neutral-100 px-4 py-3 text-center dark:bg-neutral-800">
+                    <p className="text-sm text-neutral-600 dark:text-neutral-300">
+                      &copy; {new Date().getFullYear()} Minimal Pricing | All Rights Reserved.
+                    </p>
+                  </footer>
+                </div>
+              </div>
             </TasksProvider>
           </ProjectProvider>
-          <ThemeSwitcher />
           <Analytics />
           <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
-  );
-}
-
-// Fallback loading screen
-function LoadingScreen() {
-  return (
-    <div className="flex h-screen w-full items-center justify-center">
-      <div className="h-10 w-10 animate-spin rounded-full border-t-4 border-blue-500"></div>
-    </div>
   );
 }

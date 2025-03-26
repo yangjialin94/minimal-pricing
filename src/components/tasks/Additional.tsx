@@ -20,7 +20,7 @@ interface AdditionalComponentProps {
 export default function Additional({ taskId, additional }: AdditionalProps) {
   return (
     <div className="w-full">
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Additional</h3>
+      <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Additional</h3>
       <ul className="mt-3 space-y-6">
         {additional.map((add) => (
           <li key={add.id}>
@@ -68,11 +68,11 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
   }, [dispatch, additional.id, taskId]);
 
   return (
-    <div className="material-card relative w-full rounded-lg border border-gray-300 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-gray-600 dark:bg-gray-800">
+    <div className="material-card relative w-full rounded-lg border border-neutral-300 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-800">
       {/* Additional Header */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex w-full items-center gap-4">
-          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-gray-900 dark:text-gray-200">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-neutral-900 dark:text-neutral-200">
             <span className="hidden sm:flex">🏡️</span>
             <input
               className="input-field"
@@ -93,7 +93,7 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
 
       {/* Additional Cost Input */}
       <div className="flex w-full items-center gap-2">
-        <p className="text-sm text-gray-600 dark:text-gray-400">Cost</p>
+        <p className="text-sm text-neutral-600 dark:text-neutral-400">Cost</p>
         <NumericFormat
           className="input-field !w-1/2 text-center"
           placeholder="Cost"
@@ -107,8 +107,8 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
       </div>
 
       {/* Total Cost Section */}
-      <div className="mt-4 flex items-center justify-between border-t border-gray-300 pt-3 dark:border-gray-700">
-        <p className="text-lg font-medium text-gray-900 dark:text-gray-300">Total:</p>
+      <div className="mt-4 flex items-center justify-between border-t border-neutral-300 pt-3 dark:border-neutral-700">
+        <p className="text-lg font-medium text-neutral-900 dark:text-neutral-300">Total:</p>
         <p className="text-xl font-semibold text-blue-500 dark:text-blue-400">
           ${formatToDecimalCost(additional.cost, 2)}
         </p>

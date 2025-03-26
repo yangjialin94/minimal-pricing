@@ -47,25 +47,25 @@ export default function AddItemButton({ taskId }: { taskId: string }) {
       {/* Popover Menu */}
       {isOpen && (
         <div
-          className="absolute bottom-14 flex w-48 flex-col gap-1 rounded-lg border border-gray-300 bg-white p-2 shadow-md dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200"
+          className="absolute bottom-14 flex w-48 flex-col gap-1 rounded-lg border border-neutral-300 bg-white p-2 shadow-md dark:border-neutral-600 dark:bg-neutral-800 dark:text-neutral-200"
           ref={popoverRef}
         >
           <button
-            className="flex items-center gap-2 rounded-md px-4 py-2 text-gray-700 transition-all duration-200 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="flex items-center gap-2 rounded-md px-4 py-2 text-neutral-700 transition-all duration-200 hover:bg-neutral-200 dark:text-neutral-300 dark:hover:bg-neutral-700"
             onClick={() => handleAddItem("material")}
           >
             <Package className="h-5 w-5 text-blue-500" />
             <span>Add Material</span>
           </button>
           <button
-            className="flex items-center gap-2 rounded-md px-4 py-2 text-gray-700 transition-all duration-200 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="flex items-center gap-2 rounded-md px-4 py-2 text-neutral-700 transition-all duration-200 hover:bg-neutral-200 dark:text-neutral-300 dark:hover:bg-neutral-700"
             onClick={() => handleAddItem("labor")}
           >
             <Pickaxe className="h-5 w-5 text-green-500" />
             <span>Add Labor</span>
           </button>
           <button
-            className="flex items-center gap-2 rounded-md px-4 py-2 text-gray-700 transition-all duration-200 hover:bg-gray-200 dark:text-gray-300 dark:hover:bg-gray-700"
+            className="flex items-center gap-2 rounded-md px-4 py-2 text-neutral-700 transition-all duration-200 hover:bg-neutral-200 dark:text-neutral-300 dark:hover:bg-neutral-700"
             onClick={() => handleAddItem("additional")}
           >
             <HousePlus className="h-5 w-5 text-slate-500" />
