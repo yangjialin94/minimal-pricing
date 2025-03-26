@@ -23,21 +23,21 @@ export const metadata: Metadata = {
       "Easily estimate contract pricing, including labor, material, and additional fees.",
     type: "website",
     url: "https://www.minimalpricing.com",
-    // images: [
-    //   {
-    //     url: "https://yourwebsite.com/og-image.jpg",
-    //     width: 1200,
-    //     height: 630,
-    //     alt: "Contract Pricing Calculator",
-    //   },
-    // ],
+    images: [
+      {
+        url: "https://www.minimalpricing.com/main-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Contract Pricing Calculator",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Contract Pricing Calculator | Estimate Project Costs",
     description:
       "Easily estimate contract pricing, including labor, material, and additional fees.",
-    // images: ["https://yourwebsite.com/twitter-image.jpg"],
+    images: ["https://www.minimalpricing.com/main-image.png"],
   },
   robots: "index, follow",
   alternates: {
