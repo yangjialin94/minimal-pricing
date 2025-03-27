@@ -91,16 +91,16 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
         exit={{ opacity: 0 }}
         className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-md"
       >
-        <motion.div className="w-full max-w-md rounded-xl border border-neutral-300 bg-white p-6 shadow-2xl dark:border-neutral-600 dark:bg-neutral-900">
+        <motion.div className="w-full max-w-md rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-2xl dark:border-neutral-600 dark:bg-neutral-900">
           {/* Title */}
           {!success && (
             <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-2xl font-semibold text-neutral-900 dark:text-white">
+              <h2 className="flex items-center gap-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200">
                 Buy Me a Coffee ☕
               </h2>
               <button
                 onClick={onClose}
-                className="p-2 text-neutral-400 transition hover:text-neutral-700 dark:hover:text-white"
+                className="p-2 text-neutral-400 transition hover:text-neutral-800 dark:hover:text-neutral-200"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -109,7 +109,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
 
           {/* Success Message */}
           {success ? (
-            <div className="text-center text-neutral-900 dark:text-white">
+            <div className="text-center text-neutral-800 dark:text-neutral-200">
               <h2 className="text-2xl font-bold">🎉 Thank You for Your Support!</h2>
               <p className="mt-2">Your coffee is greatly appreciated ☕</p>
               <button
@@ -131,7 +131,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
                       <button
                         key={coffee.id}
                         onClick={() => handleSelectPrice(coffee.id)}
-                        className="flex w-full items-center justify-between rounded-lg bg-yellow-500 px-5 py-3 text-lg font-semibold text-black shadow-md transition-all hover:bg-yellow-600"
+                        className="flex w-full items-center justify-between rounded-xl bg-yellow-500 px-5 py-3 text-lg font-semibold text-black shadow-md transition-all hover:bg-yellow-600"
                       >
                         <div className="flex items-center gap-3">
                           <Coffee className={`${coffee.size}`} />
@@ -146,7 +146,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
 
               {/* Show Payment Details When Coffee is Selected */}
               {clientSecret && selectedCoffee && (
-                <div className="mt-4 flex justify-between rounded-lg bg-neutral-100 p-4 text-lg text-neutral-900 dark:bg-neutral-800 dark:text-white">
+                <div className="mt-4 flex justify-between rounded-xl bg-neutral-200 p-4 text-lg text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200">
                   <span>Selected: {selectedCoffee.name}</span>
                   <span className="font-bold">${selectedCoffee.price.toFixed(2)}</span>
                 </div>
@@ -155,7 +155,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
               {/* Show Credit Card Input */}
               {clientSecret && (
                 <div className="mt-4">
-                  <div className="rounded-lg border border-neutral-300 bg-white p-3 dark:border-neutral-600 dark:bg-neutral-800">
+                  <div className="rounded-xl border border-neutral-400 bg-neutral-200 p-3 dark:border-neutral-600 dark:bg-neutral-800">
                     <CardElement
                       options={{
                         style: {
@@ -172,7 +172,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
                   </div>
                   <button
                     onClick={handlePayment}
-                    className="mt-4 w-full rounded-lg bg-green-500 px-5 py-3 text-lg font-semibold text-white transition hover:bg-green-600"
+                    className="mt-4 w-full rounded-xl bg-green-500 px-5 py-3 text-lg font-semibold text-neutral-200 transition hover:bg-green-600"
                   >
                     Pay with Card
                   </button>

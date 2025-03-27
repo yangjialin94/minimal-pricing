@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  ArrowBigLeftDash,
-  ArrowBigRightDash,
-  ChevronDown,
-  ChevronUp,
-  Plus,
-  Trash2,
-} from "lucide-react";
+import { ArrowBigRightDash, ChevronDown, ChevronUp, Plus, Trash2 } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { useCallback, useState } from "react";
@@ -25,27 +18,15 @@ export default function Tasks() {
   const tasks = useTasks();
 
   return (
-    <div className="container flex flex-1 flex-col items-center justify-center px-4 py-10 sm:px-6 md:px-8">
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="mb-8 text-center text-3xl font-bold dark:text-neutral-100"
-      >
-        Tasks
-      </motion.h1>
-
-      <TaskList />
+    <div className="container flex flex-col items-center justify-center px-8 py-10">
       <AddTask />
+      <TaskList />
 
       {/* Navigation */}
       <div className="mt-10 flex w-full justify-center gap-6">
-        <Link className="btn-secondary" href="/">
-          <ArrowBigLeftDash size={22} /> Back to Home
-        </Link>
         {tasks && tasks.length > 0 && (
-          <Link className="btn-primary" href="/profit">
-            Calculate Profit <ArrowBigRightDash size={22} />
+          <Link className="btn-icon" href="/profit">
+            <ArrowBigRightDash size={22} />
           </Link>
         )}
       </div>
@@ -61,8 +42,8 @@ function TaskList() {
   }
 
   return (
-    <div className="w-full max-w-xl px-4 sm:max-w-3xl sm:px-6 md:px-8">
-      <ul className="space-y-6">
+    <div className="w-full">
+      <ul>
         {tasks.map((task) => (
           <motion.li
             key={task.id}
@@ -111,7 +92,7 @@ function TaskComponent({ task }: { task: Task }) {
   }, [dispatch, task.id]);
 
   return (
-    <div className="relative mb-6 rounded-xl border bg-white p-5 shadow-md transition-all hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800">
+    <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200 p-5 shadow-md transition-all hover:shadow-xl dark:border-neutral-700 dark:bg-neutral-800">
       <div className="flex items-center justify-between">
         {/* Task Name Input */}
         <div className="flex w-full items-center gap-4">
@@ -141,7 +122,7 @@ function TaskComponent({ task }: { task: Task }) {
 
           {/* Delete Button */}
           <button
-            className="rounded-full p-2 transition-all duration-200 hover:bg-red-100 dark:hover:bg-red-700/20"
+            className="rounded-full p-2 transition-all duration-200 hover:bg-red-300 dark:hover:bg-red-700"
             onClick={handleRemoveTask}
           >
             <Trash2 className="h-6 w-6 text-red-500" />
@@ -151,26 +132,29 @@ function TaskComponent({ task }: { task: Task }) {
 
       {task.isOpen && (
         <>
-          <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
+          <hr className="my-4 border-neutral-300 dark:border-neutral-700" />
 
           {/* Scrollable Content */}
-          <div className="scrollbar-thin scrollbar-thumb-neutral-300 dark:scrollbar-thumb-neutral-600 max-h-[60vh] overflow-y-auto p-4">
+          <div className="scrollbar-thin max-h-[60vh] overflow-y-auto p-4">
             {task.materials.length > 0 && (
               <>
                 <Materials taskId={task.id} materials={task.materials} />
-                <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
+                {(task.labors.length > 0 || task.additional.length > 0) && (
+                  <hr className="mb-4 mt-6 border-neutral-300 dark:border-neutral-700" />
+                )}
               </>
             )}
             {task.labors.length > 0 && (
               <>
                 <Labors taskId={task.id} labors={task.labors} />
-                <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
+                {task.additional.length > 0 && (
+                  <hr className="mb-4 mt-6 border-neutral-300 dark:border-neutral-700" />
+                )}
               </>
             )}
             {task.additional.length > 0 && (
               <>
                 <Additional taskId={task.id} additional={task.additional} />
-                <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
               </>
             )}
           </div>
@@ -216,26 +200,30 @@ function AddTask() {
   };
 
   return (
-    <div className="mt-8 flex w-full flex-col items-center gap-4 sm:flex-row sm:justify-center">
-      {/* Add Task */}
-      <div className="relative flex w-full max-w-md flex-col items-center">
+    <div className="mb-8 w-full max-w-md">
+      {/* Container for input + button */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
         <input
-          className="input-field text-center"
+          className="input-field flex-1 text-center"
           placeholder="Enter task name..."
           value={taskName}
           onChange={handleNameChange}
         />
-        {hasError && <p className="mt-2 text-sm text-red-500">Task name cannot be empty.</p>}
+
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="btn-primary mt-2 w-full sm:w-auto"
+          // Remove mt-2 (or use sm:mt-0) so it stays inline on bigger screens
+          className="btn-primary"
           onClick={handleAddTask}
         >
           <Plus className="h-5 w-5" />
           Add Task
         </motion.button>
       </div>
+
+      {/* Error message below the row */}
+      {hasError && <p className="mt-2 text-sm !text-red-500">Task name cannot be empty.</p>}
     </div>
   );
 }

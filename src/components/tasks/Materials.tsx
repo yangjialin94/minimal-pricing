@@ -82,11 +82,11 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
   }, [dispatch, material.id, taskId]);
 
   return (
-    <div className="material-card relative w-full rounded-lg border border-neutral-300 bg-white p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-800">
+    <div className="material-card relative w-full rounded-xl border border-neutral-400 bg-neutral-200 p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-800">
       {/* Material Header */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex w-full items-center gap-4">
-          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-neutral-900 dark:text-neutral-200">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
             <span className="hidden sm:flex">📦</span>
             <input
               className="input-field"
@@ -98,7 +98,7 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
           </label>
         </div>
         <button
-          className="ml-4 rounded-full p-2 transition-all duration-200 hover:bg-red-700/20"
+          className="ml-4 rounded-full p-2 transition-all duration-200 hover:bg-red-300 dark:hover:bg-red-700"
           onClick={handleRemoveMaterial}
         >
           <Trash2 className="h-6 w-6 text-red-500" />
@@ -150,8 +150,8 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
 
       {/* Total Cost Section */}
       <div className="mt-4 flex items-center justify-between border-t border-neutral-300 pt-3 dark:border-neutral-700">
-        <p className="text-lg font-medium text-neutral-900 dark:text-neutral-300">Total:</p>
-        <p className="text-xl font-semibold text-blue-500 dark:text-blue-400">
+        <p className="text-lg font-medium text-neutral-700 dark:text-neutral-300">Total:</p>
+        <p className="text-xl font-semibold text-blue-500">
           ${formatToDecimalCost(material.cost, 2)}
         </p>
       </div>

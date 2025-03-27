@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowBigLeftDash, ArrowBigRightDash } from "lucide-react";
+import { ArrowBigRightDash } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -19,23 +19,16 @@ export default function Users() {
   const project = useProject();
 
   return (
-    <div className="container flex flex-1 flex-col items-center justify-center px-4 py-10 sm:px-6 md:px-8">
-      <h1 className="mb-6 text-center text-3xl font-bold text-neutral-900 dark:text-neutral-100">
-        Users
-      </h1>
-
-      <div className="mx-auto flex w-full max-w-lg flex-col gap-6">
+    <div className="container flex flex-1 flex-col items-center justify-center px-8 py-10">
+      <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
         <UserInfo user={project.user} />
         <CustomerInfo customer={project.customer} />
       </div>
 
       {/* Navigation */}
       <div className="mt-10 flex w-full max-w-lg justify-center gap-6">
-        <Link className="btn-secondary" href="/profit">
-          <ArrowBigLeftDash size={22} /> Calculate Profit
-        </Link>
-        <Link className="btn-primary" href="/overview">
-          Project Overview <ArrowBigRightDash size={22} />
+        <Link className="btn-icon" href="/overview">
+          <ArrowBigRightDash size={22} />
         </Link>
       </div>
     </div>
@@ -64,8 +57,8 @@ function UserInfo({ user }: { user: User }) {
   }, [debouncedUser.name, debouncedUser.phone, debouncedUser.email, dispatch]);
 
   return (
-    <div className="w-full rounded-lg border border-neutral-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-900">
-      <h2 className="mb-4 text-xl font-semibold text-neutral-900 dark:text-neutral-200">
+    <div className="w-full rounded-xl border border-neutral-300 bg-neutral-200 p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800">
+      <h2 className="mb-4 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
         Provider Information
       </h2>
 
@@ -120,8 +113,8 @@ function CustomerInfo({ customer }: { customer: Customer }) {
   ]);
 
   return (
-    <div className="mt-6 w-full rounded-lg border border-neutral-300 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-900">
-      <h2 className="mb-4 text-xl font-semibold text-neutral-900 dark:text-neutral-200">
+    <div className="mt-6 w-full rounded-xl border border-neutral-300 bg-neutral-200 p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800">
+      <h2 className="mb-4 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
         Customer Information
       </h2>
 
@@ -154,7 +147,7 @@ function CustomerInfo({ customer }: { customer: Customer }) {
 function InputFieldRow({ label, value, onChange }: InputFieldRowProps) {
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <label className="w-full text-lg font-medium text-neutral-900 dark:text-neutral-200 sm:w-24 md:w-28">
+      <label className="w-full text-lg font-medium text-neutral-800 dark:text-neutral-200 sm:w-24 md:w-28">
         {label}:
       </label>
       <input

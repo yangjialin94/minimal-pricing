@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ThemeProvider } from "next-themes";
 import { Suspense } from "react";
 
+import BuyCoffeeBtn from "@/components/BuyCoffeeBtn";
 import LoadingSkeleton from "@/components/LoadingSkeleton";
 import NavBar from "@/components/NavBar";
 import ThemeSwitcher from "@/components/ThemeSwitcher";
@@ -51,22 +52,23 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col bg-neutral-200 text-neutral-900 dark:bg-neutral-800 dark:text-neutral-200">
+      <body className="flex min-h-screen flex-col bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProjectProvider initialProjectData={projectData}>
             <TasksProvider>
               {/* Header */}
-              <header className="flex items-center justify-between border-b border-neutral-700 bg-neutral-100 p-4 dark:bg-neutral-900">
+              <header className="flex items-center justify-between border-b border-neutral-700 bg-neutral-100 p-2 dark:bg-neutral-900">
                 <Link
-                  className="rounded-2xl px-4 py-2 text-2xl font-semibold dark:text-neutral-200 dark:hover:bg-neutral-500"
+                  className="rounded-2xl px-4 py-3 text-2xl font-semibold text-neutral-800 hover:bg-neutral-500 dark:text-neutral-200"
                   href="/"
                 >
                   Minimal Pricing
                 </Link>
 
                 {/* Buttons */}
-                <div>
+                <div className="flex gap-2 px-4">
                   <ThemeSwitcher />
+                  <BuyCoffeeBtn />
                 </div>
               </header>
 
@@ -84,8 +86,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
                   </main>
 
                   {/* Footer */}
-                  <footer className="h-12 bg-neutral-100 px-4 py-3 text-center dark:bg-neutral-800">
-                    <p className="text-sm text-neutral-600 dark:text-neutral-300">
+                  <footer className="h-12 bg-neutral-200 px-4 py-3 text-center dark:bg-neutral-800">
+                    <p className="text-sm text-neutral-700 dark:text-neutral-300">
                       &copy; {new Date().getFullYear()} Minimal Pricing | All Rights Reserved.
                     </p>
                   </footer>

@@ -4,49 +4,48 @@
 
 /* Improved Container for Mobile → Ultra-Wide Screens */
 .container {
-  @apply mx-auto w-full max-w-6xl px-4 md:px-6 lg:px-8;
+  @apply mx-auto w-full;
 }
 
 /* Typography Scaling for an Enterprise Feel */
 h1 {
-  @apply text-3xl font-bold text-neutral-900 dark:text-neutral-200 sm:text-4xl md:text-5xl;
+  @apply text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl;
 }
 h2 {
-  @apply text-2xl font-semibold text-neutral-800 dark:text-neutral-200 sm:text-3xl;
+  @apply text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl;
 }
 h3 {
-  @apply text-xl font-semibold text-neutral-700 dark:text-neutral-300;
+  @apply text-xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-2xl;
 }
 p {
-  @apply text-base text-neutral-700 dark:text-neutral-300 sm:text-lg;
+  @apply text-base text-neutral-800 dark:text-neutral-200 md:text-lg;
 }
 
 /* Buttons - Unified Styling & Dark Mode Support */
-.btn-primary,
-.btn-secondary {
-  @apply flex items-center gap-2 rounded-md px-3 py-2 text-base font-semibold shadow-sm transition-all duration-200;
+.btn-primary {
+  @apply flex items-center gap-2 rounded-xl px-3 py-2 text-base font-semibold shadow-sm transition-all duration-200;
 }
 
 /* Primary Button - Strong Blue Theme */
 .btn-primary {
-  @apply border-2 border-blue-500 bg-blue-500 text-white hover:bg-blue-600 dark:border-blue-400 dark:bg-blue-400 dark:hover:bg-blue-500;
+  @apply border-2 border-blue-500 bg-blue-500 text-white hover:bg-blue-600;
 }
 
-/* Secondary Button - Improved Contrast */
-.btn-secondary {
-  @apply border border-neutral-400 bg-neutral-100 text-neutral-700 hover:bg-neutral-200 dark:border-neutral-500 dark:bg-neutral-700 dark:text-neutral-300 dark:hover:bg-neutral-600;
+/* Icon Button - Improved Contrast */
+.btn-icon {
+  @apply rounded-full border-2 border-blue-500 bg-blue-500 p-3 text-white hover:bg-blue-600;
 }
 
 /* Input Fields - Uniform Styling Across the App */
 .input-field {
-  @apply min-h-[40px] w-full rounded-md border border-neutral-300 bg-neutral-50 px-3 py-2 text-base text-neutral-900 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-300/40;
-  @apply dark:border-neutral-600 dark:bg-neutral-900 dark:text-neutral-200 dark:focus:border-blue-400 dark:focus:ring-blue-500/40;
+  @apply min-h-[40px] w-full rounded-xl border border-neutral-300 bg-neutral-100 px-3 py-2 text-base text-neutral-800 placeholder-neutral-300 shadow-sm;
+  @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-700;
 }
 
 /* Dark Mode Support */
-.dark {
+/* .dark {
   @apply bg-neutral-900 text-neutral-200;
-}
+} */
 
 /* Material Cards - Subtle Hover Effects */
 .material-card {
@@ -54,6 +53,6 @@ p {
 }
 
 /* Light Theme Fixes */
-.light {
+/* .light {
   @apply bg-white text-neutral-900;
-}
+} */

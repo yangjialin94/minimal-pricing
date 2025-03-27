@@ -1,12 +1,7 @@
 "use client";
 
-import { ArrowBigLeftDash, Coffee } from "lucide-react";
-import { motion } from "motion/react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
-import { useState } from "react";
 
-import BuyMeCoffeeModal from "@/components/overview/BuyMeCoffeeModal";
 import { useProject } from "@/hooks/useProject";
 import { formatToDecimalCost } from "@/lib/format";
 import { Additional, Customer, Labor, Material, Project, Task, User } from "@/types";
@@ -39,15 +34,10 @@ interface TaskSectionProps {
 
 export default function Overview() {
   const project = useProject();
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className="flex flex-1 items-center justify-center">
-      <div className="mx-auto w-full max-w-4xl px-4 py-8">
-        <h1 className="mb-8 text-center text-3xl font-bold text-neutral-900 dark:text-neutral-100">
-          Project Overview
-        </h1>
-
+      <div className="mx-auto w-full max-w-4xl p-8">
         {/* User & Customer Info */}
         <div className="grid gap-6 sm:grid-cols-2">
           <UserInfo user={project.user} />
@@ -60,27 +50,9 @@ export default function Overview() {
 
         {/* Navigation */}
         <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
-          <Link className="btn-secondary" href="/users">
-            <ArrowBigLeftDash size={22} /> Modify Users
-          </Link>
           <ProviderPDFDownloadButton />
           <CustomerPDFDownloadButton />
         </div>
-
-        {/* Donation Button */}
-        <motion.button
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="fixed bottom-6 right-6 flex items-center gap-2 rounded-full bg-yellow-500 px-4 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-yellow-600"
-          onClick={() => setIsModalOpen(true)}
-        >
-          <Coffee className="h-6 w-6" />
-          <span className="hidden md:block">Buy Me a Coffee</span>
-        </motion.button>
-
-        {/* Payment Modal */}
-        {isModalOpen && <BuyMeCoffeeModal onClose={() => setIsModalOpen(false)} />}
       </div>
     </div>
   );
@@ -88,10 +60,8 @@ export default function Overview() {
 
 function UserInfo({ user }: { user: User }) {
   return (
-    <div className="rounded-lg border border-neutral-300 bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900">
-      <h2 className="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-200">
-        Provider Information
-      </h2>
+    <div className="rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900">
+      <h2 className="mb-4 text-lg font-semibold">Provider Information</h2>
       <InfoItem label="Name" value={user.name} icon="📛" />
       <InfoItem label="Phone" value={user.phone} icon="📞" />
       <InfoItem label="Email" value={user.email} icon="📧" />
@@ -101,10 +71,8 @@ function UserInfo({ user }: { user: User }) {
 
 function CustomerInfo({ customer }: { customer: Customer }) {
   return (
-    <div className="rounded-lg border border-neutral-300 bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900">
-      <h2 className="mb-4 text-lg font-semibold text-neutral-900 dark:text-neutral-200">
-        Customer Information
-      </h2>
+    <div className="rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900">
+      <h2 className="mb-4 text-lg font-semibold">Customer Information</h2>
       <InfoItem label="Name" value={customer.name} icon="📛" />
       <InfoItem label="Address" value={customer.address} icon="📍" />
       <InfoItem label="Phone" value={customer.phone} icon="📞" />
@@ -127,11 +95,9 @@ function TasksList({ tasks }: { tasks: Task[] }) {
       {tasks.map((task) => (
         <div
           key={task.id}
-          className="rounded-lg border border-neutral-300 bg-white p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900"
+          className="rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900"
         >
-          <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-            📂 {task.name}
-          </h2>
+          <h2 className="text-lg font-semibold">📂 {task.name}</h2>
 
           {/* Task Sections */}
           <TaskSection title="Materials" items={task.materials} icon="📦" />
@@ -159,7 +125,7 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
 
   return (
     <div className="mt-4">
-      <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">{title}</h3>
+      <h3 className="text-lg font-semibold">{title}</h3>
       <ul className="mt-2 space-y-1 text-neutral-700 dark:text-neutral-300">
         {items.map((item) => {
           if (title === "Materials") {
@@ -168,7 +134,7 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
 
             return (
               <li key={material.id} className="flex justify-between">
-                <p className="flex items-center gap-2 text-neutral-800 dark:text-neutral-300">
+                <p className="flex items-center gap-2 text-neutral-700 dark:text-neutral-300">
                   {icon} {material.name}
                   <span className="text-sm text-neutral-600 dark:text-neutral-400">
                     (${material.unitCost}/{material.unit} x {material.quantity})
@@ -185,7 +151,7 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
 
             return (
               <li key={labor.id} className="flex justify-between">
-                <p className="flex items-center gap-2 text-neutral-800 dark:text-neutral-300">
+                <p className="flex items-center gap-2">
                   {icon} {labor.role}
                   <span className="text-sm text-neutral-600 dark:text-neutral-400">
                     (${labor.unitCost}/{labor.unit} x {labor.quantity})
@@ -200,7 +166,7 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
 
             return (
               <li key={additional.id} className="flex justify-between">
-                <p className="flex items-center gap-2 text-neutral-800 dark:text-neutral-300">
+                <p className="flex items-center gap-2">
                   {icon} {additional.type}
                 </p>
                 <p className="font-medium text-blue-400">
@@ -217,24 +183,22 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
 
 function Summary({ project }: { project: Project }) {
   return (
-    <div className="mt-8 rounded-lg border border-neutral-300 bg-white p-6 shadow-md dark:border-neutral-600 dark:bg-neutral-900">
-      <h2 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100">
-        Project Summary
-      </h2>
-      <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
+    <div className="mt-8 rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md dark:border-neutral-600 dark:bg-neutral-900">
+      <h2 className="text-xl font-semibold">Project Summary</h2>
+      <hr className="my-4 border-neutral-400 dark:border-neutral-600" />
 
-      <div className="flex justify-between text-lg font-medium text-neutral-800 dark:text-neutral-300">
+      <div className="flex justify-between text-lg font-medium text-neutral-700 dark:text-neutral-300">
         <p>Total Cost:</p>
         <p className="text-blue-400">${formatToDecimalCost(project.totalCost, 2)}</p>
       </div>
 
-      <div className="mt-4 flex justify-between text-lg font-medium text-neutral-800 dark:text-neutral-300">
+      <div className="mt-4 flex justify-between text-lg font-medium text-neutral-700 dark:text-neutral-300">
         <p>Total Price:</p>
         <p className="text-blue-400">${formatToDecimalCost(project.totalPrice, 2)}</p>
       </div>
 
       <div className="mt-4 flex justify-between text-lg font-medium">
-        <p className="text-neutral-800 dark:text-neutral-300">Total Profit:</p>
+        <p>Total Profit:</p>
         <p className={`${project.totalProfit >= 0 ? "text-green-500" : "text-red-500"}`}>
           {`$${formatToDecimalCost(project.totalProfit, 2)} / ${formatToDecimalCost(
             project.profitMargin,

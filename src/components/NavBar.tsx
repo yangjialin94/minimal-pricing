@@ -21,21 +21,23 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="w-[100px] flex-1 dark:bg-neutral-900">
+    <nav className="w-[100px] flex-1 bg-neutral-100 dark:bg-neutral-900">
       <ul className="flex w-full flex-col items-center gap-4 p-4">
         {navItems.map((item) => (
           <li key={item.href}>
             <Link
               className={clsx(
-                "flex w-16 flex-col items-center gap-2 rounded-2xl p-2 dark:hover:bg-neutral-500", // Always applied
+                "flex w-16 flex-col items-center gap-2 rounded-2xl p-2 hover:bg-neutral-500", // Always applied
                 {
                   "pointer-events-none bg-blue-500": pathname === item.href,
                 }
               )}
               href={item.href}
             >
-              <item.icon className="size-6" color="#ffffff" />
-              <span className="text-xs font-semibold text-neutral-200">{item.label}</span>
+              <item.icon className="size-6 text-neutral-800 dark:text-neutral-200" />
+              <span className="text-xs font-semibold text-neutral-800 dark:text-neutral-200">
+                {item.label}
+              </span>
             </Link>
           </li>
         ))}
