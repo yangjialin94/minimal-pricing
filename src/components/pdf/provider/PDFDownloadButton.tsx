@@ -35,16 +35,12 @@ export default function PDFDownloadButton() {
   };
 
   return (
-    <button
-      className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-blue-500 bg-blue-500 px-3 py-2 text-base font-medium text-white transition-all duration-200 ease-in-out hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
-      onClick={handleDownload}
-      disabled={loading}
-    >
+    <button className="btn-primary" onClick={handleDownload} disabled={loading}>
       {loading ? (
         <p className="animate-pulse">Generating PDF...</p>
       ) : (
         <div className="flex items-center gap-2">
-          <Download className="h-5 w-5" />
+          <Download className="size-5 animate-bounce" />
           <p>User</p>
         </div>
       )}

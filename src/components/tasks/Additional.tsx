@@ -20,7 +20,7 @@ interface AdditionalComponentProps {
 export default function Additional({ taskId, additional }: AdditionalProps) {
   return (
     <div className="w-full">
-      <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Additional</h3>
+      <h3 className="text-lg font-semibold">Additional</h3>
       <ul className="mt-3 space-y-6">
         {additional.map((add) => (
           <li key={add.id}>
@@ -68,11 +68,11 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
   }, [dispatch, additional.id, taskId]);
 
   return (
-    <div className="material-card relative w-full rounded-xl border border-neutral-400 bg-neutral-200 p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-800">
+    <div className="material-card relative w-full rounded-xl border border-neutral-700 bg-neutral-200 p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:bg-neutral-800">
       {/* Additional Header */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex w-full items-center gap-4">
-          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold">
             <span className="hidden sm:flex">🏡️</span>
             <input
               className="input-field"
@@ -107,8 +107,8 @@ function AdditionalComponent({ taskId, additional }: AdditionalComponentProps) {
       </div>
 
       {/* Total Cost Section */}
-      <div className="mt-4 flex items-center justify-between border-t border-neutral-300 pt-3 dark:border-neutral-700">
-        <p className="text-lg font-medium text-neutral-700 dark:text-neutral-300">Total:</p>
+      <div className="mt-4 flex items-center justify-between border-t border-neutral-700 pt-3">
+        <p className="text-lg font-medium">Total:</p>
         <p className="text-xl font-semibold text-blue-500">
           ${formatToDecimalCost(additional.cost, 2)}
         </p>

@@ -20,7 +20,7 @@ interface MaterialComponentProps {
 export default function Materials({ taskId, materials }: MaterialsProps) {
   return (
     <div className="w-full">
-      <h3 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">Materials</h3>
+      <h3 className="text-lg font-semibold">Materials</h3>
       <ul className="mt-3 space-y-6">
         {materials.map((material) => (
           <li key={material.id}>
@@ -82,11 +82,11 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
   }, [dispatch, material.id, taskId]);
 
   return (
-    <div className="material-card relative w-full rounded-xl border border-neutral-400 bg-neutral-200 p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-600 dark:bg-neutral-800">
+    <div className="material-card relative w-full rounded-xl border border-neutral-700 bg-neutral-200 p-5 shadow-sm transition-all duration-200 hover:shadow-md dark:bg-neutral-800">
       {/* Material Header */}
       <div className="mb-4 flex items-center justify-between">
         <div className="flex w-full items-center gap-4">
-          <label className="flex flex-1 items-center gap-3 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+          <label className="flex flex-1 items-center gap-3 text-xl font-semibold">
             <span className="hidden sm:flex">📦</span>
             <input
               className="input-field"
@@ -149,8 +149,8 @@ function MaterialComponent({ taskId, material }: MaterialComponentProps) {
       </div>
 
       {/* Total Cost Section */}
-      <div className="mt-4 flex items-center justify-between border-t border-neutral-300 pt-3 dark:border-neutral-700">
-        <p className="text-lg font-medium text-neutral-700 dark:text-neutral-300">Total:</p>
+      <div className="mt-4 flex items-center justify-between border-t border-neutral-700">
+        <p className="text-lg font-medium">Total:</p>
         <p className="text-xl font-semibold text-blue-500">
           ${formatToDecimalCost(material.cost, 2)}
         </p>

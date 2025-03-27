@@ -40,19 +40,14 @@ function TasksList({ tasks }: TasksListProps) {
   return (
     <div className="w-full space-y-6">
       {tasks.map((task) => (
-        <div
-          key={task.id}
-          className="rounded-xl border border-neutral-300 bg-neutral-200 p-6 shadow-md dark:border-neutral-700 dark:bg-neutral-800"
-        >
+        <div key={task.id} className="rounded-xl border border-neutral-700 p-6 shadow-md">
           <h2 className="flex items-center gap-2 text-xl font-semibold">📂 {task.name}</h2>
 
           {/* Cost Breakdown */}
-          <div className="mt-4 flex justify-between border-t border-neutral-400 pt-3 text-lg font-bold dark:border-neutral-600">
+          <div className="mt-4 flex justify-between border-t border-neutral-700 pt-3 text-lg font-bold">
             <p>Total Cost:</p>
             <div className="flex items-center gap-2">
-              <p className="text-blue-600 dark:text-blue-400">
-                ${formatToDecimalCost(task.totalCost, 2)}
-              </p>
+              <p className="text-blue-500">${formatToDecimalCost(task.totalCost, 2)}</p>
               {task.profitMargin !== 0 && (
                 <p className="text-base text-red-500">
                   (${formatToDecimalCost(task.totalPrice, 2)})
@@ -73,18 +68,16 @@ function Summary({ project }: SummaryProps) {
   const totalProfit = project.totalProfit ?? 0;
 
   return (
-    <div className="mt-8 w-full rounded-xl border border-neutral-300 bg-neutral-200 p-6 shadow-md dark:border-neutral-700 dark:bg-neutral-800">
+    <div className="mt-8 w-full rounded-xl border border-neutral-700 bg-neutral-200 p-6 shadow-md dark:bg-neutral-800">
       <h2 className="text-xl font-semibold">Project Summary</h2>
 
-      <hr className="my-4 border-neutral-300 dark:border-neutral-600" />
+      <hr className="my-4 dark:border-neutral-700" />
 
       {/* TOTAL COST */}
       <div className="flex items-center justify-between text-lg font-bold">
-        <span className="text-neutral-900 dark:text-neutral-100">Total Cost:</span>
+        <span>Total Cost:</span>
         <div className="flex items-center gap-2">
-          <span className="text-blue-600 dark:text-blue-400">
-            ${formatToDecimalCost(totalCost, 2)}
-          </span>
+          <span className="0 text-blue-500">${formatToDecimalCost(totalCost, 2)}</span>
           {profitMargin !== 0 && (
             <span className="text-base text-red-500">(${formatToDecimalCost(totalPrice, 2)})</span>
           )}
@@ -93,7 +86,7 @@ function Summary({ project }: SummaryProps) {
 
       {/* TOTAL PROFIT */}
       <div className="mt-4 flex items-center justify-between text-lg font-bold">
-        <span className="text-neutral-900 dark:text-neutral-100">Total Profit:</span>
+        <span>Total Profit:</span>
         <div className="flex items-center gap-2">
           <ProfitCalculator totalProfit={totalProfit} />
           <span className="text-xl font-extrabold text-green-500">{profitMargin.toFixed(1)}%</span>

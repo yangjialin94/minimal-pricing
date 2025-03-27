@@ -95,9 +95,7 @@ function PaymentForm({ onClose }: { onClose: () => void }) {
           {/* Title */}
           {!success && (
             <div className="flex items-center justify-between">
-              <h2 className="flex items-center gap-2 text-2xl font-semibold text-neutral-800 dark:text-neutral-200">
-                Buy Me a Coffee ☕
-              </h2>
+              <h2 className="flex items-center gap-2 text-2xl font-semibold">Buy Me a Coffee ☕</h2>
               <button
                 onClick={onClose}
                 className="p-2 text-neutral-400 transition hover:text-neutral-800 dark:hover:text-neutral-200"

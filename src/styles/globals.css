@@ -3,43 +3,48 @@
 @tailwind utilities;
 
 /* Improved Container for Mobile → Ultra-Wide Screens */
+body {
+  @apply border-neutral-700 bg-neutral-100 text-neutral-800 transition-all duration-200 dark:bg-neutral-900 dark:text-neutral-200;
+}
+
+header,
+aside,
+footer {
+  @apply border-neutral-700 bg-neutral-100 dark:bg-neutral-900;
+}
 .container {
-  @apply mx-auto w-full;
+  @apply max-w-4xl;
 }
 
 /* Typography Scaling for an Enterprise Feel */
 h1 {
-  @apply text-3xl font-bold text-neutral-800 dark:text-neutral-200 md:text-4xl;
+  @apply text-3xl font-bold md:text-4xl;
 }
 h2 {
-  @apply text-2xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-3xl;
+  @apply text-2xl font-semibold md:text-3xl;
 }
 h3 {
-  @apply text-xl font-semibold text-neutral-800 dark:text-neutral-200 md:text-2xl;
+  @apply text-xl font-semibold md:text-2xl;
 }
 p {
-  @apply text-base text-neutral-800 dark:text-neutral-200 md:text-lg;
+  @apply text-base md:text-lg;
 }
 
 /* Buttons - Unified Styling & Dark Mode Support */
-.btn-primary {
-  @apply flex items-center gap-2 rounded-xl px-3 py-2 text-base font-semibold shadow-sm transition-all duration-200;
-}
-
 /* Primary Button - Strong Blue Theme */
 .btn-primary {
-  @apply border-2 border-blue-500 bg-blue-500 text-white hover:bg-blue-600;
+  @apply flex items-center gap-2 rounded-xl border-2 border-blue-500 bg-blue-400 px-3 py-2 text-base font-semibold text-white shadow-sm transition-all duration-200 hover:bg-blue-600;
 }
 
 /* Icon Button - Improved Contrast */
 .btn-icon {
-  @apply rounded-full border-2 border-blue-500 bg-blue-500 p-3 text-white hover:bg-blue-600;
+  @apply rounded-full border-2 border-blue-500 bg-blue-400 p-3 text-white hover:bg-blue-600;
 }
 
 /* Input Fields - Uniform Styling Across the App */
 .input-field {
-  @apply min-h-[40px] w-full rounded-xl border border-neutral-300 bg-neutral-100 px-3 py-2 text-base text-neutral-800 placeholder-neutral-300 shadow-sm;
-  @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder-neutral-700;
+  @apply min-h-[40px] w-full rounded-xl border border-neutral-300 bg-neutral-100 px-3 py-2 text-base text-neutral-800 shadow-sm placeholder:font-normal placeholder:text-neutral-300;
+  @apply dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-200 dark:placeholder:text-neutral-700;
 }
 
 /* Dark Mode Support */

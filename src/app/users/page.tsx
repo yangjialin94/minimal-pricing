@@ -20,13 +20,13 @@ export default function Users() {
 
   return (
     <div className="container flex flex-1 flex-col items-center justify-center px-8 py-10">
-      <div className="mx-auto flex w-full max-w-lg flex-col gap-4">
+      <div className="mx-auto flex w-full flex-col gap-4">
         <UserInfo user={project.user} />
         <CustomerInfo customer={project.customer} />
       </div>
 
       {/* Navigation */}
-      <div className="mt-10 flex w-full max-w-lg justify-center gap-6">
+      <div className="mt-10 flex w-full justify-center gap-6">
         <Link className="btn-icon" href="/overview">
           <ArrowBigRightDash size={22} />
         </Link>
@@ -57,7 +57,7 @@ function UserInfo({ user }: { user: User }) {
   }, [debouncedUser.name, debouncedUser.phone, debouncedUser.email, dispatch]);
 
   return (
-    <div className="w-full rounded-xl border border-neutral-300 bg-neutral-200 p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800">
+    <div className="w-full rounded-xl border border-neutral-700 bg-neutral-200 p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:bg-neutral-800">
       <h2 className="mb-4 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
         Provider Information
       </h2>
@@ -113,10 +113,8 @@ function CustomerInfo({ customer }: { customer: Customer }) {
   ]);
 
   return (
-    <div className="mt-6 w-full rounded-xl border border-neutral-300 bg-neutral-200 p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:border-neutral-700 dark:bg-neutral-800">
-      <h2 className="mb-4 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
-        Customer Information
-      </h2>
+    <div className="mt-6 w-full rounded-xl border border-neutral-700 bg-neutral-200 p-6 shadow-sm transition-all duration-200 hover:shadow-md dark:bg-neutral-800">
+      <h2 className="mb-4 text-xl font-semibold">Customer Information</h2>
 
       <div className="space-y-4">
         <InputFieldRow
@@ -147,15 +145,13 @@ function CustomerInfo({ customer }: { customer: Customer }) {
 function InputFieldRow({ label, value, onChange }: InputFieldRowProps) {
   return (
     <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <label className="w-full text-lg font-medium text-neutral-800 dark:text-neutral-200 sm:w-24 md:w-28">
-        {label}:
-      </label>
+      <label className="w-full text-lg font-medium sm:w-24 md:w-28">{label}:</label>
       <input
         type="text"
         value={value}
         onChange={onChange}
         placeholder={`Enter ${label.toLowerCase()}...`}
-        className="input-field max-w-md sm:flex-1"
+        className="input-field max-w-xl sm:flex-1"
       />
     </div>
   );

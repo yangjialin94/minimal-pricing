@@ -52,45 +52,48 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col bg-neutral-200 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-200">
+      <body>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ProjectProvider initialProjectData={projectData}>
             <TasksProvider>
-              {/* Header */}
-              <header className="flex items-center justify-between border-b border-neutral-700 bg-neutral-100 p-2 dark:bg-neutral-900">
-                <Link
-                  className="rounded-2xl px-4 py-3 text-2xl font-semibold text-neutral-800 hover:bg-neutral-500 dark:text-neutral-200"
-                  href="/"
-                >
-                  Minimal Pricing
-                </Link>
+              <div className="flex min-h-screen flex-col">
+                {/* Header */}
+                <header className="sticky left-0 top-0 z-10 flex w-full items-center justify-between border-b p-2">
+                  <Link
+                    className="rounded-2xl px-4 py-3 text-2xl font-semibold text-neutral-800 hover:bg-neutral-400 dark:text-neutral-200 dark:hover:bg-neutral-600"
+                    href="/"
+                  >
+                    Minimal Pricing
+                  </Link>
 
-                {/* Buttons */}
-                <div className="flex gap-2 px-4">
-                  <ThemeSwitcher />
-                  <BuyCoffeeBtn />
-                </div>
-              </header>
-
-              {/* Content */}
-              <div className="flex flex-1">
-                {/* Sidebar */}
-                <div className="flex">
-                  <NavBar />
-                </div>
+                  {/* Buttons */}
+                  <div className="flex gap-2 px-4">
+                    <ThemeSwitcher />
+                    <BuyCoffeeBtn />
+                  </div>
+                </header>
 
                 {/* Content */}
-                <div className="flex w-full flex-col">
-                  <main className="flex flex-1 items-center justify-center">
-                    <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
-                  </main>
+                <div className="flex flex-1">
+                  {/* Sidebar */}
+                  <aside className="sticky left-0 top-[74px] h-[calc(100vh-74px)] w-[100px] border-r">
+                    <NavBar />
+                    {/* <p>Hi</p> */}
+                  </aside>
 
-                  {/* Footer */}
-                  <footer className="h-12 bg-neutral-200 px-4 py-3 text-center dark:bg-neutral-800">
-                    <p className="text-sm text-neutral-700 dark:text-neutral-300">
-                      &copy; {new Date().getFullYear()} Minimal Pricing | All Rights Reserved.
-                    </p>
-                  </footer>
+                  {/* Content */}
+                  <div className="flex w-full flex-col">
+                    <main className="flex flex-1 items-center justify-center">
+                      <Suspense fallback={<LoadingSkeleton />}>{children}</Suspense>
+                    </main>
+
+                    {/* Footer */}
+                    <footer className="sticky bottom-0 right-0 h-12 border-t px-4 py-3 text-center">
+                      <p className="text-sm">
+                        &copy; {new Date().getFullYear()} Minimal Pricing | All Rights Reserved.
+                      </p>
+                    </footer>
+                  </div>
                 </div>
               </div>
             </TasksProvider>

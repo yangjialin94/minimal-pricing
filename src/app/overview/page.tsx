@@ -36,23 +36,21 @@ export default function Overview() {
   const project = useProject();
 
   return (
-    <div className="flex flex-1 items-center justify-center">
-      <div className="mx-auto w-full max-w-4xl p-8">
-        {/* User & Customer Info */}
-        <div className="grid gap-6 sm:grid-cols-2">
-          <UserInfo user={project.user} />
-          <CustomerInfo customer={project.customer} />
-        </div>
+    <div className="container p-8">
+      {/* User & Customer Info */}
+      <div className="grid gap-6 sm:grid-cols-2">
+        <UserInfo user={project.user} />
+        <CustomerInfo customer={project.customer} />
+      </div>
 
-        {/* Tasks & Summary */}
-        <TasksList tasks={project.tasks} />
-        <Summary project={project} />
+      {/* Tasks & Summary */}
+      <TasksList tasks={project.tasks} />
+      <Summary project={project} />
 
-        {/* Navigation */}
-        <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
-          <ProviderPDFDownloadButton />
-          <CustomerPDFDownloadButton />
-        </div>
+      {/* Navigation */}
+      <div className="mt-10 flex flex-wrap justify-center gap-4 sm:gap-6">
+        <ProviderPDFDownloadButton />
+        <CustomerPDFDownloadButton />
       </div>
     </div>
   );
@@ -60,7 +58,7 @@ export default function Overview() {
 
 function UserInfo({ user }: { user: User }) {
   return (
-    <div className="rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900">
+    <div className="rounded-xl border border-neutral-700 p-6 shadow-md hover:shadow-lg">
       <h2 className="mb-4 text-lg font-semibold">Provider Information</h2>
       <InfoItem label="Name" value={user.name} icon="📛" />
       <InfoItem label="Phone" value={user.phone} icon="📞" />
@@ -71,7 +69,7 @@ function UserInfo({ user }: { user: User }) {
 
 function CustomerInfo({ customer }: { customer: Customer }) {
   return (
-    <div className="rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900">
+    <div className="rounded-xl border border-neutral-700 p-6 shadow-md hover:shadow-lg">
       <h2 className="mb-4 text-lg font-semibold">Customer Information</h2>
       <InfoItem label="Name" value={customer.name} icon="📛" />
       <InfoItem label="Address" value={customer.address} icon="📍" />
@@ -83,7 +81,7 @@ function CustomerInfo({ customer }: { customer: Customer }) {
 
 function InfoItem({ label, value, icon }: InfoItemProps) {
   return (
-    <p className="flex items-center gap-2 text-neutral-700 dark:text-neutral-300">
+    <p className="flex items-center gap-2">
       {icon} <span className="font-medium">{label}:</span> {value}
     </p>
   );
@@ -95,7 +93,7 @@ function TasksList({ tasks }: { tasks: Task[] }) {
       {tasks.map((task) => (
         <div
           key={task.id}
-          className="rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md transition-all duration-200 hover:shadow-lg dark:border-neutral-600 dark:bg-neutral-900"
+          className="rounded-xl border border-neutral-700 p-6 shadow-md hover:shadow-lg"
         >
           <h2 className="text-lg font-semibold">📂 {task.name}</h2>
 
@@ -105,10 +103,10 @@ function TasksList({ tasks }: { tasks: Task[] }) {
           <TaskSection title="Additional" items={task.additional} icon="📑" />
 
           {/* Task Cost */}
-          <div className="mt-4 flex justify-between border-t border-neutral-300 pt-3 text-lg font-medium text-neutral-800 dark:text-neutral-200">
+          <div className="mt-4 flex justify-between border-t border-neutral-700 pt-3 text-lg font-medium">
             <p>Total Cost:</p>
             <div className="flex items-center gap-2">
-              <p className="text-blue-400">${formatToDecimalCost(task.totalCost, 2)}</p>
+              <p className="text-blue-500">${formatToDecimalCost(task.totalCost, 2)}</p>
               {task.profitMargin !== 0 && (
                 <p className="text-red-500">(${formatToDecimalCost(task.totalPrice, 2)})</p>
               )}
@@ -126,7 +124,7 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
   return (
     <div className="mt-4">
       <h3 className="text-lg font-semibold">{title}</h3>
-      <ul className="mt-2 space-y-1 text-neutral-700 dark:text-neutral-300">
+      <ul className="mt-2 space-y-1">
         {items.map((item) => {
           if (title === "Materials") {
             // Material
@@ -134,13 +132,13 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
 
             return (
               <li key={material.id} className="flex justify-between">
-                <p className="flex items-center gap-2 text-neutral-700 dark:text-neutral-300">
+                <p className="flex items-center gap-2">
                   {icon} {material.name}
                   <span className="text-sm text-neutral-600 dark:text-neutral-400">
                     (${material.unitCost}/{material.unit} x {material.quantity})
                   </span>
                 </p>
-                <p className="font-medium text-blue-400">
+                <p className="font-medium text-blue-500">
                   ${formatToDecimalCost(material.cost, 2)}
                 </p>
               </li>
@@ -157,7 +155,7 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
                     (${labor.unitCost}/{labor.unit} x {labor.quantity})
                   </span>
                 </p>
-                <p className="font-medium text-blue-400">${formatToDecimalCost(labor.cost, 2)}</p>
+                <p className="font-medium text-blue-500">${formatToDecimalCost(labor.cost, 2)}</p>
               </li>
             );
           } else {
@@ -169,7 +167,7 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
                 <p className="flex items-center gap-2">
                   {icon} {additional.type}
                 </p>
-                <p className="font-medium text-blue-400">
+                <p className="font-medium text-blue-500">
                   ${formatToDecimalCost(additional.cost, 2)}
                 </p>
               </li>
@@ -183,18 +181,18 @@ function TaskSection({ title, items, icon }: TaskSectionProps) {
 
 function Summary({ project }: { project: Project }) {
   return (
-    <div className="mt-8 rounded-xl border border-neutral-400 bg-neutral-100 p-6 shadow-md dark:border-neutral-600 dark:bg-neutral-900">
+    <div className="mt-8 rounded-xl border border-neutral-700 p-6 shadow-md">
       <h2 className="text-xl font-semibold">Project Summary</h2>
-      <hr className="my-4 border-neutral-400 dark:border-neutral-600" />
+      <hr className="my-4 border-neutral-700" />
 
-      <div className="flex justify-between text-lg font-medium text-neutral-700 dark:text-neutral-300">
+      <div className="flex justify-between text-lg font-medium">
         <p>Total Cost:</p>
-        <p className="text-blue-400">${formatToDecimalCost(project.totalCost, 2)}</p>
+        <p className="text-blue-500">${formatToDecimalCost(project.totalCost, 2)}</p>
       </div>
 
-      <div className="mt-4 flex justify-between text-lg font-medium text-neutral-700 dark:text-neutral-300">
+      <div className="mt-4 flex justify-between text-lg font-medium">
         <p>Total Price:</p>
-        <p className="text-blue-400">${formatToDecimalCost(project.totalPrice, 2)}</p>
+        <p className="text-blue-500">${formatToDecimalCost(project.totalPrice, 2)}</p>
       </div>
 
       <div className="mt-4 flex justify-between text-lg font-medium">
