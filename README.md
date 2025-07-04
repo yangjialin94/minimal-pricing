@@ -107,49 +107,6 @@ npm run lint
 npm run format
 ```
 
-## Environment Variables
-
-The following environment variables are required:
-
-```txt
-NEXT_PUBLIC_WEB_URL=http://localhost:3000
-NEXT_PUBLIC_ENVIRONMENT=development
-
-# Stripe (if payment features are enabled)
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_xxx
-STRIPE_SECRET_KEY=sk_test_xxx
-
-# Analytics (optional)
-NEXT_PUBLIC_VERCEL_ANALYTICS_ID=xxx
-```
-
-## Deploy to Vercel
-
-To deploy the project to Vercel:
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-## Release Instructions
-
-1. Create an annotated tag:
-
-   ```bash
-   git tag -a v1.0.0 -m "Release version 1.0.0"
-   git push origin v1.0.0
-   ```
-
-2. Draft a GitHub Release:
-   - Go to Releases → Draft a new release
-   - Select your new tag
-   - Fill in a "What's changed" summary or changelog items
-   - Publish
-
 ## Screenshots
 
 Take the following screenshots for documentation:
@@ -160,18 +117,6 @@ Take the following screenshots for documentation:
 4. **Profit Page**: Profit calculator and margin analysis
 5. **Users Page**: User and customer management
 6. **PDF Generation**: Sample PDF outputs for customers and providers
-
-## Contributing
-
-This repository is public for anyone interested to review the codebase. It is not intended for forks or external contributions. If you have any questions or feedback, please contact the repository owner directly.
-
-## Contact
-
-If you have any advice, comments, or questions about Minimal Pricing, feel free to reach out:
-
-- **Email**: <yangjialin94@gmail.com>
-- **GitHub**: [@yangjialin94](https://github.com/yangjialin94)
-- **LinkedIn**: [@jialin-yang-jy](https://www.linkedin.com/in/jialin-yang-jy/)
 
 ## License
 
